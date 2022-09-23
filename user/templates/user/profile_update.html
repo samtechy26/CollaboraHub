@@ -1,0 +1,33 @@
+{% extends 'job/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<!-- CANDIDATES PROFILE START -->
+<section class="section">
+    <div class="container">
+        <form class="login-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group position-relative">
+                    {{ u_form| crispy }}
+                    {{ p_form| crispy }}
+                    </div>
+            
+                </div>
+                
+            </div>
+            
+                <div class="col-md-12">
+                    <button class="btn btn-primary w-100" type="submit">Update</button>
+                </div>
+                
+               
+            </div>
+        </form>
+    </div>
+</section>
+<!-- CANDIDATES PROFILE END -->
+
+{% endblock content %}

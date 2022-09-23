@@ -1,0 +1,127 @@
+{% extends 'user/dashboard.html' %}
+{% block content %}
+
+  <!-- Dashboard Headline -->
+  <div class="dashboard-headline">
+	<h3>Messages</h3>
+
+	<!-- Breadcrumbs -->
+	<nav id="breadcrumbs" class="dark">
+		<ul>
+			<li><a href="#">Home</a></li>
+			<li><a href="#">Dashboard</a></li>
+			<li>Messages</li>
+		</ul>
+	</nav>
+</div>
+
+	<div class="messages-container margin-top-0">
+
+		<div class="messages-container-inner">
+
+			<!-- Messages -->
+			<div class="messages-inbox">
+				<div class="messages-headline">
+					<div class="input-with-icon">
+							<input id="autocomplete-input" type="text" placeholder="Search">
+						<i class="icon-material-outline-search"></i>
+					</div>
+				</div>
+
+				<ul class="contacts">
+					{% for thread in Threads %}
+					<li class="{% if forloop.first %}active{% endif %} contact-li" chat-id="chat_{{ thread.id }}" style="cursor: pointer">
+						
+							<div class="message-avatar"><i class="status-icon status-online"></i>{% if thread.first_person == user %}<img src="{{ thread.second_person.profile.image.url }}" alt="" />{% else %}<img src="{{ thread.first_person.profile.image.url }}" alt="" />{% endif %}</div>
+
+							<div class="message-by">
+								<div class="message-by-headline">
+									{% if thread.first_person == user %}
+									<h5>{{ thread.second_person.username }}</h5>
+									{% else %}
+									<h5>{{ thread.first_person.username }}</h5>
+									{% endif %}
+									<span>4 hours ago</span>
+								</div>
+								<p>Thanks for reaching out. I'm quite busy right now on many</p>
+							</div>
+						
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<!-- Messages / End -->
+
+			<!-- Message Content -->
+			<div class="message-content">
+				{% for thread in Threads %}
+				<div class="messages-headline {% if forloop.first %}hide is_active{% else %}hide{% endif %}" chat-id="chat_{{ thread.id }}" other-user-id="{% if thread.first_person == user %}
+				{{ thread.second_person.id }}{% else %}{{ thread.first_person.id }}{% endif %}">
+				{% if thread.first_person == user %}
+					<h4>{{ thread.second_person.username }}</h4>
+				{% else %}
+					<h4>{{ thread.first_person.username }}</h4>
+				{% endif %}
+					<a href="#" class="message-action"><i class="icon-feather-trash-2"></i> Delete Conversation</a>
+				</div>
+				
+				<!-- Message Content Inner -->
+				<div class="message-content-inner">
+					{% for chat in thread.chatmessage_thread.all %}
+					{% if chat.user == user %}	
+						<!-- Time Sign
+						<div class="message-time-sign">
+							<span>28 June, 2018</span>
+						</div> -->
+
+						<div class="message-bubble me">
+							<div class="message-bubble-inner">
+								<!-- <div class="message-avatar"><img src="{{ thread.first_person.profile.image.url }}" alt="" /></div> -->
+								<div class="message-text"><p>{{ chat.message }}</p></div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						{% else %}
+
+						<div class="message-bubble">
+							<div class="message-bubble-inner">
+								<!-- <div class="message-avatar"><img src="{{ thread.second_person.profile.image.url }}" alt="" /></div> -->
+								<div class="message-text"><p>{{ chat.message }}</p></div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						{% endif %}
+						{% endfor %}
+
+						<div class="message-bubble">
+							<div class="message-bubble-inner">
+								<!-- <div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div> -->
+								<div class="message-text">
+									<!-- Typing Indicator -->
+									<div class="typing-indicator">
+										<span></span>
+										<span></span>
+										<span></span>
+									</div>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+				</div>
+				<!-- Message Content Inner / End -->
+				
+				<!-- Reply Area -->
+				<div class="message-reply">
+					<textarea cols="1" rows="1" placeholder="Your Message" data-autoresize></textarea>
+					<button class="button ripple-effect">Send</button>
+				</div>
+				{% endfor %}
+			</div>
+			<!-- Message Content -->
+
+		</div>
+</div>
+<!-- Messages Container / End -->
+
+            
+{% endblock content %}

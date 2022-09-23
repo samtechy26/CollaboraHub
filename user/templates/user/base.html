@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jobya - Responsive Job Board HTML Template</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Themesdesign" />
+
+    <link rel="shortcut icon" href="{% static 'job/images/favicon.ico' %}">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{% static 'job/bootstrap.min.css' %}" type="text/css">
+
+    <!--Material Icon -->
+    <link rel="stylesheet" type="text/css" href="{% static 'job/materialdesignicons.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'job/selectize.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'job/nice-select.css' %}" />
+
+    <!-- Custom  Css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'job/style.css' %}" />
+
+</head>
+<body>
+    {% block content %}
+
+    {% endblock content %}
+
+    <!-- javascript -->
+    <script src="{% static 'job/jquery.min.js' %}"></script>
+    <script src="{% static 'job/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'job/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'job/js/plugins.js' %}"></script>
+
+    <!-- selectize js -->
+    <script src="{% static 'job/selectize.min.js' %}"></script>
+
+    <script src="{% static 'job/jquery.nice-select.min.js' %}"></script>
+
+    <script src="{% static 'job/app.js' %}"></script>
+</body>
+</html>
