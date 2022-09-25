@@ -4,7 +4,6 @@ from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from job.models import Job
-from django.contrib.auth.models import User
 
 def register(request):
     if request.method == 'POST':
