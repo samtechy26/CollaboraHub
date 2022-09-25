@@ -68,19 +68,13 @@
 								<li><a href="dashboard-messages.html">Messages</a></li>
 								<li><a href="dashboard-bookmarks.html">Bookmarks</a></li>
 								<li><a href="dashboard-reviews.html">Reviews</a></li>
-								<li><a href="dashboard-manage-jobs.html">Jobs</a>
-									<ul class="dropdown-nav">
-										<li><a href="dashboard-manage-jobs.html">Manage Jobs</a></li>
-										<li><a href="dashboard-manage-candidates.html">Manage Candidates</a></li>
-										<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
-									</ul>
-								</li>
+								
 								<li><a href="dashboard-manage-tasks.html">Tasks</a>
 									<ul class="dropdown-nav">
-										<li><a href="dashboard-manage-tasks.html">Manage Tasks</a></li>
+										<li><a href="{% url 'dashboard-task' %}">Manage Tasks</a></li>
 										<li><a href="dashboard-manage-bidders.html">Manage Bidders</a></li>
 										<li><a href="dashboard-my-active-bids.html">My Active Bids</a></li>
-										<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+										<li><a href="{% url 'job-create' %}">Post a Task</a></li>
 									</ul>
 								</li>
 								<li><a href="dashboard-settings.html">Settings</a></li>
@@ -271,9 +265,9 @@
 						</div>
 						
 						<ul class="user-menu-small-nav">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+							<li><a href="{% url 'dashboard' %}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
 							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="{% url 'logout' %}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
 
 						</div>
@@ -327,7 +321,7 @@
 					<div class="dashboard-nav-inner">
 
 						<ul data-submenu-title="Start">
-							<li class="active"><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+							<li class="active"><a href="{% url 'dashboard' %}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
 							<li><a href="{% url 'dashboard-messages' %}"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
 							<li><a href="{% url 'dashboard-favourites' %}"><i class="icon-material-outline-star-border"></i> Favourites</a></li>
 							<li><a href="{% url 'reviews' %}"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
@@ -343,17 +337,17 @@
 							</li> -->
 							<li><a href="#"><i class="icon-material-outline-assignment"></i> Tasks</a>
 								<ul>
-									<li><a href="dashboard-manage-tasks.html">Manage Tasks <span class="nav-tag">2</span></a></li>
+									<li><a href="{% url 'dashboard-task' %}">Manage Tasks <span class="nav-tag">2</span></a></li>
 									<li><a href="dashboard-manage-bidders.html">Manage Bidders</a></li>
 									<li><a href="dashboard-my-active-bids.html">My Active Bids <span class="nav-tag">4</span></a></li>
-									<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+									<li><a href="{% url 'job-create' %}">Post a Task</a></li>
 								</ul>	
 							</li>
 						</ul>
 
 						<ul data-submenu-title="Account">
 							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="{% url 'logout' %}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
 						
 					</div>

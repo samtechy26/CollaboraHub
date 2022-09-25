@@ -258,9 +258,9 @@
 						</div>
 						
 						<ul class="user-menu-small-nav">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="{% url 'dashboard' %}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+							<li><a href="#"><i class="icon-material-outline-settings"></i> Settings</a></li>
+							<li><a href="{% url 'logout' %}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
 
 						</div>
@@ -284,18 +284,13 @@
 				
 
 				<!-- User Menu -->
-				<div class="header-widget">
-
-					<!-- Messages -->
-					<div class="header-notifications user-menu">
+				
 						<div class="header-notifications-trigger">
 							<a href="{% url 'register' %}"><div><button class="button ripple-effect">Join</button></div></a>
 						</div>
 
 						
-					</div>
-
-				</div>
+					
 				<!-- User Menu / End -->
 
 				<!-- Mobile Navigation Button -->
@@ -309,6 +304,7 @@
 
 			</div>
             {% endif %}
+            
 			<!-- Right Side Content / End -->
 
 		</div>

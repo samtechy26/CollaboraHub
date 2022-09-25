@@ -23,8 +23,9 @@
 				</div>
 					
 				<!-- Form -->
-				<form method="post" id="register-account-form">
-					<div class="input-with-icon-left">
+				<form method="POST" id="register-account-form" enctype="multipart/form-data">
+					{% csrf_token %}
+					<!-- <div class="input-with-icon-left">
 						<i class="icon-material-baseline-mail-outline"></i>
 						<input type="text" class="input-text with-border" name="emailaddress-register" id="emailaddress-register" placeholder="Email Address" required/>
 					</div>
@@ -37,12 +38,13 @@
 					<div class="input-with-icon-left">
 						<i class="icon-material-outline-lock"></i>
 						<input type="password" class="input-text with-border" name="password-repeat-register" id="password-repeat-register" placeholder="Repeat Password" required/>
-					</div>
-				</form>
+					</div> -->
+					{{ form|crispy }}
+				
 				
 				<!-- Button -->
-				<button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="login-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
-				
+				<input class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" value="Register">
+			</form>
 				<!-- Social Login -->
 				<div class="social-login-separator"><span>or</span></div>
 				<div class="social-login-buttons">
