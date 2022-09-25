@@ -47,7 +47,7 @@ class Job(models.Model):
         return f'{self.title} by {self.author}'
 
     def get_absolute_url(self):
-        return reverse('profile')
+        return reverse('dashboard')
         # return reverse('post-detail', kwargs={'pk':self.pk})
 
 class denom(models.Model):

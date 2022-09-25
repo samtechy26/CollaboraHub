@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from job.models import Job
+from django.contrib.auth.models import User
 
 def register(request):
     if request.method == 'POST':
@@ -25,6 +26,14 @@ def dashboard_favourites(request):
 
 def reviews(request):
     return render(request, 'user/reviews.html')
+
+def dashboard_task(request):
+    user = request.user
+    job = Job.objects.filter(author=user)
+    context={
+        "tasks":job,
+    }
+    return render(request, 'user/task_list.html', context)
 
 
 @login_required
