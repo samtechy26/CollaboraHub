@@ -1,33 +1,152 @@
-{% extends 'job/base.html' %}
-{% load crispy_forms_tags %}
+{% extends 'user/dashboard.html' %}
 {% block content %}
 
-
-<!-- CANDIDATES PROFILE START -->
-<section class="section">
-    <div class="container">
-        <form class="login-form" method="POST" enctype="multipart/form-data">
+			<!-- Row -->
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group position-relative">
-                    {{ u_form| crispy }}
-                    {{ p_form| crispy }}
-                    </div>
-            
-                </div>
-                
-            </div>
-            
-                <div class="col-md-12">
-                    <button class="btn btn-primary w-100" type="submit">Update</button>
-                </div>
-                
-               
-            </div>
+			<div class="row">
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-account-circle"></i> My Account</h3>
+						</div>
+                        
+						<div class="content with-padding padding-bottom-0">
+
+							<div class="row">
+
+								<div class="col-auto">
+									<div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
+										<img class="profile-pic" src="{{ user.profile.image.url }}" alt="" />
+										<div class="upload-button"></div>
+                                        {{ p_form.image }}
+										<!-- <input class="file-upload" type="file" accept="image/*"/> -->
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="row">
+
+										<div class="col-xl-6">
+											<div class="submit-field">
+												<h5>First Name</h5>
+												<!-- <input type="text" class="with-border" value="Tom"> -->
+                                                {{ u_form.first_name }}
+											</div>
+										</div>
+
+										<div class="col-xl-6">
+											<div class="submit-field">
+												<h5>Last Name</h5>
+												{{ u_form.last_name }}
+											</div>
+										</div>
+
+										
+
+										<div class="col-xl-6">
+											<div class="submit-field">
+												<h5>Email</h5>
+												{{ u_form.email }}
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-face"></i> My Profile</h3>
+						</div>
+
+						<div class="content">
+							<ul class="fields-ul">
+						
+							<li>
+								<div class="row">
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Tagline</h5>
+                                            {{ p_form.tagline }}
+											<!-- <input type="text" class="with-border" value="iOS Expert + Node Dev"> -->
+										</div>
+									</div>
+
+									
+
+									<div class="col-xl-12">
+										<div class="submit-field">
+											<h5>Introduce Yourself</h5>
+                                            {{ p_form.bio }}
+											<!-- <textarea cols="30" rows="5" class="with-border">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</textarea> -->
+										</div>
+									</div>
+
+								</div>
+							</li>
+						</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div id="test1" class="dashboard-box">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-lock"></i> Password & Security</h3>
+						</div>
+
+						<div class="content with-padding">
+							<div class="row">
+								
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>New Password</h5>
+										{{ u_form.password1}}
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Repeat New Password</h5>
+										{{ u_form.password2}}
+									</div>
+								</div>
+
+								<!-- <div class="col-xl-12">
+									<div class="checkbox">
+										<input type="checkbox" id="two-step" checked>
+										<label for="two-step"><span class="checkbox-icon"></span> Enable Two-Step Verification via Email</label>
+									</div>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Button -->
+				<div class="col-xl-12">
+					<input class="button ripple-effect big margin-top-30" type="submit" value="Save Changes">
+				</div>
+
+			</div>
         </form>
-    </div>
-</section>
-<!-- CANDIDATES PROFILE END -->
+			<!-- Row / End -->
 
 {% endblock content %}
