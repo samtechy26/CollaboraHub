@@ -1,274 +1,150 @@
-{% extends 'job/base.html' %}
-{% load crispy_forms_tags %}
+{% extends 'user/dashboard.html' %}
 {% block content %}
-<!-- Start home -->
-<section class="bg-half page-next-level"> 
-    <div class="bg-overlay"></div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="candidates-profile-details text-center">
-                    <img src="{{ user.profile.image.url }}" height="150" alt="" class="d-block mx-auto shadow rounded-pill mb-4">
-                    <h5 class="text-white mb-2">{{ user.first_name }} {{ user.last_name }}</h5>
-                    <p class="text-white-50 h6 mb-2"><i class="mdi mdi-bank mr-2"></i>Web Themes.pvt.Ltd</p>
-                    <p class="text-white-50 h6 mb-2">PHP Developer</p>
-                    <a href="{% url 'profile-update' %}" class="btn btn-primary btn-sm mb-3 mr-2">Edit profile</a>
-                    <ul class="candidates-profile-icons list-inline mb-3">
-                        <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star"></i></a></li>
-                    </ul>
 
-                    <ul class="list-unstyled social-icon social mb-0">
-                        <li class="list-inline-item"><a href="#" class="rounded"><i class="mdi mdi-facebook"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="rounded"><i class="mdi mdi-twitter"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="rounded"><i class="mdi mdi-instagram"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="rounded"><i class="mdi mdi-google-plus"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- end home -->
+			<!-- Row -->
+			<div class="row">
 
-<!-- CANDIDATES PROFILE START -->
-<section class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h4 class="text-dark">About Us :</h4>
-            </div>
-        </div>
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
 
-        <div class="row">
-            <div class="col-lg-12 mt-3">
-                <div class="border rounded p-4">
-                    <p class="text-muted">Aliquam erat volutpat Etiam vitae tortor Morbi vestibulum volutpat enim Aliquam nunc Nunc sed turpis sed mollis eros et ultrices tempus mauris ipsum aliquam libero non adipiscing dolor urna a orci Nulla porta dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos hymenaeos pellentesque dapibus hendrerit tortor Praesent egestas tristique nibh sed a libero cras us varius donec vitae orci sed dolor rutrum auctor fusce egestas elit eget lorem.</p>
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-account-circle"></i> My Account</h3>
+						</div>
 
-                    <p class="text-muted">Libero venenatis faucibus ullam quis ante tiam sit amet orci eget eros faucibus tincidunt ed fringilla mauris sit amet nibh Donec sodales sagittis magna ed consequat leo eget bibendum sodales augue velit cursus nunc quis gravida magna mi libero usce vulputate eleifend sapien estibulum purus qua scelerisque ut mollis sed nonummy id metus ullam accumsan lorem Vivamus elementum semper enean vulputate eleifend tellus enean leo ligula porttitor.</p>
-                    
-                    <ul class="list-inline pt-3 border-top mb-0">
-                        <li class="list-inline-item mr-3">
-                            <a href="" class="text-muted f-15 mb-0"><i class="mdi mdi-map-marker mr-2"></i>3659 Turkey Pen Road Manhattan, NY 10016</a>
-                        </li>
+						<div class="content with-padding padding-bottom-0">
 
-                        <li class="list-inline-item mr-3">
-                            <a href="" class="text-muted f-15 mb-0"><i class="mdi mdi-web mr-2"></i>Www.webthemes.co.in</a>
-                        </li>
+							<div class="row">
 
-                        <li class="list-inline-item mr-3">
-                            <a href="" class="text-muted f-15 mb-0"><i class="mdi mdi-email mr-2"></i>{{ user.email }}</a>
-                        </li>
+								<div class="col-auto">
+									<div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
+										<img class="profile-pic" src="images/user-avatar-placeholder.png" alt="" />
+										<div class="upload-button"></div>
+										<input class="file-upload" type="file" accept="image/*"/>
+									</div>
+								</div>
 
-                        <li class="list-inline-item mr-3">
-                            <a href="" class="text-muted f-15 mb-0"><i class="mdi mdi-cellphone-iphone mr-2"></i>123 456 7890</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+								<div class="col">
+									<div class="row">
 
-       
+										<div class="col-xl-6">
+											<div class="submit-field">
+												<h5>First Name</h5>
+												<input type="text" class="with-border" value="Tom">
+											</div>
+										</div>
 
-        <div class="row">
-            <div class="col-lg-12 mt-4 pt-2">
-                <h4 class="text-dark">Education :</h4>
-            </div>
-        </div>
+										<div class="col-xl-6">
+											<div class="submit-field">
+												<h5>Last Name</h5>
+												<input type="text" class="with-border" value="Smith">
+											</div>
+										</div>
 
-        <div class="row">
-            <div class="col-lg-4 col-md-6 mt-4 pt-5">
-                <div class="border rounded candidates-profile-education text-center text-muted">
-                    <div class="profile-education-icon border rounded-pill bg-white text-primary">
-                        <i class="mdi mdi-36px mdi-school"></i>
-                    </div>
-                    <h6 class="text-uppercase f-17"><a href="#" class="text-muted">University Of USA</a></h6>
-                    <p class="f-14 mb-1">May 2016 - April 2017</p>
-                    <p class="pb-3 mb-0">Diploma In Management Studies</p>
-                    
-                    <p class="pt-3 border-top mb-0">Suspendisse faucibus et pellentesque egestas lacus ante convallis.</p>
-                </div>
-            </div>
+										
 
-            <div class="col-lg-4 col-md-6 mt-4 pt-5">
-                <div class="border rounded candidates-profile-education text-center text-muted">
-                    <div class="profile-education-icon border rounded-pill bg-white text-primary">
-                        <i class="mdi mdi-36px mdi-library"></i>
-                    </div>
-                    <h6 class="text-uppercase f-17"><a href="#" class="text-muted">University Of USA</a></h6>
-                    <p class="f-14 mb-1">May 2017 - April 2018</p>
-                    <p class="pb-3 mb-0">Diploma In Management</p>
-                    
-                    <p class="pt-3 border-top mb-0">Suspendisse faucibus et pellentesque egestas lacus ante convallis.</p>
-                </div>
-            </div>
+										<div class="col-xl-6">
+											<div class="submit-field">
+												<h5>Email</h5>
+												<input type="text" class="with-border" value="tom@example.com">
+											</div>
+										</div>
 
-            <div class="col-lg-4 col-md-6 mt-4 pt-5">
-                <div class="border rounded candidates-profile-education text-center text-muted">
-                    <div class="profile-education-icon border rounded-pill bg-white text-primary">
-                        <i class="mdi mdi-36px mdi-briefcase-check"></i>
-                    </div>
-                    <h6 class="text-uppercase f-17"><a href="#" class="text-muted">University Of USA</a></h6>
-                    <p class="f-14 mb-1">May 2018 - April 2019</p>
-                    <p class="pb-3 mb-0">Management Of Company</p>
-                    
-                    <p class="pt-3 border-top mb-0">Suspendisse faucibus et pellentesque egestas lacus ante convallis.</p>
-                </div>
-            </div>
-        </div>
+									</div>
+								</div>
+							</div>
 
-        <div class="row">
-            <div class="col-lg-12 mt-4 pt-2">
-                <h4 class="text-dark">Experience :</h4>
-            </div>
-        </div>
+						</div>
+					</div>
+				</div>
 
-        <div class="row">
-            <div class="col-md-6 mt-3 mt-md-0 pt-3">
-                <div class="border rounded job-list-box p-4">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="company-brand-logo text-center mb-4">
-                                <img src="images/featured-job/img-2.png" alt="" class="img-fluid mx-auto d-block">
-                            </div>
-                        </div>
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box">
 
-                        <div class="col-lg-9">
-                            <div class="job-list-desc candidates-profile-exp-desc">
-                                <h5 class="f-19 mb-2"><a href="#" class="text-dark">Web Themes Pvt.Ltd</a></h5>
-                                <p class="text-muted mb-0 f-16">PHP Developer</p>
-                                <p class="text-muted mb-0 f-16">Jan 2016 - Dec 2017</p>
-                                <p class="text-muted mb-0 f-16">Salary : $950</p>
-                                <p class="text-muted mb-0 f-16"><i class="mdi mdi-bank mr-2"></i>www.webthemesltd.co.in</p>
-                                <p class="text-muted mb-0 f-16"><i class="mdi mdi-map-marker mr-2"></i>1919 Ward Road West Nyack, NY 10994</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-face"></i> My Profile</h3>
+						</div>
 
-            <div class="col-md-6 mt-3 mt-md-0 pt-3">
-                <div class="border rounded job-list-box p-4">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="company-brand-logo text-center mb-4">
-                                <img src="images/featured-job/img-3.png" alt="" class="img-fluid mx-auto d-block">
-                            </div>
-                        </div>
+						<div class="content">
+							<ul class="fields-ul">
+						
+							<li>
+								<div class="row">
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Tagline</h5>
+											<input type="text" class="with-border" value="iOS Expert + Node Dev">
+										</div>
+									</div>
 
-                        <div class="col-lg-9">
-                            <div class="job-list-desc candidates-profile-exp-desc">
-                                <h5 class="f-19 mb-2"><a href="#" class="text-dark">Web code Pvt.Ltd</a></h5>
-                                <p class="text-muted mb-0 f-16">Web Developer</p>
-                                <p class="text-muted mb-0 f-16">Fab 2015 - July 2018</p>
-                                <p class="text-muted mb-0 f-16">Salary : $1100</p>
-                                <p class="text-muted mb-0 f-16"><i class="mdi mdi-bank mr-2"></i>www.webcodeltd.co.in</p>
-                                <p class="text-muted mb-0 f-16"><i class="mdi mdi-map-marker mr-2"></i>519 Leo Street Butler, PA 16001</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+									
 
-        <div class="row">
-            <div class="col-md-6 mt-3 mt-md-0 pt-3">
-                <div class="border rounded job-list-box p-4">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="company-brand-logo text-center mb-4">
-                                <img src="images/featured-job/img-5.png" alt="" class="img-fluid mx-auto d-block">
-                            </div>
-                        </div>
+									<div class="col-xl-12">
+										<div class="submit-field">
+											<h5>Introduce Yourself</h5>
+											<textarea cols="30" rows="5" class="with-border">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</textarea>
+										</div>
+									</div>
 
-                        <div class="col-lg-9">
-                            <div class="job-list-desc candidates-profile-exp-desc">
-                                <h5 class="f-19 mb-2"><a href="#" class="text-dark">Brand Themes Pvt.Ltd</a></h5>
-                                <p class="text-muted mb-0 f-16">PHP Developer</p>
-                                <p class="text-muted mb-0 f-16">Jan 2016 - Dec 2017</p>
-                                <p class="text-muted mb-0 f-16">Salary : $1000</p>
-                                <p class="text-muted mb-0 f-16"><i class="mdi mdi-bank mr-2"></i>www.brandthemesltd.co.in</p>
-                                <p class="text-muted mb-0 f-16"><i class="mdi mdi-map-marker mr-2"></i>519 Leo Street Butler, PA 16001</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+								</div>
+							</li>
+						</ul>
+						</div>
+					</div>
+				</div>
 
-            <div class="col-md-6 mt-3 mt-md-0 pt-3">
-                <div class="border rounded job-list-box p-4">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="company-brand-logo text-center mb-4">
-                                <img src="images/featured-job/img-7.png" alt="" class="img-fluid mx-auto d-block">
-                            </div>
-                        </div>
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div id="test1" class="dashboard-box">
 
-                        <div class="col-lg-9">
-                            <div class="job-list-desc candidates-profile-exp-desc">
-                                <h5 class="f-19 mb-2"><a href="#" class="text-dark">Small Themes Pvt.Ltd</a></h5>
-                                <p class="text-muted mb-0 f-16">PHP Developer</p>
-                                <p class="text-muted mb-0 f-16">Jan 2016 - Dec 2017</p>
-                                <p class="text-muted mb-0 f-16">Salary : $900</p>
-                                <p class="text-muted mb-0 f-16"><i class="mdi mdi-bank mr-2"></i>www.smallthemesltd.co.in</p>
-                                <p class="text-muted mb-0 f-16"><i class="mdi mdi-map-marker mr-2"></i>519 Leo Street Butler, PA 16001</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-lock"></i> Password & Security</h3>
+						</div>
 
-        <div class="row">
-            <div class="col-lg-12 mt-4 pt-2">
-                <h4 class="text-dark">Skills :</h4>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-6 mt-4 pt-2">
-                
-                <div class="progress-box mt-4">
-                    <h6 class="title text-muted">Spanish</h6>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped position-relative bg-primary" style="width:84%;">
-                            <div class="progress-value d-block text-muted h6">84%</div>
-                        </div>
-                    </div>
-                </div><!--end process box-->
-                <div class="progress-box mt-4">
-                    <h6 class="title text-muted">Japanese</h6>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped position-relative bg-primary" style="width:75%;">
-                            <div class="progress-value d-block text-muted h6">75%</div>
-                        </div>
-                    </div>
-                </div><!--end process box-->
-                <div class="progress-box mt-4">
-                    <h6 class="title text-muted">Arabic</h6>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped position-relative bg-primary" style="width:79%;">
-                            <div class="progress-value d-block text-muted h6">79%</div>
-                        </div>
-                    </div>
-                </div><!--end process box-->
-                <div class="progress-box mt-4">
-                    <h6 class="title text-muted">English</h6>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped position-relative bg-primary" style="width:95%;">
-                            <div class="progress-value d-block text-muted h6">95%</div>
-                        </div>
-                    </div>
-                </div><!--end process box-->
-            </div>
+						<div class="content with-padding">
+							<div class="row">
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Current Password</h5>
+										<input type="password" class="with-border">
+									</div>
+								</div>
 
-            
-        </div>         
-    </div>
-</section>
-<!-- CANDIDATES PROFILE END -->
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>New Password</h5>
+										<input type="password" class="with-border">
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Repeat New Password</h5>
+										<input type="password" class="with-border">
+									</div>
+								</div>
+
+								<div class="col-xl-12">
+									<div class="checkbox">
+										<input type="checkbox" id="two-step" checked>
+										<label for="two-step"><span class="checkbox-icon"></span> Enable Two-Step Verification via Email</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Button -->
+				<div class="col-xl-12">
+					<a href="#" class="button ripple-effect big margin-top-30">Save Changes</a>
+				</div>
+
+			</div>
+			<!-- Row / End -->
 
 {% endblock content %}
