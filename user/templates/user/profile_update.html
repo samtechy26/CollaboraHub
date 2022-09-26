@@ -22,9 +22,8 @@
 								<div class="col-auto">
 									<div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
 										<img class="profile-pic" src="{{ user.profile.image.url }}" alt="" />
-										<div class="upload-button"></div>
-                                        {{ p_form.image }}
-										<!-- <input class="file-upload" type="file" accept="image/*"/> -->
+										
+										
 									</div>
 								</div>
 
@@ -47,6 +46,12 @@
 										</div>
 
 										
+										<div class="col-xl-6">
+											<div class="submit-field">
+												<h5>Profile Pic</h5>
+												{{ p_form.image }}
+											</div>
+										</div>
 
 										<div class="col-xl-6">
 											<div class="submit-field">
@@ -106,7 +111,7 @@
 				<div class="col-xl-12">
 					<div id="test1" class="dashboard-box">
 
-						<!-- Headline -->
+						<!-- Headline
 						<div class="headline">
 							<h3><i class="icon-material-outline-lock"></i> Password & Security</h3>
 						</div>
@@ -117,17 +122,17 @@
 
 								<div class="col-xl-4">
 									<div class="submit-field">
-										<h5>New Password</h5>
+										<h5>Password</h5>
 										{{ u_form.password1}}
 									</div>
 								</div>
 
 								<div class="col-xl-4">
 									<div class="submit-field">
-										<h5>Repeat New Password</h5>
+										<h5>Repeat Password</h5>
 										{{ u_form.password2}}
 									</div>
-								</div>
+								</div> -->
 
 								<!-- <div class="col-xl-12">
 									<div class="checkbox">

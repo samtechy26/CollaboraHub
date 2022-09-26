@@ -1,3 +1,4 @@
+from distutils.log import error
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
@@ -43,7 +44,7 @@ def profile(request):
 @login_required
 def profileUpdate(request):
     if request.method == 'POST':
-        u_form = UserRegistrationForm(request.POST,instance=request.user)
+        u_form = UserUpdateForm(request.POST,instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
 
         if u_form.is_valid() and p_form.is_valid():
@@ -52,8 +53,9 @@ def profileUpdate(request):
             messages.success(request, f'Your account has been updated!')
             return redirect('profile')
     else:
-        u_form = UserRegistrationForm(instance=request.user)
+        u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
+        
 
     context = {
         'u_form':u_form,
