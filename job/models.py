@@ -59,7 +59,7 @@ class denom(models.Model):
 
 class Bid(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     Amount = models.CharField(max_length=100)
     time = models.IntegerField(default=1)
     denom = models.ForeignKey(denom, on_delete=models.DO_NOTHING)

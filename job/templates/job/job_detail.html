@@ -1,4 +1,5 @@
 {% extends 'job/base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
     <!-- Titlebar
 ================================================== -->
@@ -117,47 +118,30 @@
 			<div class="sidebar-container">
 
 				<div class="countdown green margin-bottom-35">6 days, 23 hours left</div>
-
+				{% if user != task.author %}
 				<div class="sidebar-widget">
 					<div class="bidding-widget">
+						
 						<div class="bidding-headline"><h3>Bid on this job!</h3></div>
+						<form action="" method="post">
+							{% csrf_token %}
 						<div class="bidding-inner">
 
-							<!-- Headline -->
-							<span class="bidding-detail">Set your <strong>minimal rate</strong></span>
-
-							<!-- Price Slider -->
-							<div class="bidding-value">$<span id="biddingVal"></span></div>
-							<input class="bidding-slider" type="text" value="" data-slider-handle="custom" data-slider-currency="$" data-slider-min="2500" data-slider-max="4500" data-slider-value="auto" data-slider-step="50" data-slider-tooltip="hide" />
+							{{ b_form|crispy }}
 							
-							<!-- Headline -->
-							<span class="bidding-detail margin-top-30">Set your <strong>delivery time</strong></span>
-
-							<!-- Fields -->
-							<div class="bidding-fields">
-								<div class="bidding-field">
-									<!-- Quantity Buttons -->
-									<div class="qtyButtons">
-										<div class="qtyDec"></div>
-										<input type="text" name="qtyInput" value="1">
-										<div class="qtyInc"></div>
-									</div>
-								</div>
-								<div class="bidding-field">
-									<select class="selectpicker default">
-										<option selected>Days</option>
-										<option>Hours</option>
-									</select>
-								</div>
-							</div>
 
 							<!-- Button -->
+							
 							<button id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Place a Bid</span></button>
+							
 
 						</div>
-						<div class="bidding-signup">Don't have an account? <a href="#sign-in-dialog" class="register-tab sign-in popup-with-zoom-anim">Sign Up</a></div>
+					</form>
+
+						
 					</div>
 				</div>
+				{% endif %}
 
 				<!-- Sidebar Widget -->
 				<div class="sidebar-widget">
