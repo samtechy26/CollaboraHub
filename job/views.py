@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Job, Category, Bid
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DetailView
 
@@ -33,3 +34,9 @@ def JobDetail(request, pk):
         'bids':bid
     }
     return render(request,'job/job_detail.html', context)
+
+
+class UserListView(ListView):
+    model = User
+    template_name = 'job/freelancers.html'
+    context_object_name = 'users'

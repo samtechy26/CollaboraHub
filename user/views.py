@@ -1,6 +1,7 @@
 from distutils.log import error
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -37,8 +38,12 @@ def dashboard_task(request):
 
 
 @login_required
-def profile(request):
-    return render(request, 'user/profile.html')
+def profile(request, id):
+    user = User.objects.get(id=id)
+    context={
+        'user':user
+    }
+    return render(request, 'user/profile.html', context)
 
 
 @login_required
@@ -51,7 +56,7 @@ def profileUpdate(request):
             u_form.save()
             p_form.save()
             messages.success(request, f'Your account has been updated!')
-            return redirect('profile')
+            return redirect('dashboard')
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
