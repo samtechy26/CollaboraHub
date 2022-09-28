@@ -30,6 +30,7 @@ def reviews(request):
 def dashboard_task(request):
     user = request.user
     job = Job.objects.filter(author=user)
+    
     context={
         "tasks":job,
     }
