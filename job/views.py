@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Job, Category, Bid
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -33,19 +33,6 @@ def JobDetail(request, pk):
     bid = Bid.objects.filter(job=task)
     b_form = BidForm()
     if request.method == 'POST':
-        user = request.user
-        data = request.POST
-        action = data.get('bookmark')
-        if action == 'bookmark':
-            task.favourite.add(user)
-            task.save()
-            return redirect('job-detail', pk)
-        elif action == 'bookmarked':
-            task.favourite.remove(user)
-            task.save()
-            return redirect('job-detail', pk)
-        
-        
         b_form = BidForm(request.POST)
         if b_form.is_valid():
             b_form.instance.job = task
@@ -70,13 +57,4 @@ class UserListView(ListView):
     context_object_name = 'users'
 
 
-
-def dashboard_favourites(request):
-    task = Job.objects.all()
-    users = User.objects.all()
-    context = {
-        'tasks':task,
-        'users':users
-    }
-    return render(request, 'job/favourites.html', context)
-   
+ 
