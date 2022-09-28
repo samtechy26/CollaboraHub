@@ -9,9 +9,9 @@
 			<div class="col-md-12">
 				<div class="single-page-header-inner">
 					<div class="left-side">
-						<div class="header-image freelancer-avatar"><img src="{{ user.profile.image.url }}" alt=""></div>
+						<div class="header-image freelancer-avatar"><img src="{{ users.profile.image.url }}" alt=""></div>
 						<div class="header-details">
-							<h3>{{ user.first_name }} {{ user.last_name }} <span>{{ user.profile.tagline }}</span></h3>
+							<h3>{{ users.first_name }} {{ users.last_name }} <span>{{ users.profile.tagline }}</span></h3>
 							<ul>
 								<li><div class="star-rating" data-rating="5.0"></div></li>
 								<li><div class="verified-badge-with-title">Verified</div></li>
@@ -34,7 +34,7 @@
 			<!-- Page Content -->
 			<div class="single-page-section">
 				<h3 class="margin-bottom-25">About Me</h3>
-				<p> {{ user.profile.bio }}</p>
+				<p> {{ users.profile.bio }}</p>
 			</div>
 
 			<!-- Boxed List -->
@@ -175,12 +175,42 @@
 					<h3>Bookmark or Share</h3>
 
 					<!-- Bookmark Button -->
-					<button class="bookmark-button margin-bottom-25">
+					<!-- <button class="bookmark-button margin-bottom-25">
 						<span class="bookmark-icon"></span>
 						<span class="bookmark-text">Bookmark</span>
 						<span class="bookmarked-text">Bookmarked</span>
-					</button>
+					</button> -->
+					<form method="post">
 
+						{% csrf_token %}
+					
+						<div class="buttons has-addons">
+					
+						{% if users in user.profile.favourite.all %}
+					
+							
+					
+							<button class="button is-success margin-bottom-25" name="bookmark" value="bookmarked">
+								
+								Bookmarked!!
+					
+							</button>
+					
+						{% else %}
+					
+							<button class="button is-success margin-bottom-25" name="bookmark" value="bookmark">
+					
+								Bookmark
+					
+							</button>
+					
+							
+					
+						{% endif %}
+					
+						</div>
+					
+					</form>
 					<!-- Copy URL -->
 					<div class="copy-url">
 						<input id="copy-url" type="text" value="" class="with-border">

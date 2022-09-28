@@ -7,6 +7,7 @@ class Profile(models.Model):
     image = models.ImageField(default = 'default.png', upload_to='profile_pics')
     tagline = models.CharField(max_length=200,  default='Enter your tagline here')
     bio = models.CharField(max_length=1000, default='Enter your bio here')
+    favourite = models.ManyToManyField(User, related_name='favorited_by', blank=True)
 
 
     def __str__(self):

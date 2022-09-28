@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from job.models import Job
 
+
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -22,8 +23,6 @@ def dashboard(request):
     return render(request, 'user/dashboardprofile.html')
 
 
-def dashboard_favourites(request):
-    return render(request, 'user/favourites.html')
 
 def reviews(request):
     return render(request, 'user/reviews.html')
@@ -39,9 +38,19 @@ def dashboard_task(request):
 
 @login_required
 def profile(request, id):
-    user = User.objects.get(id=id)
+    users = User.objects.get(id=id)
+    if request.method == 'POST':
+        current_user = request.user
+        data = request.POST
+        action = data.get('bookmark')
+        if action == 'bookmark':
+            current_user.profile.favourite.add(users)
+        elif action == 'bookmarked':
+            current_user.profile.favourite.remove(users)
+        current_user.save()
+        return redirect('profile', id)
     context={
-        'user':user
+        'users':users
     }
     return render(request, 'user/profile.html', context)
 

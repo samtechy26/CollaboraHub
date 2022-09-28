@@ -1,0 +1,123 @@
+{% extends 'user/dashboard.html' %}
+{% block content %}
+    <!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Favourites</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Dashboard</a></li>
+						<li>Favourites</li>
+					</ul>
+				</nav>
+			</div>
+	
+			<!-- Row -->
+			<div class="row">
+
+				<!-- Dashboard Box -->
+				
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-business-center"></i> Favourited Jobs</h3>
+						</div>
+
+						<div class="content">
+							<ul class="dashboard-box-list">
+								{% for task in tasks %}
+								{% if user in task.favourite.all %}
+								<li>
+									<!-- Job Listing -->
+									<div class="job-listing">
+
+										<!-- Job Listing Details -->
+										<div class="job-listing-details">
+
+											<!-- Logo -->
+											<a href="#" class="job-listing-company-logo">
+												<img src="{{ task.author.profile.image.url }}" alt="">
+											</a>
+
+											<!-- Details -->
+											<div class="job-listing-description">
+												<h3 class="job-listing-title"><a href="#">{{ task.title }}</a></h3>
+
+												<!-- Job Listing Footer -->
+												<div class="job-listing-footer">
+													<ul>
+														<li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Buttons -->
+									<div class="buttons-to-right">
+										<a href="#" class="button red ripple-effect ico" title="Remove" data-tippy-placement="left"><i class="icon-feather-trash-2"></i></a>
+									</div>
+								</li>
+								{% endif %}
+								{% endfor %}
+
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-face"></i> Favourited Freelancers</h3>
+						</div>
+
+						<div class="content">
+							<ul class="dashboard-box-list">
+								{% for u in users %}
+								{% if u in user.profile.favourite.all %}
+								<li>
+									<!-- Overview -->
+									<div class="freelancer-overview">
+										<div class="freelancer-overview-inner">
+
+											<!-- Avatar -->
+											<div class="freelancer-avatar">
+												<div class="verified-badge"></div>
+												<a href="#"><img src="{{ u.profile.image.url }}" alt=""></a>
+											</div>
+
+											<!-- Name -->
+											<div class="freelancer-name">
+												<h4><a href="#">{{u.first_name}} {{ u.last_name }} </a></h4>
+												<span>{{ u.profile.tagline }}</span>
+												<!-- Rating -->
+												<div class="freelancer-rating">
+													<div class="star-rating" data-rating="4.2"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Buttons -->
+									<div class="buttons-to-right">
+										<a href="#" class="button red ripple-effect ico" title="Remove" data-tippy-placement="left"><i class="icon-feather-trash-2"></i></a>
+									</div>
+								</li>
+								{% endif %}
+								{% endfor %}
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- Row / End -->
+{% endblock content %}

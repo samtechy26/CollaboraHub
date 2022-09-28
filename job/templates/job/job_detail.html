@@ -148,11 +148,46 @@
 					<h3>Bookmark or Share</h3>
 
 					<!-- Bookmark Button -->
+					<!-- <form action="" method="post">
 					<button class="bookmark-button margin-bottom-25">
 						<span class="bookmark-icon"></span>
+
 						<span class="bookmark-text">Bookmark</span>
 						<span class="bookmarked-text">Bookmarked</span>
 					</button>
+					
+					</form> -->
+					<form method="post">
+
+						{% csrf_token %}
+					
+						<div class="buttons has-addons">
+					
+						{% if user in task.favourite.all %}
+					
+							
+					
+							<button class="button is-success margin-bottom-25" name="bookmark" value="bookmarked">
+								
+								Bookmarked
+					
+							</button>
+					
+						{% else %}
+					
+							<button class="button is-success margin-bottom-25" name="bookmark" value="bookmark">
+					
+								Bookmark
+					
+							</button>
+					
+							
+					
+						{% endif %}
+					
+						</div>
+					
+					</form>
 
 					<!-- Copy URL -->
 					<div class="copy-url">
