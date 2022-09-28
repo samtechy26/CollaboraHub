@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from job.models import Job
+from job.models import Job, Bid
 
 
 def register(request):
@@ -30,8 +30,10 @@ def reviews(request):
 def dashboard_task(request):
     user = request.user
     job = Job.objects.filter(author=user)
+    bid = Bid.objects.filter(job=job)
     context={
         "tasks":job,
+        'bid':bid
     }
     return render(request, 'user/task_list.html', context)
 
