@@ -33,6 +33,17 @@ def JobDetail(request, pk):
     bid = Bid.objects.filter(job=task)
     b_form = BidForm()
     if request.method == 'POST':
+        user = request.user
+        data = request.POST
+        action = data.get('bookmark')
+        if action == 'bookmark':
+            task.favourite.add(user)
+            task.save()
+            return redirect('job-detail', pk)
+        elif action == 'bookmarked':
+            task.favourite.remove(user)
+            task.save()
+            return redirect('job-detail', pk)
         b_form = BidForm(request.POST)
         if b_form.is_valid():
             b_form.instance.job = task
@@ -56,5 +67,12 @@ class UserListView(ListView):
     template_name = 'job/freelancers.html'
     context_object_name = 'users'
 
-
+def dashboard_favourites(request):
+    task = Job.objects.all()
+    users = User.objects.all()
+    context = {
+        'tasks':task,
+        'users':users
+    }
+    return render(request, 'job/favourites.html', context)
  
