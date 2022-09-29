@@ -29,11 +29,13 @@ def reviews(request):
 
 def dashboard_task(request):
     user = request.user
-    job = Job.objects.filter(author=user)
-    bid = Bid.objects.filter(job=job)
+    jobs = Job.objects.filter(author=user)
+    bids = Bid.objects.filter(job__in=jobs)
+    bid_count = bids.count()
     context={
-        "tasks":job,
-        'bid':bid
+        "tasks":jobs,
+        'bids':bids,
+        'bid_count':bid_count
     }
     return render(request, 'user/task_list.html', context)
 
