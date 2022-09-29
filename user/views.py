@@ -1,4 +1,5 @@
 from distutils.log import error
+from turtle import title
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -30,12 +31,15 @@ def reviews(request):
 def dashboard_task(request):
     user = request.user
     jobs = Job.objects.filter(author=user)
+    jobs_count = jobs.count()
     bids = Bid.objects.filter(job__in=jobs)
-    bid_count = bids.count()
+    bid_count = bids.count
+    
     context={
         "tasks":jobs,
         'bids':bids,
-        'bid_count':bid_count
+        'bid_count':bid_count,
+        'jobs_count':jobs_count
     }
     return render(request, 'user/task_list.html', context)
 
@@ -80,3 +84,16 @@ def profileUpdate(request):
         'p_form':p_form
     }
     return render(request, 'user/profile_update.html', context)
+@login_required
+def dashboard_bidders(request, id):
+    
+    jobs = Job.objects.filter(id=id)
+    job = Job.objects.get(id=id)
+    bids = Bid.objects.filter(job__in=jobs)
+    
+    context = {
+        'job':job,
+        'bids':bids,
+        
+    }
+    return render(request, 'user/manage_bidders.html', context)
