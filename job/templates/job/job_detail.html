@@ -91,13 +91,17 @@
 							<div class="bids-content">
 								<!-- Name -->
 								<div class="freelancer-name">
-							<h4><a href="single-freelancer-profile.html">{{ bid.user.first_name}} {{ bid.user.last_name }} <img class="flag" src="images/flags/gb.svg" alt="" title="United Kingdom" data-tippy-placement="top"></a></h4>
+									<h4><a href="single-freelancer-profile.html">{{ bid.user.first_name}} {{ bid.user.last_name }} <img class="flag" src="images/flags/gb.svg" alt="" title="United Kingdom" data-tippy-placement="top"></a></h4>
 									<div class="star-rating" data-rating="4.9"></div>
+									{% if bid.user == user %}
+									<a href="{% url 'bid_update' bid.id %}"  class="button dark ripple-effect margin-top-10">Manage Bid</a>
+									{% endif %}
 								</div>
 							</div>
 							
 							<!-- Bid -->
 							<div class="bids-bid">
+								
 								<div class="bid-rate">
 									<div class="rate">${{ bid.Amount }}</div>
 									<span>in {{ bid.time }} {{ bid.denom }}</span>
@@ -121,12 +125,12 @@
 				{% if user != task.author %}
 				<div class="sidebar-widget">
 					<div class="bidding-widget">
-						
-						<div class="bidding-headline"><h3>Bid on this job!</h3></div>
-						<form action="" method="post">
+						{% if user not in bids.user %}
+							<div class="bidding-headline"><h3>Bid on this job!</h3></div>
+							<form action="" method="post">
 							{% csrf_token %}
-						<div class="bidding-inner">
-
+							<div class="bidding-inner">
+							
 							{{ b_form|crispy }}
 							
 
@@ -136,9 +140,9 @@
 							
 
 						</div>
-					</form>
+						</form>
 
-						
+						{% endif %}
 					</div>
 				</div>
 				{% endif %}
@@ -167,17 +171,17 @@
 					
 							
 					
-							<button class="button is-success margin-bottom-25" name="bookmark" value="bookmarked">
+							<button class="button dark ripple-effect margin-bottom-25" name="bookmark" value="bookmarked">
 								
-								Bookmarked
+								Added to favourites
 					
 							</button>
 					
 						{% else %}
 					
-							<button class="button is-success margin-bottom-25" name="bookmark" value="bookmark">
+							<button class="button ripple-effect margin-bottom-25" name="bookmark" value="bookmark">
 					
-								Bookmark
+								Add to favourites
 					
 							</button>
 					

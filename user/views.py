@@ -118,13 +118,16 @@ def dashboard_mybids(request):
 def bid_update(request, id):
     current_user = request.user
     bid = Bid.objects.get(id=id)
-    bids = Bid.objects.filter(user=current_user)
     
     form = BidForm(instance=bid)
     
-    
+    if request.method == 'POST':
+        form = BidForm(request.POST, instance=bid)
+        if form.is_valid():
+            form.save()
+            return redirect('my_bids')
     context = {
-        'bids':bids,
+        'bid':bid,
         'form':form
     }
     return render(request, 'user/bid_update.html', context)
