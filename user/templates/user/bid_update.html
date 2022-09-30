@@ -57,7 +57,7 @@
 
 									<!-- Buttons -->
 									<div class="buttons-to-right always-visible">
-										<a href="{% url 'bid_update' bid.id %}"  title="Edit Bid" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+										<a href="#small-dialog" class="popup-with-zoom-anim button dark ripple-effect ico" title="Edit Bid" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
 										<a href="#" class="button red ripple-effect ico" title="Cancel Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
 									</div>
 								</li>
@@ -80,4 +80,34 @@
 
 <!-- Wrapper / End -->
 
+
+<!-- Edit Bid Popup
+================================================== -->
+<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+	<!--Tabs -->
+	<div class="sign-in-form">
+
+		<ul class="popup-tabs-nav">
+			<li><a href="#tab">Edit Bid</a></li>
+		</ul>
+
+		<div class="popup-tabs-container">
+
+			<!-- Tab -->
+			<form action="" method="post"></form>
+			<div class="popup-tab-content" id="tab">
+					
+					<!-- Bidding -->
+					{{ form }}
+				
+				<!-- Button -->
+				<button class="button full-width button-sliding-icon ripple-effect" type="submit">Save Changes <i class="icon-material-outline-arrow-right-alt"></i></button>
+			</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- Edit Bid Popup / End -->
 {% endblock content %}

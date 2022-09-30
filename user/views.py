@@ -7,6 +7,7 @@ from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from job.models import Job, Bid
+from job.forms import BidForm
 
 
 def register(request):
@@ -103,7 +104,27 @@ def dashboard_bidders(request, id):
 def dashboard_mybids(request):
     current_user = request.user
     bids = Bid.objects.filter(user=current_user)
+    
+    form = BidForm()
+    
+    
     context = {
-        'bids':bids
+        'bids':bids,
+        'form':form
     }
     return render(request, 'user/my_bids.html', context)
+
+@login_required
+def bid_update(request, id):
+    current_user = request.user
+    bid = Bid.objects.get(id=id)
+    bids = Bid.objects.filter(user=current_user)
+    
+    form = BidForm(instance=bid)
+    
+    
+    context = {
+        'bids':bids,
+        'form':form
+    }
+    return render(request, 'user/bid_update.html', context)
