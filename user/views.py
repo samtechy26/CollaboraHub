@@ -90,10 +90,20 @@ def dashboard_bidders(request, id):
     jobs = Job.objects.filter(id=id)
     job = Job.objects.get(id=id)
     bids = Bid.objects.filter(job__in=jobs)
+    bid_count = bids.count()
     
     context = {
         'job':job,
         'bids':bids,
-        
+        'bid_count':bid_count
     }
     return render(request, 'user/manage_bidders.html', context)
+
+@login_required
+def dashboard_mybids(request):
+    current_user = request.user
+    bids = Bid.objects.filter(user=current_user)
+    context = {
+        'bids':bids
+    }
+    return render(request, 'user/my_bids.html', context)
