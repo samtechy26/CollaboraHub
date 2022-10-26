@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, JobCreateView, JobListView, JobDetail, UserListView, dashboard_favourites
+from .views import home, JobCreateView, JobListView, JobDetail, UserListView, dashboard_favourites, contact
 
 urlpatterns = [
     path('', home, name='job-home'),
@@ -8,6 +8,7 @@ urlpatterns = [
     path('job/<int:pk>/', JobDetail, name='job-detail'),
     path('freelancers', UserListView.as_view(), name='freelancer'),
     path('favourites/', dashboard_favourites, name='dashboard-favourites'),
+    path('contact/', contact, name='contact' ),
     
     
 ]

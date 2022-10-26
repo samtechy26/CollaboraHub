@@ -76,3 +76,5 @@ def dashboard_favourites(request):
     }
     return render(request, 'job/favourites.html', context)
  
+def contact(request):
+    return render(request, 'job/contact.html')

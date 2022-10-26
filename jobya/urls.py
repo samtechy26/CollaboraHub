@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('job.urls')),
     path('', include('user.urls')),
     path('', include('chat.urls')),
+    path('blog/', include('blog.urls')),
 ]

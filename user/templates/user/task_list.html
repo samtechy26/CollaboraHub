@@ -40,16 +40,16 @@
                         <!-- Task Details -->
                         <ul class="dashboard-task-info">
                             
-                            <li><strong></strong>{{ bid_count }}<span>Bids</span></li>
+                           
                             
                             <li><strong>$22</strong><span>Avg. Bid</span></li>
-                            <li><strong>${{ task.cost }}</strong><span></span></li>
+                            <li><strong>${{ task.cost }}</strong><span>Price</span></li>
                             
                         </ul>
 
                         <!-- Buttons -->
                         <div class="buttons-to-right always-visible">
-                            <a href="{% url 'manage-bidders' task.id %}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Bidders <span class="button-info">{{ bid_count }}</span></a>
+                            <a href="{% url 'manage-bidders' task.id %}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Bidders </a>
                             <a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                             <a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                         </div>
