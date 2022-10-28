@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Job, Category, Bid
+from .models import Job, Category, Bid, Skill
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
@@ -25,7 +25,10 @@ class JobCreateView(CreateView):
 
 class JobListView(ListView):
     model = Job
-    context_object_name = 'tasks'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 @login_required
 def JobDetail(request, pk):
@@ -65,7 +68,10 @@ def JobDetail(request, pk):
 class UserListView(ListView):
     model = User
     template_name = 'job/freelancers.html'
-    context_object_name = 'users'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context['skills'] = Skill.objects.all()
+        return context
 
 def dashboard_favourites(request):
     task = Job.objects.all()
@@ -78,3 +84,17 @@ def dashboard_favourites(request):
  
 def contact(request):
     return render(request, 'job/contact.html')
+
+
+class CategoryView(ListView):
+    def get(self, request, slug):
+        category = Category.objects.all()
+        tasks = Job.objects.filter(job_category__slug = slug)
+
+        context = {
+            'categories': category,
+            'tasks':tasks,
+         }
+        return render(request, 'job/category.html', context)
+
+

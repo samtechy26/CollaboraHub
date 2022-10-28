@@ -15,16 +15,6 @@
 				<!-- Category -->
 				<div class="sidebar-widget">
 					<h3>Category</h3>
-					<!-- <select  multiple data-selected-text-format="count" data-size="7" title="All Categories" >
-						
-						<option></option>					
-						
-					</select> -->
-					<!-- <ul style="display:inline;">
-						{% for category in categories %}
-						<li style="display: inline;"><a href = "{% url 'task-category' category.slug %}">{{ category }}</a></li>|
-						{% endfor %}
-					</ul> -->
 					<div class="task-tags">
 						{% for category in categories %}
 						<span><a href = "{% url 'task-category' category.slug %}">{{ category }}</a></span>
@@ -63,7 +53,7 @@
 			</div>
 			
 			<!-- Tasks Container -->
-            {% for task in object_list %}
+            {% for task in tasks %}
 			<div class="tasks-list-container compact-list margin-top-35">
 				
 				<!-- Task -->
