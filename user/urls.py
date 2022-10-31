@@ -1,7 +1,7 @@
 from email import message
 from pyexpat.errors import messages
 from django.urls import path
-from .views import dashboard, register, profile, profileUpdate, reviews, dashboard_task, dashboard_bidders, dashboard_mybids, bid_update
+from .views import dashboard, register, profile, profileUpdate, reviews, dashboard_task, dashboard_bidders, dashboard_mybids, bid_update, activate
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -18,6 +18,7 @@ urlpatterns = [
     path('dashboard/task', dashboard_task, name='dashboard-task'),
     path('reviews/', reviews, name='reviews'),
     path('profile_update/', profileUpdate, name='profile-update'),
+    path('activate/<uidb64>/<token>', activate, name='activate')
     
 ]
 
