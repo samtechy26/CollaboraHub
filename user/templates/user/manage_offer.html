@@ -1,0 +1,222 @@
+{% extends 'user/dashboard.html' %}
+{% block content %}
+<!-- Dashboard Content =================================== -->
+
+<!-- Dashboard Headline -->
+
+<div class="dashboard-headline">
+  <h3>Manage Offer</h3>
+  <span class="margin-top-7">Offer for <a href="#">{{ bid.job.title }}</a></span>
+
+  <!-- Breadcrumbs -->
+  <nav id="breadcrumbs" class="dark">
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Dashboard</a></li>
+      <li>Manage Offer</li>
+    </ul>
+  </nav>
+</div>
+
+<!-- Row -->
+<div class="row">
+  <!-- Dashboard Box -->
+  <div class="col-xl-12">
+    <div class="dashboard-box margin-top-0">
+      <!-- Headline -->
+
+      <div class="content">
+        <ul class="dashboard-box-list">
+          <li>
+            <!-- Overview -->
+            <div class="freelancer-overview manage-candidates">
+              <div class="freelancer-overview-inner">
+                <!-- Avatar -->
+                <div class="freelancer-avatar">
+                  <div class="verified-badge"></div>
+                  <a href="#"
+                    ><img src="{{ bid.user.profile.image.url }}" alt=""/></a>
+                </div>
+
+                <!-- Name -->
+                <div class="freelancer-name">
+                  <h4>
+                    <a href="#"
+                      >{{ bid.user.first_name}} {{ bid.user.last_name}}
+                    </a>
+                  </h4>
+
+                  <!-- Details -->
+                  <!-- <span class="freelancer-detail-item"><a href="#"><i class="icon-feather-mail"></i> {{ bid.user.email }}</a></span> -->
+
+                  <!-- Rating -->
+                  <div class="freelancer-rating">
+                    <div class="star-rating" data-rating="5.0"></div>
+                  </div>
+
+                  <!-- Bid Details -->
+                  <ul class="dashboard-task-info bid-info">
+                    <li>
+                      <strong>${{ bid.Amount }}</strong><span>Fixed Price</span>
+                    </li>
+                    <li>
+                      <strong>{{ bid.time}} {{ bid.denom}} </strong
+                      ><span>Delivery Time</span>
+                    </li>
+                  </ul>
+
+                  <!-- Buttons -->
+                  <div
+                    class="buttons-to-right always-visible margin-top-25 margin-bottom-0"
+                  >
+                    <a
+                      href="#small-dialog-1"
+                      class="popup-with-zoom-anim button ripple-effect"
+                      ><i class="icon-material-outline-check"></i> Accept
+                      Offer</a
+                    >
+                    <a
+                      href="#small-dialog-2"
+                      class="popup-with-zoom-anim button dark ripple-effect"
+                      ><i class="icon-feather-mail"></i> Send Message</a
+                    >
+                    <a
+                      href="#"
+                      class="button gray ripple-effect ico"
+                      title="Remove Bid"
+                      data-tippy-placement="top"
+                      ><i class="icon-feather-trash-2"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- Bid acceptance Pop up -->
+
+          <div
+            id="small-dialog-1"
+            class="zoom-anim-dialog mfp-hide dialog-with-tabs"
+          >
+            <!--Tabs -->
+            <div class="sign-in-form">
+              <ul class="popup-tabs-nav">
+                <li><a href="#tab1">Accept Offer</a></li>
+              </ul>
+
+              <form>
+              <div class="popup-tabs-container">
+                <!-- Tab -->
+                <div class="popup-tab-content" id="tab">
+                  <!-- Welcome Text -->
+                  <div class="welcome-text">
+                    <h3>Accept Offer From {{ bid.user.first_name }}</h3>
+                    <div class="bid-acceptance margin-top-15">
+                      ${{ bid.Amount }}
+                    </div>
+                  </div>
+
+                  <button
+                  class="margin-top-15 button full-width button-sliding-icon"
+                  type="submit"
+                  id="checkout-button">
+              </div>
+                  Accept <i class="icon-material-outline-arrow-right-alt"></i>
+                </button>
+                </form>
+            <!-- Button -->
+                 
+                
+              </div>
+            </div>
+          </div>
+
+          <!-- Bid Acceptance Popup / End -->
+
+          <!-- Send direct message pop up -->
+          <div
+            id="small-dialog-2"
+            class="zoom-anim-dialog mfp-hide dialog-with-tabs"
+          >
+            <!--Tabs -->
+            <div class="sign-in-form">
+              <ul class="popup-tabs-nav">
+                <li><a href="#tab2">Send Message</a></li>
+              </ul>
+
+              <div class="popup-tabs-container">
+                <!-- Tab -->
+                <div class="popup-tab-content" id="tab2">
+                  <!-- Welcome Text -->
+                  <div class="welcome-text">
+                    <h3>Direct Message To {{ bid.user.first_name }}</h3>
+                  </div>
+
+                  <!-- Form -->
+                  <form method="post" id="send-pm">
+                    <textarea
+                      name="textarea"
+                      cols="10"
+                      placeholder="Message"
+                      class="with-border"
+                      required
+                    ></textarea>
+                  </form>
+
+                  <!-- Button -->
+                  <button
+                    class="button full-width button-sliding-icon ripple-effect"
+                    type="submit"
+                    form="send-pm"
+                  >
+                    Send <i class="icon-material-outline-arrow-right-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Send Direct Message Popup / End -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% csrf_token %}
+<!-- Row / End -->
+
+<script type="text/javascript">
+
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // Create an instance of the Stripe object with your publishable API key
+    var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+    var checkoutButton = document.getElementById("checkout-button");
+    checkoutButton.addEventListener("click", function () {
+      fetch("{% url 'create-checkout-session' bid.id %}", {
+        method: "POST",
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (session) {
+          return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function (result) {
+          // If redirectToCheckout fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using error.message.
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error:", error);
+        });
+    });
+
+
+</script>
+
+{% endblock content %}

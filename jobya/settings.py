@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'blog',
     'crispy_forms',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -157,5 +158,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')   
+
+STRIPE_PUBLIC_KEY = 'pk_test_51LzOeaGSSxV2P1yNR6uNxfXPdsATOXGxNtB5xv8ox5Wal7O5MESopp9potueteddlbp7MGjh9Jj7f6xr3ggwkT6P00MAKaSOmy'
+
+STRIPE_SECRET_KEY = 'sk_test_51LzOeaGSSxV2P1yNden2ofolaLXH1BtFqUIv5akUVRAiq4Ph8q4eiR5QA9plbi3K7LXd5PRDkaw62qU2exSPrcD500oJOMy5Ng'
 
 

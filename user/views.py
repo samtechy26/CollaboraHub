@@ -13,6 +13,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+import stripe
+from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from .tokens import account_activation_token
@@ -179,3 +181,14 @@ def bid_update(request, id):
         'form':form
     }
     return render(request, 'user/bid_update.html', context)
+
+
+@login_required
+def manage_offer(request, id):
+    bid = Bid.objects.get(id=id)
+    
+    context = {
+        'bid':bid,
+        "STRIPE_PUBLIC_KEY": settings.STRIPE_PUBLIC_KEY
+    }
+    return render(request, 'user/manage_offer.html', context)

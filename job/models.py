@@ -62,7 +62,9 @@ class denom(models.Model):
 class Bid(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    Amount = models.CharField(max_length=100)
+    Amount = models.IntegerField(default=1000)
+    stripe_payment_intent = models.CharField(max_length=200, default="completed")
+    has_paid = models.BooleanField( default=False,verbose_name='Payment Status')
     time = models.IntegerField(default=1)
     denom = models.ForeignKey(denom, on_delete=models.DO_NOTHING)
     status = models.BooleanField(default=False)
