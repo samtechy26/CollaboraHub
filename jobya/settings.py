@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-cba46po#-5(@r^enof&%+j=!9dd9=&iq3o6e7ce(blw6se(#u6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost',
+                 '127.0.0.1']  # I used this for testing
 
 
 # Application definition
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'blog',
     'crispy_forms',
     'payment',
+    'social_django',  # social-auth-app-django
 ]
 
 MIDDLEWARE = [
@@ -164,3 +166,22 @@ STRIPE_PUBLIC_KEY = 'pk_test_51LzOeaGSSxV2P1yNR6uNxfXPdsATOXGxNtB5xv8ox5Wal7O5ME
 STRIPE_SECRET_KEY = 'sk_test_51LzOeaGSSxV2P1yNden2ofolaLXH1BtFqUIv5akUVRAiq4Ph8q4eiR5QA9plbi3K7LXd5PRDkaw62qU2exSPrcD500oJOMy5Ng'
 
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+]
+
+# OAUTH AUTHENTICATION CREDENTIALS
+SOCIAL_AUTH_FACEBOOK_KEY = ''
+SOCIAL_AUTH_FACEBOOK_SECRET = ''
+#SOCIAL_AUTH_FACEBOOK_SCOPE = ['']
+
+SOCIAL_AUTH_TWITTER_KEY = ''
+SOCIAL_AUTH_TWITTER_SECRET = ''
+
+# replace with yours
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '946875859866-q27u3q0u20gar2fh5r6lsnajq2v9udua.apps.googleusercontent.com'
+# replace with yours
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'

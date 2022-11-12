@@ -48,8 +48,14 @@
 				<!-- Social Login -->
 				<div class="social-login-separator"><span>or</span></div>
 				<div class="social-login-buttons">
-					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Register via Facebook</button>
-					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Register via Google+</button>
+					<div class="social">
+						<ul>
+							<li id="facebook"><a href="{% url "social:begin" "facebook"%}">Signup with Facebook</a></li>
+							<li id="twitter"><a href="{% url "social:begin" "twitter"%}">Signup with Twitter</a></li>
+							<li id="google"><a href="{% url "social:begin" "google-oauth2" %}" >Signup with Google</a></li>
+						</ul>
+					</div>
+					
 				</div>
 			</div>
 
