@@ -8,11 +8,11 @@ from django.views.generic import TemplateView
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class SuccessView(TemplateView):
-    template_name = "success.html"
+    template_name = "payment/success.html"
 
 
 class CancelView(TemplateView):
-    template_name = "cancel.html"
+    template_name = "payment/cancel.html"
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
@@ -21,11 +21,12 @@ class CreateCheckoutSessionView(View):
         YOUR_DOMAIN = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
+            customer_email = product.job.author.email,
             line_items=[
                 {
                     'price_data': {
                         'currency': 'usd',
-                        'unit_amount': product.Amount,
+                        'unit_amount': product.Amount * 100,
                         'product_data': {
                             'name': product.job.title,
                         },
