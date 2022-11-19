@@ -185,3 +185,8 @@ SOCIAL_AUTH_TWITTER_SECRET = ''
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '946875859866-q27u3q0u20gar2fh5r6lsnajq2v9udua.apps.googleusercontent.com'
 # replace with yours
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+# Coinbase crypto payment 
+# Please set up account on coinbase-commerce to fill this infos
+COINBASE_COMMERCE_API_KEY = 'e3ed9dd2-7e9d-4e62-9533-4d0195a5a2f9'
+COINBASE_COMMERCE_WEBHOOK_SHARED_SECRET = ''
