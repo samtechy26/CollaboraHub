@@ -18,11 +18,11 @@ coinbase_api_key = settings.COINBASE_COMMERCE_API_KEY
 YOUR_DOMAIN = "http://127.0.0.1:8000"
 
 class SuccessView(TemplateView):
-    template_name = "success.html"
+    template_name = "payment/success.html"
 
 
 class CancelView(TemplateView):
-    template_name = "cancel.html"
+    template_name = "payment/cancel.html"
     
 
 class CreateCheckoutSessionView(View):
@@ -31,11 +31,12 @@ class CreateCheckoutSessionView(View):
         product = Bid.objects.get(id=product_id) 
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
+            customer_email = product.job.author.email,
             line_items=[
                 {
                     'price_data': {
                         'currency': 'usd',
-                        'unit_amount': product.Amount,
+                        'unit_amount': product.Amount * 100,
                         'product_data': {
                             'name': product.job.title,
                         },
