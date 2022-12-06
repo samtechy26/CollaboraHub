@@ -55,6 +55,7 @@ class Job(models.Model):
         return reverse('dashboard')
         # return reverse('post-detail', kwargs={'pk':self.pk})
 
+
 class denom(models.Model):
     title = models.CharField(max_length=100)
 

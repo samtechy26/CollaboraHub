@@ -1,21 +1,41 @@
-{% extends "account/base.html" %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% load i18n %}
-
-{% block head_title %}{% trans "Sign Out" %}{% endblock %}
-
 {% block content %}
-<h1>{% trans "Sign Out" %}</h1>
-
-<p>{% trans 'Are you sure you want to sign out?' %}</p>
-
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <button type="submit">{% trans 'Sign Out' %}</button>
-</form>
 
 
-{% endblock %}
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<!-- Content
+================================================== -->
+<div id="titlebar" class="gradient"> </div>
+
+<!-- Container -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="order-confirmation-page">
+				<div class="breathing-icon"><i class="icon-material-outline-face"></i></div>
+				<h2 class="margin-top-30">We will love to have you back!</h2>
+				<p>{% trans 'Are you sure you want to sign out?' %}</p>
+        <form method="post" action="{% url 'account_logout' %}">
+          {% csrf_token %}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+          <button type="submit" class="button ripple-effect-dark button-sliding-icon margin-top-30">{% trans 'Sign Out' %}<i class="icon-material-outline-arrow-right-alt"></i></button>
+        </form>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- Container / End -->
+
+{% endblock content %}
+
+

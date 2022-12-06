@@ -225,178 +225,46 @@
 				<!-- Section Headline -->
 				<div class="section-headline margin-top-0 margin-bottom-35">
 					<h3>Recent Tasks</h3>
-					<a href="tasks-list-layout-1.html" class="headline-link">Browse All Tasks</a>
+					<a href="{% url 'job:job-list' %}" class="headline-link">Browse All Tasks</a>
 				</div>
 				
 				<!-- Jobs Container -->
 				<div class="tasks-list-container compact-list margin-top-35">
+					{% for task in recent_tasks %}
 						
 					<!-- Task -->
-					<a href="single-task-page.html" class="task-listing">
+					<a href="{% url 'job:job-detail' task.id %}" class="task-listing">
 
 						<!-- Job Listing Details -->
 						<div class="task-listing-details">
-
+	
 							<!-- Details -->
 							<div class="task-listing-description">
-								<h3 class="task-listing-title">Food Delviery Mobile App</h3>
+								<h3 class="task-listing-title">{{ task.title }}</h3>
 								<ul class="task-icons">
-									<li><i class="icon-material-outline-location-on"></i> San Francisco</li>
-									<li><i class="icon-material-outline-access-time"></i> 2 minutes ago</li>
+									<li><i class="icon-material-outline-access-time"></i> {{ task.date_created|date:'P'}}</li>
 								</ul>
-								<div class="task-tags margin-top-15">
-									<span>iOS</span>
-									<span>Android</span>
-									<span>mobile apps</span>
-									<span>design</span>
+								<p class="task-listing-text">{{ task.description|stringformat:".100s" }}</p>
+								<div class="task-tags">
+									{% for skill in task.skill.all %}
+									<span>{{ skill }}</span>
+									{% endfor %}
 								</div>
 							</div>
-
+	
 						</div>
-
+	
 						<div class="task-listing-bid">
 							<div class="task-listing-bid-inner">
 								<div class="task-offers">
-									<strong>$1,000 - $2,500</strong>
-									<span>Fixed Price</span>
-								</div>
-								<span class="button button-sliding-icon ripple-effect">Bid Now <i class="icon-material-outline-arrow-right-alt"></i></span>
-							</div>
-						</div>
-					</a>
-
-					<!-- Task -->
-					<a href="single-task-page.html" class="task-listing">
-
-						<!-- Job Listing Details -->
-						<div class="task-listing-details">
-
-							<!-- Details -->
-							<div class="task-listing-description">
-								<h3 class="task-listing-title">2000 Words English to German</h3>
-								<ul class="task-icons">
-									<li><i class="icon-material-outline-location-off"></i> Online Job</li>
-									<li><i class="icon-material-outline-access-time"></i> 5 minutes ago</li>
-								</ul>
-								<div class="task-tags margin-top-15">
-									<span>copywriting</span>
-									<span>translating</span>
-									<span>editing</span>
-								</div>
-							</div>
-
-						</div>
-
-						<div class="task-listing-bid">
-							<div class="task-listing-bid-inner">
-								<div class="task-offers">
-									<strong>$75</strong>
-									<span>Fixed Price</span>
-								</div>
-								<span class="button button-sliding-icon ripple-effect">Bid Now <i class="icon-material-outline-arrow-right-alt"></i></span>
-							</div>
-						</div>
-					</a>
-
-					<!-- Task -->
-					<a href="single-task-page.html" class="task-listing">
-
-						<!-- Job Listing Details -->
-						<div class="task-listing-details">
-
-							<!-- Details -->
-							<div class="task-listing-description">
-								<h3 class="task-listing-title">Fix Python Selenium Code</h3>
-								<ul class="task-icons">
-									<li><i class="icon-material-outline-location-off"></i> Online Job</li>
-									<li><i class="icon-material-outline-access-time"></i> 30 minutes ago</li>
-								</ul>
-								<div class="task-tags margin-top-15">
-									<span>Python</span>
-									<span>Flask</span>
-									<span>API Development</span>
-								</div>
-							</div>
-
-						</div>
-
-						<div class="task-listing-bid">
-							<div class="task-listing-bid-inner">
-								<div class="task-offers">
-									<strong>$100 - $150</strong>
-									<span>Hourly Rate</span>
-								</div>
-								<span class="button button-sliding-icon ripple-effect">Bid Now <i class="icon-material-outline-arrow-right-alt"></i></span>
-							</div>
-						</div>
-					</a>
-
-					<!-- Task -->
-					<a href="single-task-page.html" class="task-listing">
-
-						<!-- Job Listing Details -->
-						<div class="task-listing-details">
-
-							<!-- Details -->
-							<div class="task-listing-description">
-								<h3 class="task-listing-title">WordPress Theme Installation</h3>
-								<ul class="task-icons">
-									<li><i class="icon-material-outline-location-off"></i> Online Job</li>
-									<li><i class="icon-material-outline-access-time"></i> 1 hour ago</li>
-								</ul>
-								<div class="task-tags margin-top-15">
-									<span>WordPress</span>
-									<span>Theme Installation</span>
-								</div>
-							</div>
-
-						</div>
-
-						<div class="task-listing-bid">
-							<div class="task-listing-bid-inner">
-								<div class="task-offers">
-									<strong>$100</strong>
-									<span>Fixed Price</span>
-								</div>
-								<span class="button button-sliding-icon ripple-effect">Bid Now <i class="icon-material-outline-arrow-right-alt"></i></span>
-							</div>
-						</div>
-					</a>
-
-					<!-- Task -->
-					<a href="single-task-page.html" class="task-listing">
-
-						<!-- Job Listing Details -->
-						<div class="task-listing-details">
-
-							<!-- Details -->
-							<div class="task-listing-description">
-								<h3 class="task-listing-title">PHP Core Website Fixes</h3>
-								<ul class="task-icons">
-									<li><i class="icon-material-outline-location-off"></i> Online Job</li>
-									<li><i class="icon-material-outline-access-time"></i> 1 hour ago</li>
-								</ul>
-								<div class="task-tags margin-top-15">
-									<span>PHP</span>
-									<span>MySQL Administration</span>
-									<span>API Development</span>
-								</div>
-							</div>
-
-						</div>
-
-						<div class="task-listing-bid">
-							<div class="task-listing-bid-inner">
-								<div class="task-offers">
-									<strong>$50 - $80</strong>
-									<span>Hourly Rate</span>
+									<h3>${{ task.cost }}.00</h3>
+									<!-- <span>Price</span> -->
 								</div>
 								<span class="button button-sliding-icon ripple-effect">Bid Now <i class="icon-material-outline-arrow-right-alt"></i></span>
 							</div>
 						</div>
 					</a>		
-
-
+					{% endfor %}
 				</div>
 				<!-- Jobs Container / End -->
 

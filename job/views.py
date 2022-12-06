@@ -8,8 +8,16 @@ from .forms import BidForm, ContactForm
 
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
+    model = Job
     template_name = 'pages/home.html'
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context.update({
+            "recent_tasks": Job.objects.all().order_by('-date_created')[:4]
+        })
+        return context
+
 
 
 
@@ -26,6 +34,7 @@ class JobListView(ListView):
     model = Job
     template_name = 'job/job_list.html'
     paginate_by = 5
+    
 
     def get_queryset(self):
         qs = Job.objects.all()
@@ -38,7 +47,8 @@ class JobListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(JobListView, self).get_context_data(**kwargs)
         context.update({
-            "categories": Category.objects.all
+            "categories": Category.objects.all,
+            
         })
         return context
 
