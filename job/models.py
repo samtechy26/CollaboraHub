@@ -1,9 +1,12 @@
 from email.policy import default
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
+
+User = get_user_model()
 # Create your models here.
 Experience = range(1, 60)
 Gender = ['male', 'female','Any']
@@ -38,11 +41,11 @@ class Job(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     job_type = models.ForeignKey(Type, on_delete=models.DO_NOTHING)
-    job_category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    job_category = models.ManyToManyField(Category)
     cost = models.IntegerField(default=100)
     skill = models.ManyToManyField(Skill, blank=True)
     date_created = models.DateTimeField(default=timezone.now)
-    description = models.CharField(max_length=10000)
+    description = models.TextField(max_length=10000)
     favourite = models.ManyToManyField(User, related_name='fav_task', blank=True)
 
     def __str__(self):
@@ -69,8 +72,28 @@ class Bid(models.Model):
     denom = models.ForeignKey(denom, on_delete=models.DO_NOTHING)
     status = models.BooleanField(default=False)
 
+    def get_absolute_url(self):
+        return reverse("bid-detail", kwargs={
+            "id": self.pk
+        })
+    
+    def get_update_url(self):
+        return reverse('job:bid-update', kwargs={
+            "id": self.pk
+        })
+
+    def get_delete_url(self):
+        return reverse('job:bid-delete', kwargs={
+            "id": self.pk
+        })
+
+    
+
 
     def __str__(self):
         return f'{self.job} bidded for by {self.user}'
+
+
+
 
 

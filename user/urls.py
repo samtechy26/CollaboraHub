@@ -1,25 +1,26 @@
 from email import message
 from pyexpat.errors import messages
 from django.urls import path
-from .views import dashboard, register, profile, profileUpdate, reviews, dashboard_task, dashboard_bidders, dashboard_mybids, bid_update, activate, manage_offer
+from .views import UserDashboard, profile, profileUpdate, Reviews, UserTaskList, dashboard_bidders, dashboard_mybids, bid_update, manage_offer, UserFavourites, BidPaymentView, UserLibraryView
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('register/', register, name='register'),
-    path('login/', auth_views.LoginView.as_view(template_name='user/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='user/logout.html'), name='logout'),
+   
     path('profile/<int:id>', profile, name='profile'),
     path('managebidders/job/<int:id>', dashboard_bidders, name='manage-bidders'),
+    path('favourites/', UserFavourites.as_view(), name='dashboard-favourites'),
     path('my_bids/', dashboard_mybids, name='my_bids'),
     path('bid_update/<int:id>', bid_update, name='bid_update'),
-    path('manage_offer/<int:id>', manage_offer, name='manage_offer'),
-    path('dashboard/', dashboard, name='dashboard'),
-    path('dashboard/task', dashboard_task, name='dashboard-task'),
-    path('reviews/', reviews, name='reviews'),
+    path('bid_detail/<int:id>', manage_offer, name='bid_detail'),
+    path('dashboard/', UserDashboard.as_view(), name='dashboard'),
+    path('library/', UserLibraryView.as_view(), name='library'),
+    path('dashboard/task', UserTaskList.as_view(), name='dashboard-task'),
+    path('reviews/', Reviews.as_view(), name='reviews'),
+    path('bid_payment/<int:pk>', BidPaymentView.as_view(), name='bid_payment'),
     path('profile_update/', profileUpdate, name='profile-update'),
-    path('activate/<uidb64>/<token>', activate, name='activate')
+    
     
 ]
 

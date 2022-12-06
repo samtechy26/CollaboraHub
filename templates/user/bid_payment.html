@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<h2>Checkout</h2>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Pricing Plans</a></li>
+						<li>Checkout</li>
+					</ul>
+				</nav>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Content
+================================================== -->
+<!-- Container -->
+<div class="container">
+	<div class="row">
+		<div class="col-xl-8 col-lg-8 content-right-offset">
+			
+			<!-- Hedline -->
+			<h3>Payment Method</h3>
+
+			<!-- Payment Methods Accordion -->
+			<div class="payment margin-top-30">
+
+				<div class="payment-tab">
+					<div class="payment-tab-trigger">
+						<input checked id="paypal" name="cardType" type="radio" value="paypal">
+						<label for="paypal">PayPal</label>
+						<img class="payment-logo paypal" src="https://i.imgur.com/ApBxkXU.png" alt="">
+					</div>
+
+					<div class="payment-tab-content">
+						<p>You will be redirected to PayPal to complete payment.</p>
+                        <p><a href="pages-order-confirmation.html" class="button big ripple-effect">Continue Payment</a></p>
+					</div>
+				</div>
+
+
+				<div class="payment-tab payment-tab-active">
+					<div class="payment-tab-trigger">
+						<input type="radio" name="cardType" id="creditCart" value="creditCard">
+						<label for="creditCart">Credit / Debit Card</label>
+						<img class="payment-logo" src="https://i.imgur.com/IHEKLgm.png" alt="">
+					</div>
+                    <div class="payment-tab-content">
+						<p>You will be redirected to Stripe to complete payment.</p>
+                        <p><button
+							class="margin-top-10 button button-sliding-icon"
+							type="submit"
+							id="checkout-button">Pay now <i class="icon-material-outline-arrow-right-alt"></i>
+							</button></p>
+					</div>
+
+					<div class="payment-tab-content">
+						<div class="row payment-form-row">
+
+					
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- Payment Methods Accordion / End -->
+		
+			
+		</div>
+
+
+		<!-- Summary -->
+		<div class="col-xl-4 col-lg-4 margin-top-0 margin-bottom-60">
+			
+			<!-- Summary -->
+			<div class="boxed-widget summary margin-top-0">
+				<div class="boxed-widget-headline">
+					<h3>Summary</h3>
+				</div>
+				<div class="boxed-widget-inner">
+					<ul>
+						<li>Standard Plan <span>${{ bid.Amount }}</span></li>
+						<li>VAT (20%) <span>$9.80</span></li>
+						<li class="total-costs">Final Price <span>$58.80</span></li>
+					</ul>
+				</div>
+			</div>
+			<!-- Summary / End -->
+
+			<!-- Checkbox -->
+			<div class="checkbox margin-top-30">
+				<input type="checkbox" id="two-step">
+				<label for="two-step"><span class="checkbox-icon"></span>  I agree to the <a href="#">Terms and Conditions</a> and the <a href="#">Automatic Renewal Terms</a></label>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- Container / End -->
+{% csrf_token %}
+
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+
+	const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+		// Create an instance of the Stripe object with your publishable API key
+		var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+		var checkoutButton = document.getElementById("checkout-button");
+		checkoutButton.addEventListener("click", function () {
+		  fetch("{% url 'create-checkout-session' bid.id %}", {
+			method: "POST",
+			headers: {
+				'X-CSRFToken': csrftoken
+			}
+		  })
+			.then(function (response) {
+			  return response.json();
+			})
+			.then(function (session) {
+			  return stripe.redirectToCheckout({ sessionId: session.id });
+			})
+			.then(function (result) {
+			  // If redirectToCheckout fails due to a browser or network
+			  // error, you should display the localized error message to your
+			  // customer using error.message.
+			  if (result.error) {
+				alert(result.error.message);
+			  }
+			})
+			.catch(function (error) {
+			  console.error("Error:", error);
+			});
+		});
+	
+	
+	</script>
+
+
+
+
+{% endblock content %}

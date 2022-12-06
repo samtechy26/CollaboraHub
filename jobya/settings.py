@@ -16,6 +16,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+APP_DIR = BASE_DIR / "jobya"
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -27,7 +29,7 @@ SECRET_KEY = 'django-insecure-cba46po#-5(@r^enof&%+j=!9dd9=&iq3o6e7ce(blw6se(#u6
 DEBUG = True
 
 ALLOWED_HOSTS = ['mysite.com', 'localhost',
-                 '127.0.0.1']  # I used this for testing
+                 '127.0.0.1', 'd6ab-45-91-21-60.eu.ngrok.io']  # I used this for testing
 
 
 # Application definition
@@ -41,13 +43,38 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #Third party apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    #local apps
     'job.apps.JobConfig',
-    'user.apps.UserConfig',
+    'user',
     'blog',
     'crispy_forms',
     'payment',
     'social_django',  # social-auth-app-django
 ]
+
+SITE_ID = 1
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    }
+}
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,7 +91,7 @@ ROOT_URLCONF = 'jobya.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,6 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -133,7 +161,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -142,14 +175,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRSIPY_TEMPLATE_PACK = 'bootstrap5'
 
-LOGIN_REDIRECT_URL = 'job-home'
+LOGIN_REDIRECT_URL = 'job:home'
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'account_login'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 
@@ -165,9 +198,12 @@ STRIPE_PUBLIC_KEY = 'pk_test_51LzOeaGSSxV2P1yNR6uNxfXPdsATOXGxNtB5xv8ox5Wal7O5ME
 
 STRIPE_SECRET_KEY = 'sk_test_51LzOeaGSSxV2P1yNden2ofolaLXH1BtFqUIv5akUVRAiq4Ph8q4eiR5QA9plbi3K7LXd5PRDkaw62qU2exSPrcD500oJOMy5Ng'
 
+STRIPE_WEBHOOK_SECRET = 'whsec_wy64BZcl02CiO5lv6S4dygCNb6DoL49o'
+
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.twitter.TwitterOAuth',

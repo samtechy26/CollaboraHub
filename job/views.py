@@ -1,17 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Job, Category, Bid, Skill
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
-from .forms import BidForm
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView, FormView
+from .forms import BidForm, ContactForm
 
 
 
-def home(request):
-    context = {
-        'categories':Category.objects.all()
-    }
-    return render(request,'job/home.html', context)
+class HomeView(TemplateView):
+    template_name = 'pages/home.html'
+
 
 
 class JobCreateView(CreateView):
@@ -25,9 +24,22 @@ class JobCreateView(CreateView):
 
 class JobListView(ListView):
     model = Job
+    template_name = 'job/job_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        qs = Job.objects.all()
+        category = self.request.GET.get('category', None)
+        if category:
+            qs = qs.filter(Q(job_category__slug=category))
+        return qs
+
+
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context = super(JobListView, self).get_context_data(**kwargs)
+        context.update({
+            "categories": Category.objects.all
+        })
         return context
 
 @login_required
@@ -73,6 +85,7 @@ class UserListView(ListView):
         context['skills'] = Skill.objects.all()
         return context
 
+
 def dashboard_favourites(request):
     task = Job.objects.all()
     users = User.objects.all()
@@ -82,19 +95,27 @@ def dashboard_favourites(request):
     }
     return render(request, 'job/favourites.html', context)
  
-def contact(request):
-    return render(request, 'job/contact.html')
+
+class ContactPageView(FormView):
+    template_name = 'pages/contact.html'
+    form_class = ContactForm
 
 
-class CategoryView(ListView):
-    def get(self, request, slug):
-        category = Category.objects.all()
-        tasks = Job.objects.filter(job_category__slug = slug)
 
-        context = {
-            'categories': category,
-            'tasks':tasks,
-         }
-        return render(request, 'job/category.html', context)
+# class ProductDetailView(generic.DetailView):
+#     template_name = "products/product.html"
+#     queryset = Product.objects.all()
+#     context_object_name = "product"
 
-
+#     def get_context_data(self, **kwargs):
+#         context = super(ProductDetailView, self).get_context_data(**kwargs)
+#         product = self.get_object()
+#         has_access = False
+#         if self.request.user.is_authenticated:
+#             if product in self.request.user.userlibrary.products.all():
+#                 has_access = True
+#         context.update({
+#             "STRIPE_PUBLIC_KEY": settings.STRIPE_PUBLIC_KEY,
+#             "has_access": has_access
+#         })
+#         return context
