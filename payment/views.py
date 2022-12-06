@@ -129,7 +129,8 @@ def stripe_webhook(request, *args, **kwargs):
         user.userlibrary.products.add(product)
 
     return HttpResponse()
-=======
+
+    
 # Coinbase crypto payment
 def create_coinbase_payment(request, *args, **kwargs):
     product_id = kwargs["pk"]
