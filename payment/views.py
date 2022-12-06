@@ -1,5 +1,4 @@
 import stripe
-<<<<<<< HEAD
 from stripe.error import SignatureVerificationError
 from django.conf import settings
 from django.urls import reverse
@@ -8,7 +7,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from django.views.generic import TemplateView
 from user.models import Profile
-=======
 import logging
 from coinbase_commerce.client import Client
 from coinbase_commerce.error import SignatureVerificationError, WebhookInvalidPayload
@@ -22,7 +20,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from job.models import Bid
->>>>>>> a78dfc8f5286b65d86aad66c6b8f144042cb6658
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 coinbase_api_key = settings.COINBASE_COMMERCE_API_KEY
@@ -34,20 +31,16 @@ class SuccessView(TemplateView):
     template_name = "payment/success.html"
 
 
-<<<<<<< HEAD
 
 
 # Creating the stripe checkout session
-=======
 class CancelView(TemplateView):
     template_name = "payment/cancel.html"
     
->>>>>>> a78dfc8f5286b65d86aad66c6b8f144042cb6658
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
         product_id = self.kwargs["pk"]
-<<<<<<< HEAD
         product = Bid.objects.get(id=product_id)
         YOUR_DOMAIN = "http://127.0.0.1:8000"
         customer = None
@@ -57,9 +50,7 @@ class CreateCheckoutSessionView(View):
                 customer = request.user.profile.stripe_customer_id
             else:
                 customer_email = product.job.author.email
-=======
         product = Bid.objects.get(id=product_id) 
->>>>>>> a78dfc8f5286b65d86aad66c6b8f144042cb6658
         checkout_session = stripe.checkout.Session.create(
             customer=customer,
             customer_email=customer_email,
@@ -87,7 +78,6 @@ class CreateCheckoutSessionView(View):
             'id': checkout_session.id
         })
 
-<<<<<<< HEAD
 
 
 # Listening to the stripe webhook
@@ -193,4 +183,3 @@ def coinbase_webhook(request):
 
     
 
->>>>>>> a78dfc8f5286b65d86aad66c6b8f144042cb6658
