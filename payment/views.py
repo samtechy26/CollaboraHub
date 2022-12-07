@@ -18,6 +18,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+import datetime
 
 from job.models import Bid
 
@@ -127,6 +128,9 @@ def stripe_webhook(request, *args, **kwargs):
         user.profile.stripe_customer_id = stripe_customer_id
         user.save()
         user.userlibrary.products.add(product)
+        product.has_paid = True
+        product.ordered_date = datetime.datetime.now()
+
 
     return HttpResponse()
 

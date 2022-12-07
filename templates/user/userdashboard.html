@@ -205,27 +205,15 @@
 						</div>
 						<div class="content">
 							<ul class="dashboard-box-list">
+								{% for task in request.user.userlibrary.products.all %}
+								
 								<li>
 									<div class="invoice-list-item">
-									<strong>Professional Plan</strong>
-										<ul>
-											<li><span class="unpaid">Unpaid</span></li>
-											<li>Order: #326</li>
-											<li>Date: 12/08/2018</li>
-										</ul>
-									</div>
-									<!-- Buttons -->
-									<div class="buttons-to-right">
-										<a href="pages-checkout-page.html" class="button">Finish Payment</a>
-									</div>
-								</li>
-								<li>
-									<div class="invoice-list-item">
-									<strong>Professional Plan</strong>
+									<strong>task carried out by {{task.user.first_name}} {{task.user.last_name}}</strong>
 										<ul>
 											<li><span class="paid">Paid</span></li>
-											<li>Order: #264</li>
-											<li>Date: 10/07/2018</li>
+											<li>{{ task.reference_number }}</li>
+											<li>Date: {{ task.ordered_date}}</li>
 										</ul>
 									</div>
 									<!-- Buttons -->
@@ -233,34 +221,7 @@
 										<a href="pages-invoice-template.html" class="button gray">View Invoice</a>
 									</div>
 								</li>
-								<li>
-									<div class="invoice-list-item">
-									<strong>Professional Plan</strong>
-										<ul>
-											<li><span class="paid">Paid</span></li>
-											<li>Order: #211</li>
-											<li>Date: 12/06/2018</li>
-										</ul>
-									</div>
-									<!-- Buttons -->
-									<div class="buttons-to-right">
-										<a href="pages-invoice-template.html" class="button gray">View Invoice</a>
-									</div>
-								</li>
-								<li>
-									<div class="invoice-list-item">
-									<strong>Professional Plan</strong>
-										<ul>
-											<li><span class="paid">Paid</span></li>
-											<li>Order: #179</li>
-											<li>Date: 06/05/2018</li>
-										</ul>
-									</div>
-									<!-- Buttons -->
-									<div class="buttons-to-right">
-										<a href="pages-invoice-template.html" class="button gray">View Invoice</a>
-									</div>
-								</li>
+								{% endfor %}
 							</ul>
 						</div>
 					</div>

@@ -69,9 +69,19 @@ class Bid(models.Model):
     Amount = models.IntegerField(default=1000)
     stripe_payment_intent = models.CharField(max_length=200, default="completed")
     has_paid = models.BooleanField( default=False,verbose_name='Payment Status')
+    ordered_date = models.DateTimeField(blank=True, null=True)
     time = models.IntegerField(default=1)
     denom = models.ForeignKey(denom, on_delete=models.DO_NOTHING)
     status = models.BooleanField(default=False)
+
+
+    @property
+    def reference_number(self):
+         return f"#BID-{self.pk}#{self.job.title}"
+
+    
+    def __str__(self):
+        return self.reference_number
 
     def get_absolute_url(self):
         return reverse("bid-detail", kwargs={
