@@ -73,6 +73,7 @@ class Bid(models.Model):
     time = models.IntegerField(default=1)
     denom = models.ForeignKey(denom, on_delete=models.DO_NOTHING)
     status = models.BooleanField(default=False)
+    
 
 
     @property
@@ -106,5 +107,13 @@ class Bid(models.Model):
 
 
 
+# class Review(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     bid = models.ForeignKey(Bid, on_delete=models.CASCADE)
+#     comment = models.TextField(max_length=500)
+#     rate = models.IntegerField(default=0)
+#     date_created = models.DateTimeField(auto_now_add=True)
 
+#     def __str__(self):
+#         return f'Review by {self.user} on {self.bid}'
 

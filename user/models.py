@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
-from job.models import Bid
+from job.models import Bid, Job
 from django.db.models.signals import post_save
 from PIL import Image
 from django.urls import reverse
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 
@@ -57,3 +58,22 @@ def post_save_user_receiver(sender, instance, created, **kwargs):
 
 
 post_save.connect(post_save_user_receiver, sender=User)
+
+
+class Review(models.Model):
+    freelancer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_frelancer')
+    employer = models.ForeignKey(User,on_delete=models.CASCADE, related_name='reviews_employer')
+    project = models.ForeignKey(Job, related_name='reviews' , on_delete=models.CASCADE) 
+    comment = models.TextField()
+    rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    created = models.DateTimeField(auto_now_add = True)
+    updated = models.DateTimeField(auto_now = True)
+    timely = models.BooleanField(default=False)
+    on_budget = models.BooleanField(default=False)
+    active = models.BooleanField(default = True)
+
+    class Meta:
+        ordering = ('-created',)
+
+    def __str__(self):
+        return str(self.id)

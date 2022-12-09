@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
@@ -13,6 +14,10 @@ from django.contrib.auth import get_user_model
 from django.views import generic
 from django.contrib.auth.models import User
 from .models import UserLibrary
+from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from itertools import chain
+from .models import Review
 
 
 
@@ -21,8 +26,49 @@ from .models import UserLibrary
 class UserDashboard(LoginRequiredMixin, generic.TemplateView):
     template_name = 'user/userdashboard.html'
 
-class Reviews(LoginRequiredMixin, generic.TemplateView):
+class ReviewsPage(LoginRequiredMixin, generic.ListView):
     template_name = 'user/reviews.html'
+    def get_queryset(self):
+        job = Job.objects.filter(author=self.request.user)
+        return Bid.objects.filter(job__in=job)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'reviews': Review.objects.all()
+        })
+        return context
+    context_object_name = 'bids'
+
+class Reviews(LoginRequiredMixin, generic.View):
+    def get(self, request, *args, **kwargs):
+        bid_id = request.GET.get('bid_id')
+        bid = Bid.objects.get(id=bid_id)
+        comment = request.GET.get('message2')
+        rate = request.GET.get('rating')
+        user = request.user
+        Review(user=user, bid=bid, comment=comment, rate=rate).save()
+        return redirect('reviews')
+
+def reviews(request):
+    #job_lists = Job.objects.all()
+    review_lists = Review.objects.filter(active=True)
+    job_lists = Job.objects.exclude(reviews__in =review_lists)
+    lists = list(chain(review_lists, job_lists))
+    paginator = Paginator(lists, per_page=2)
+    page = request.GET.get('page')
+    try:
+        jobs = paginator.page(page)
+    except PageNotAnInteger:
+        jobs = paginator.page(1)
+    except EmptyPage:
+        jobs = paginator.page(paginator.num_pages)
+
+    
+    return render(request, 'user/reviews.html',{
+        'jobs':jobs
+    })
+
 
 
 class UserTaskList(LoginRequiredMixin, generic.ListView):
@@ -177,4 +223,84 @@ class UserLibraryView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'user/task_library.html'
    
 
+
+@login_required
+def add_review(request):
+
     
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        comment = data.get('comment','')
+        rating = data.get('rating','1')
+        timely = False
+        on_budget = False
+
+
+        if data.get('timely') == "1":
+            timely = True
+        #project_id = data.get('project_id')
+        if data.get('on_budget') == "1":
+            on_budget = True
+        
+        freelancer = get_object_or_404(User, username = data.get('freelancer'))
+        client = get_object_or_404(User, username = data.get('employer'))
+        project = get_object_or_404(Job, id = int(data.get('project')))
+        
+        #project = get_object_or_404(Job, id = project_id)
+        new_review = Review.objects.update_or_create(employer =client, freelancer = freelancer,project=project,\
+             comment=comment, rating=rating, on_budget=on_budget, timely=timely)
+        #ew_review.save()
+
+        return JsonResponse({
+                "message":"Your review has been sucessfully added! "
+            },status=200)
+       
+            
+    
+    elif request.method == 'PUT':
+        data = json.loads(request.body)
+        comment = data.get('comment','')
+        rating = data.get('rating','1')
+        review_id = data.get('reveiw_id','')
+        timely = False
+        on_budget = False
+
+
+        if data.get('timely') == "1":
+            timely = True
+        #project_id = data.get('project_id')
+        if data.get('on_budget') == "1":
+            on_budget = True
+        
+        try:
+            review = Review.objects.get(id= int(review_id))
+            review.comment = comment
+            review.timely = timely
+            review.on_budget = on_budget
+            review.rating = rating
+            review.save()
+            return JsonResponse({
+                "message":"Your review has been updated successfully!"
+            }, status=200)
+        except Review.DoesNotExist:
+            return JsonResponse({
+                "message":"No such review existed"
+            }, status=400)
+
+
+    elif request.method == 'DELETE':
+        data = json.loads(request.body)
+        review_id = data.get('review_id')
+        try:
+            review = Review.objects.get(id=review_id)
+            review.active = False
+            review.save()
+            return JsonResponse({
+                "message":"Your review has been sucessfully deleted!"
+            }, status = 201)
+
+        except Review.DoesNotExist:
+            return JsonResponse({
+                "message":"There is no such review"
+            }, status=400 )
+
