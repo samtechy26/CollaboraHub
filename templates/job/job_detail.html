@@ -125,12 +125,12 @@
 				{% if user != task.author %}
 				<div class="sidebar-widget">
 					<div class="bidding-widget">
-						{% if user not in bids.user %}
+						
 							<div class="bidding-headline"><h3>Bid on this job!</h3></div>
 							<form action="" method="post">
 							{% csrf_token %}
 							<div class="bidding-inner">
-							
+								
 							{{ b_form|crispy }}
 							
 
@@ -141,9 +141,8 @@
 
 						</div>
 						</form>
-
-						{% endif %}
 					</div>
+						
 				</div>
 				{% endif %}
 

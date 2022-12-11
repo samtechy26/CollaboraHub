@@ -1,8 +1,7 @@
 from email import message
 from pyexpat.errors import messages
 from django.urls import path
-from .views import UserDashboard, profile, profileUpdate, reviews, UserTaskList, dashboard_bidders, dashboard_mybids, bid_update, manage_offer, UserFavourites, BidPaymentView, UserLibraryView, ReviewsPage, add_review
-from django.contrib.auth import views as auth_views
+from .views import UserDashboard, profile, profileUpdate, reviews, UserTaskList, dashboard_bidders, dashboard_mybids, bid_update, manage_offer, UserFavourites, BidPaymentView, UserLibraryView, add_review
 from django.conf import settings
 from django.conf.urls.static import static
 

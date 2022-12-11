@@ -158,7 +158,7 @@
 		
 							<textarea class="with-border" placeholder="Comment" name="message2" id="message2" cols="7" required></textarea>
 							{% csrf_token %}
-							<button  id="leave-review" class="button full-width button-sliding-icon ripple-effect" type="button" form="leave-review-form">Leave a Review <i class="icon-material-outline-arrow-right-alt"></i></button>
+							<button  id="leave-review" class="add-reviews button full-width button-sliding-icon ripple-effect" type="button" form="leave-review-form">Leave a Review <i class="icon-material-outline-arrow-right-alt"></i></button>
 						</form>
 						
 						<!-- Button -->
@@ -171,5 +171,138 @@
 		</div>
 		<!-- Leave a Review Popup / End -->
     </div>  
+
+	<script>
+		// submit a review 
+		
+		var editReviews = document.getElementsByClassName("edit-reviews");
+
+		// prefill the pop-up form with values
+		Array.prototype.forEach.call(editReviews,(element)=>{
+			element.addEventListener("click", function(){
+				employer = element.dataset.employer;
+				freelancer = element.dataset.freelancer;
+				review_id = element.dataset.project;
+				subject = element.dataset.subject;
+				rating = element.dataset.rating;
+				onBudget = element.dataset.onBudget;
+				timely = element.dataset.timely;
+				comment = element.dataset.comment;
+				isFreelancer = element.dataset.isFreelancer;
+				// prefill
+			if (document.querySelector("#small-dialog-1").style.display != "none"){
+				
+				if (isFreelancer){
+					document.querySelector("#edit-employer-name").innerHTML = freelancer;
+				}else{
+					document.querySelector("#edit-employer-name").innerHTML = employer;
+				}
+				
+				document.querySelector("#edit-project-name").innerHTML = subject;
+				if (onBudget == "True"){
+					document.querySelector("#radio-rating-1").checked = true;
+				}else{
+					document.querySelector("#radio-rating-2").checked = true;
+				}
+				if (timely == "True"){
+					document.querySelector("#radio-rating-3").checked = true;
+				}else{
+					document.querySelector("#radio-rating-4").checked = true;
+				}
+
+				document.querySelector(`#rating-radio-${rating}`).checked = true;
+				
+				document.querySelector("#message").innerHTML= comment;
+
+			}
+
+			// submit the form
+			document.getElementById("save-review").addEventListener("click", function(){
+				onBudget = document.querySelector('input[name="radio"]:checked').value;
+				timely = document.querySelector('input[name="radio2"]:checked').value;
+				rating = document.querySelector('input[name="rating1"]:checked').value;
+				comment = document.querySelector("#message").value;
+				var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+				  fetch("{% url 'add_review' %}", {
+
+					method: "PUT",
+					headers: {
+						'X-CSRFToken': csrftoken
+					},
+					body: JSON.stringify({
+						rating: rating,
+						timely: timely,
+						on_budget: onBudget,
+						comment:comment,
+						reveiw_id: review_id
+					})
+				})
+				.then((response)=>{
+					return response.json();
+				})
+				.then((result)=>{
+					alert(result.message);
+					window.location.reload();
+
+				})
+				.then((err)=>{
+					console.error(err);
+				})
+				})
+			
+			})
+		})
+
+
+		
+		// submit a new review 
+		var addReviews = document.getElementsByClassName("add-reviews");
+
+		Array.prototype.forEach.call(addReviews, (element)=>{
+			element.addEventListener("click", function(){
+				var project_id = element.dataset.project;
+				var freelancer = element.dataset.freelancer;
+				var employer = element.dataset.employer;
+
+				// submit form 
+				document.getElementById("leave-review").addEventListener("click", function(){
+					onBudget = document.querySelector('input[name="radio"]:checked').value;
+					timely = document.querySelector('input[name="radio2"]:checked').value;
+					rating = document.querySelector('input[name="rating"]:checked').value;
+					comment = document.querySelector("#message2").value;
+					var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+					fetch("{% url 'add_review' %}", {
+					method: "POST",
+					headers: {
+						'X-CSRFToken': csrftoken
+					},
+					body: JSON.stringify({
+						rating: rating,
+						timely: timely,
+						on_budget: onBudget,
+						comment:comment,
+						freelancer:freelancer,
+						employer: employer,
+						project: project_id
+					})
+				})
+				.then((response)=>{
+					return response.json();
+				})
+				.then((result)=>{
+					alert(result.message);
+					window.location.reload();
+
+				})
+				.then((err)=>{
+					console.error(err);
+				})
+
+				})
+				})
+			})
+
+
+	</script>
 
 {% endblock content %}

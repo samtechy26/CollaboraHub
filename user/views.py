@@ -6,14 +6,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from job.models import Job, Bid
 from job.forms import BidForm
-from django.core.mail import EmailMessage
-from django.contrib.sites.shortcuts import get_current_site
-import stripe
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.views import generic
 from django.contrib.auth.models import User
-from .models import UserLibrary
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
@@ -26,32 +21,10 @@ from .models import Review
 class UserDashboard(LoginRequiredMixin, generic.TemplateView):
     template_name = 'user/userdashboard.html'
 
-class ReviewsPage(LoginRequiredMixin, generic.ListView):
-    template_name = 'user/reviews.html'
-    def get_queryset(self):
-        job = Job.objects.filter(author=self.request.user)
-        return Bid.objects.filter(job__in=job)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'reviews': Review.objects.all()
-        })
-        return context
-    context_object_name = 'bids'
 
-class Reviews(LoginRequiredMixin, generic.View):
-    def get(self, request, *args, **kwargs):
-        bid_id = request.GET.get('bid_id')
-        bid = Bid.objects.get(id=bid_id)
-        comment = request.GET.get('message2')
-        rate = request.GET.get('rating')
-        user = request.user
-        Review(user=user, bid=bid, comment=comment, rate=rate).save()
-        return redirect('reviews')
-
+@login_required
 def reviews(request):
-    #job_lists = Job.objects.all()
     review_lists = Review.objects.filter(active=True)
     job_lists = Job.objects.exclude(reviews__in =review_lists)
     lists = list(chain(review_lists, job_lists))
@@ -93,14 +66,6 @@ class UserFavourites(LoginRequiredMixin, generic.ListView):
     
     def get_queryset(self):
         return Job.objects.all()
-
-    # def get_context_data(self, **kwargs):
-    #     context = (UserFavourites, self).get_context_data(**kwargs)
-    #     user = User.objects.all
-    #     context['users'] = user
-    #     return context
-
-
 
 
 @login_required
@@ -219,26 +184,23 @@ class BidPaymentView(LoginRequiredMixin, generic.DetailView):
 
         return context
 
+
 class UserLibraryView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'user/task_library.html'
    
 
 
 @login_required
-def add_review(request):
-
-    
+def add_review(request): 
     if request.method == 'POST':
         data = json.loads(request.body)
         comment = data.get('comment','')
         rating = data.get('rating','1')
         timely = False
         on_budget = False
-
-
         if data.get('timely') == "1":
             timely = True
-        #project_id = data.get('project_id')
+        
         if data.get('on_budget') == "1":
             on_budget = True
         
@@ -246,17 +208,15 @@ def add_review(request):
         client = get_object_or_404(User, username = data.get('employer'))
         project = get_object_or_404(Job, id = int(data.get('project')))
         
-        #project = get_object_or_404(Job, id = project_id)
-        new_review = Review.objects.update_or_create(employer =client, freelancer = freelancer,project=project,\
+        new_review = Review.objects.update_or_create(employer =client, freelancer = freelancer,project=project,
              comment=comment, rating=rating, on_budget=on_budget, timely=timely)
-        #ew_review.save()
+        new_review.save()
 
         return JsonResponse({
                 "message":"Your review has been sucessfully added! "
             },status=200)
        
-            
-    
+
     elif request.method == 'PUT':
         data = json.loads(request.body)
         comment = data.get('comment','')
@@ -303,4 +263,5 @@ def add_review(request):
             return JsonResponse({
                 "message":"There is no such review"
             }, status=400 )
+
 

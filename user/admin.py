@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Profile, UserLibrary,Review
-
 admin.site.register(Profile)
 admin.site.register(UserLibrary)
 
@@ -9,3 +8,4 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ['freelancer', 'employer','comment' ,'project','rating', 'created', 'active']
     list_filter = ['freelancer', 'created', 'active']
     list_editable = ['active']
+

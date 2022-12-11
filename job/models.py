@@ -1,16 +1,9 @@
 from email.policy import default
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-
-
-User = get_user_model()
-# Create your models here.
-Experience = range(1, 60)
-Gender = ['male', 'female','Any']
-Shift = ['Day', 'Night', 'Any']
 
 
 class Category(models.Model):
@@ -52,8 +45,7 @@ class Job(models.Model):
         return f'{self.title} by {self.author}'
 
     def get_absolute_url(self):
-        return reverse('dashboard')
-        # return reverse('post-detail', kwargs={'pk':self.pk})
+        return reverse('post-detail', kwargs={'id':self.pk})
 
 
 class denom(models.Model):
@@ -106,14 +98,4 @@ class Bid(models.Model):
         return f'{self.job} bidded for by {self.user}'
 
 
-
-# class Review(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     bid = models.ForeignKey(Bid, on_delete=models.CASCADE)
-#     comment = models.TextField(max_length=500)
-#     rate = models.IntegerField(default=0)
-#     date_created = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return f'Review by {self.user} on {self.bid}'
 

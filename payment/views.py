@@ -32,8 +32,6 @@ class SuccessView(TemplateView):
     template_name = "payment/success.html"
 
 
-
-
 # Creating the stripe checkout session
 class CancelView(TemplateView):
     template_name = "payment/cancel.html"
