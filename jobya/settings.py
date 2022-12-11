@@ -160,6 +160,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
+ACCOUNT_FORMS = {
+            
+            'signup': 'user.forms.UserRegistrationForm',
+            
+}
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 

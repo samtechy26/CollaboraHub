@@ -45,7 +45,16 @@
 				<!-- Form -->
 				<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
           {% csrf_token %}
-          {{ form|crispy }}
+		  	{% for field in form %}
+				<p>
+					{{ field.label_tag }}<br>
+					{{ field }}
+					{% for error in field.errors %}
+					<p style="color: red">{{ error }}</p>
+					{% endfor %}
+				</p>
+			{% endfor %}
+          <!-- {{ form|crispy }} -->
           {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
           {% endif %}
