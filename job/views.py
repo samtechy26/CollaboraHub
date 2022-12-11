@@ -33,15 +33,13 @@ class JobListView(ListView):
     model = Job
     template_name = 'job/job_list.html'
     paginate_by = 5
-    
 
     def get_queryset(self):
-        qs = Job.objects.all()
+        qs = Job.objects.all().order_by('-date_created')
         category = self.request.GET.get('category', None)
         if category:
             qs = qs.filter(job_category__slug=category)
         return qs
-
 
     def get_context_data(self, **kwargs):
         context = super(JobListView, self).get_context_data(**kwargs)
@@ -50,6 +48,7 @@ class JobListView(ListView):
             
         })
         return context
+
 
 @login_required
 def JobDetail(request, pk):
@@ -89,6 +88,9 @@ def JobDetail(request, pk):
 class UserListView(ListView):
     model = User
     template_name = 'job/freelancers.html'
+    ordering = ['-date_joined']
+    paginate_by = 5
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         context['skills'] = Skill.objects.all()
