@@ -10310,11 +10310,13 @@ button.mfp-close {
 }
 
 /* Popup */
+.mybox,
 #sign-in-dialog,
 #small-dialog-1,
 #small-dialog-2,
 #small-dialog-3,
 #small-dialog-4,
+#small-dialog-7,
 #small-dialog {
 	background: #fff;
 	padding: 40px;
@@ -10701,11 +10703,13 @@ img.mfp-img {
 
 .popup-tab-content p:last-child { margin-bottom: 0; }
 
+.mybox,
 .dialog-with-tabs#sign-in-dialog,
 .dialog-with-tabs#small-dialog-1,
 .dialog-with-tabs#small-dialog-2,
 .dialog-with-tabs#small-dialog-3,
 .dialog-with-tabs#small-dialog-4,
+dialog-with-tabs#small-dialog-7,
 .dialog-with-tabs#small-dialog { 
 	padding: 0;
 	color: #666;
@@ -10714,11 +10718,13 @@ img.mfp-img {
 }
 
 /* Close Button Adjustments*/
+.mybox,
 #sign-in-dialog.dialog-with-tabs .mfp-close,
 #small-dialog.dialog-with-tabs .mfp-close,
 #small-dialog-1.dialog-with-tabs .mfp-close,
 #small-dialog-2.dialog-with-tabs .mfp-close,
 #small-dialog-3.dialog-with-tabs .mfp-close,
+#small-dialog-7.dialog-with-tabs .mfp-close 
 #small-dialog-4.dialog-with-tabs .mfp-close {
     color: #888;
     background-color: #f8f8f8;
@@ -10730,12 +10736,14 @@ img.mfp-img {
     height: 61px;
 }
 
+.mybox,
 #sign-in-dialog.dialog-with-tabs .mfp-close:hover,
 #small-dialog-1.dialog-with-tabs .mfp-close:hover,
 #small-dialog-2.dialog-with-tabs .mfp-close:hover,
 #small-dialog-3.dialog-with-tabs .mfp-close:hover,
 #small-dialog-4.dialog-with-tabs .mfp-close:hover,
-#small-dialog.dialog-with-tabs .mfp-close:hover {
+#small-dialog-7.dialog-with-tabs .mfp-close:hover,
+#small-dialog.dialog-with-tabs .mfp-close:hover  {
     color: #333;
     background-color: #f2f2f2;
 }
@@ -11010,12 +11018,14 @@ img.mfp-img {
 		background-color: transparent;
 	}
 
+	.mybox,
 	#sign-in-dialog.dialog-with-tabs .mfp-close,
 	#small-dialog.dialog-with-tabs .mfp-close,
 	#small-dialog-1.dialog-with-tabs .mfp-close,
 	#small-dialog-2.dialog-with-tabs .mfp-close,
 	#small-dialog-3.dialog-with-tabs .mfp-close,
-	#small-dialog-4.dialog-with-tabs .mfp-close {
+	#small-dialog-4.dialog-with-tabs .mfp-close,
+	#small-dialog-7.dialog-with-tabs .mfp-close {
 		height: 50px;
 		width: 50px;
 	}
@@ -14967,6 +14977,8 @@ ul.dashboard-box-list > li:hover {
 			display: inline-block;
 		}
 	}
+
+	.hide{ display: none; }
 
 	/* Classes for disabling things on mobile devices */
 	@media (max-width: 992px) { .hide-under-992px { display: none; } }

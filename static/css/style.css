@@ -14978,6 +14978,8 @@ ul.dashboard-box-list > li:hover {
 		}
 	}
 
+	.hide{ display: none; }
+
 	/* Classes for disabling things on mobile devices */
 	@media (max-width: 992px) { .hide-under-992px { display: none; } }
 	@media (max-width: 768px) { .hide-under-768px { display: none; } }

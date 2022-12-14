@@ -1,8 +1,19 @@
-{% extends 'user/dashboard.html' %}
+{% extends 'dashboard/base.html' %}
+{% load static %}
 {% block content %}
-
-  <!-- Dashboard Headline -->
-  <div class="dashboard-headline">
+<style>
+	
+	.message-content.is_active{
+	  display: block !important;
+	}
+	
+	.message-content.hide{
+	  display: none;
+	}
+	</style>
+	
+<!-- Dashboard Headline -->
+<div class="dashboard-headline">
 	<h3>Messages</h3>
 
 	<!-- Breadcrumbs -->
@@ -18,7 +29,9 @@
 	<div class="messages-container margin-top-0">
 
 		<div class="messages-container-inner">
-
+			{% if user.is_authenticated %}
+			<input type="hidden" id="logged-in-user" value="{{ user.id }}">
+			{% endif %}
 			<!-- Messages -->
 			<div class="messages-inbox">
 				<div class="messages-headline">
@@ -30,9 +43,13 @@
 
 				<ul class="contacts">
 					{% for thread in Threads %}
-					<li class="{% if forloop.first %}active{% endif %} contact-li" chat-id="chat_{{ thread.id }}" style="cursor: pointer">
-						
-							<div class="message-avatar"><i class="status-icon status-online"></i>{% if thread.first_person == user %}<img src="{{ thread.second_person.profile.image.url }}" alt="" />{% else %}<img src="{{ thread.first_person.profile.image.url }}" alt="" />{% endif %}</div>
+					<li class=" {% if forloop.first %} active-message {% endif %} contact-li" chat-id="chat_{{ thread.id }}">
+						<a href="#">
+							{% if thread.first_person == user %}
+							<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{ thread.second_person.profile.image.url }}" alt="" /></div>
+							{% else %}
+							<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{ thread.first_person.profile.image.url }}" alt="" /></div>
+							{% endif %}
 
 							<div class="message-by">
 								<div class="message-by-headline">
@@ -45,83 +62,79 @@
 								</div>
 								<p>Thanks for reaching out. I'm quite busy right now on many</p>
 							</div>
-						
+						</a>
 					</li>
 					{% endfor %}
+					
 				</ul>
 			</div>
 			<!-- Messages / End -->
 
 			<!-- Message Content -->
-			<div class="message-content">
-				{% for thread in Threads %}
-				<div class="messages-headline {% if forloop.first %}hide is_active{% else %}hide{% endif %}" chat-id="chat_{{ thread.id }}" other-user-id="{% if thread.first_person == user %}
-				{{ thread.second_person.id }}{% else %}{{ thread.first_person.id }}{% endif %}">
-				{% if thread.first_person == user %}
+			{% for thread in Threads %}
+			<div class="message-content {% if forloop.first %} hide is_active {% else %} hide  {% endif %}" chat-id="chat_{{ thread.id }}" other-user-id="
+			{% if thread.first_person == user %}
+				{{ thread.second_person.id }}
+			{% else %}
+				{{ thread.first_person.id }}
+			{% endif %}">
+				
+				<div class="messages-headline">
+					{% if thread.first_person == user %}
 					<h4>{{ thread.second_person.username }}</h4>
-				{% else %}
+					{% else %}
 					<h4>{{ thread.first_person.username }}</h4>
-				{% endif %}
+					{% endif %}
 					<a href="#" class="message-action"><i class="icon-feather-trash-2"></i> Delete Conversation</a>
 				</div>
 				
 				<!-- Message Content Inner -->
 				<div class="message-content-inner">
-					{% for chat in thread.chatmessage_thread.all %}
-					{% if chat.user == user %}	
-						<!-- Time Sign
+						
+						<!-- Time Sign -->
 						<div class="message-time-sign">
 							<span>28 June, 2018</span>
-						</div> -->
-
+						</div>
+						{% for chat in thread.chatmessage_thread.all %}
+						{% if chat.user == user %}
 						<div class="message-bubble me">
 							<div class="message-bubble-inner">
-								<!-- <div class="message-avatar"><img src="{{ thread.first_person.profile.image.url }}" alt="" /></div> -->
 								<div class="message-text"><p>{{ chat.message }}</p></div>
 							</div>
 							<div class="clearfix"></div>
 						</div>
 						{% else %}
-
 						<div class="message-bubble">
 							<div class="message-bubble-inner">
-								<!-- <div class="message-avatar"><img src="{{ thread.second_person.profile.image.url }}" alt="" /></div> -->
 								<div class="message-text"><p>{{ chat.message }}</p></div>
 							</div>
 							<div class="clearfix"></div>
 						</div>
 						{% endif %}
-						{% endfor %}
-
-						<div class="message-bubble">
-							<div class="message-bubble-inner">
-								<!-- <div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div> -->
-								<div class="message-text">
-									<!-- Typing Indicator -->
-									<div class="typing-indicator">
-										<span></span>
-										<span></span>
-										<span></span>
-									</div>
-								</div>
-							</div>
-							<div class="clearfix"></div>
-						</div>
+						{% endfor %}					
 				</div>
 				<!-- Message Content Inner / End -->
 				
 				<!-- Reply Area -->
+				
+				<form id="send-message-form">
 				<div class="message-reply">
-					<textarea cols="1" rows="1" placeholder="Your Message" data-autoresize></textarea>
-					<button class="button ripple-effect">Send</button>
+					<textarea cols="1" rows="1" placeholder="Your Message" data-autoresize id="input-message"></textarea>
+					<button class="button ripple-effect" type="submit">Send</button>
 				</div>
-				{% endfor %}
+				</form>
+					
+				
+				
 			</div>
+			{% endfor %}
 			<!-- Message Content -->
 
 		</div>
 </div>
 <!-- Messages Container / End -->
+
+			<script src="{% static 'js/messages.js' %}"></script>
 
             
 {% endblock content %}
