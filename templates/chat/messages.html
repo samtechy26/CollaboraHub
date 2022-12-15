@@ -70,8 +70,8 @@
 			</div>
 			<!-- Messages / End -->
 
-			<!-- Message Content -->
-			{% for thread in Threads %}
+			<div class="message-content">
+				{% for thread in Threads %}
 			<div class="message-content {% if forloop.first %} hide is_active {% else %} hide  {% endif %}" chat-id="chat_{{ thread.id }}" other-user-id="
 			{% if thread.first_person == user %}
 				{{ thread.second_person.id }}
@@ -114,27 +114,25 @@
 						{% endfor %}					
 				</div>
 				<!-- Message Content Inner / End -->
+			
+			</div>
+			{% endfor %}
+			<!-- Reply Area -->
 				
-				<!-- Reply Area -->
-				
-				<form id="send-message-form">
+			<form id="send-message-form">
 				<div class="message-reply">
 					<textarea cols="1" rows="1" placeholder="Your Message" data-autoresize id="input-message"></textarea>
 					<button class="button ripple-effect" type="submit">Send</button>
 				</div>
 				</form>
-					
-				
-				
 			</div>
-			{% endfor %}
 			<!-- Message Content -->
 
 		</div>
 </div>
 <!-- Messages Container / End -->
 
-			<script src="{% static 'js/messages.js' %}"></script>
+<script src="{% static 'js/messages.js' %}"></script>
 
             
 {% endblock content %}
