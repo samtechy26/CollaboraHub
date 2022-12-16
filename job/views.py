@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView, FormView
 from django.views import generic
-from .forms import BidForm, ContactForm
+from .forms import BidForm, ContactForm, JobCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -22,11 +22,12 @@ class HomeView(ListView):
 
 class JobCreateView(CreateView):
     model = Job
-    fields = [ 'title', 'job_type', 'job_category', 'cost',  'skill', 'description']
-
+    form_class = JobCreationForm
+    template_name = 'job/job_form.html'
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
 
 
 class JobListView(ListView):

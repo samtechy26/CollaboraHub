@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'user',
     'blog',
     'crispy_forms',
+    'widget_tweaks',
     'payment',
     'social_django',  # social-auth-app-django
 ]

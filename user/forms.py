@@ -4,6 +4,10 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
 class UserRegistrationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'submit-field with-border'
     class Meta:
         model = User
         fields = ['username','first_name', 'last_name', 'email', 'password1', 'password2']
@@ -18,11 +22,24 @@ class UserRegistrationForm(UserCreationForm):
         
 
 class UserUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'submit-field with-border'
     class Meta:
         model = User
         fields = ['first_name','username', 'last_name', 'email']
 
 class ProfileUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs.update({'class': 'col-auto'})
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'submit-field with-border'
     class Meta:
         model = Profile
-        fields = ['image', 'tagline', 'bio']
+        fields = ['image', 'bio', 'tagline']
+        labels = {
+            'image':'',
+        }
+       

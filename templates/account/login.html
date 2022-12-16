@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load widget_tweaks %}
 {% load i18n %}
 {% load account %}
 
@@ -49,7 +49,19 @@
                         <input type="hidden" name="{{ redirect_field_name }}"
                                value="{{ redirect_field_value }}"/>
                     {% endif %}
-                    {{ form|crispy }}
+                    {% for field in form %}
+						<div>
+							<div class="submit-field with-border">
+								<h5>{{ field.label_tag }}</h5>
+								{% render_field field class="with-border" %}
+								{% for error in field.errors %}
+								<p style="color: red">{{ error }}</p>
+								{% endfor %}
+							</div>
+							
+						</div>	
+				
+					{% endfor %}
                     <!-- Button -->
 				<button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
                 </form>

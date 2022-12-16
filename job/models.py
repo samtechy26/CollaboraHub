@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from .validators import validate_file_size
 
 
 class Category(models.Model):
@@ -33,11 +34,12 @@ class Skill(models.Model):
 class Job(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    job_type = models.ForeignKey(Type, on_delete=models.DO_NOTHING)
+    job_type = models.ForeignKey(Type, on_delete=models.DO_NOTHING, blank=True)
     job_category = models.ManyToManyField(Category)
     cost = models.IntegerField(default=100)
     skill = models.ManyToManyField(Skill, blank=True)
     date_created = models.DateTimeField(default=timezone.now)
+    job_file = models.FileField(blank=True, null=True)
     description = models.TextField(max_length=10000)
     favourite = models.ManyToManyField(User, related_name='fav_task', blank=True)
 
@@ -45,7 +47,7 @@ class Job(models.Model):
         return f'{self.title} by {self.author}'
 
     def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'id':self.pk})
+        return reverse('job:job-detail', kwargs={'pk':self.pk})
 
 
 class denom(models.Model):

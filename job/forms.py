@@ -1,12 +1,8 @@
 from django import forms
-from .models import Bid
+from .models import Bid, Job, Category
 
 class BidForm(forms.ModelForm):
 
-    
-    
-   
-    
     class Meta:
         model = Bid
         fields = ['Amount','time', 'denom']
@@ -22,16 +18,18 @@ class BidForm(forms.ModelForm):
             
         }
 
-        # def __init__(self, *args, **kwargs):
-        #     super(BidForm, self).__init__(*args, **kwargs)
-        #     for field in self.fields:
-        #         self.fields[field].widget.attrs['class'] = 'bidding-fields'
 
-        
-        
+class JobCreationForm(forms.ModelForm):
+    job_file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    class Meta:
+        model = Job
+        fields = ['title', 'job_type', 'job_category', 'cost',  'skill', 'description', 'job_file']
         
 
 class ContactForm(forms.Form):
      your_name = forms.HiddenInput()
 
 
+
+
+        

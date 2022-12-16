@@ -48,14 +48,16 @@
 
 				
 			</div>
-
+			{% if task.job_file %}
 			<!-- Atachments -->
 			<div class="single-page-section">
 				<h3>Attachments</h3>
 				<div class="attachments-container">
-					<a href="#" class="attachment-box ripple-effect"><span>Project Brief</span><i>PDF</i></a>
+					
+					<a href="{{ task.job_file.url }}" class="attachment-box ripple-effect"><span>Project Brief</span><i>PDF</i></a>
 				</div>
 			</div>
+			{% endif %}
 
 			<!-- Skills -->
 			<div class="single-page-section">

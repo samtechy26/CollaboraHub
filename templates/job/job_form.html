@@ -1,143 +1,100 @@
 {% extends 'dashboard/base.html' %}
-{% load crispy_forms_tags %}
+{% load widget_tweaks %}
 {% block content %}
+<!-- Dashboard Headline -->
+	<div class="dashboard-headline">
+		<h3>Post a Task</h3>
 
-    <!-- Dashboard Content
-	================================================== -->
-	<div class="dashboard-content-container" data-simplebar>
-		<div class="dashboard-content-inner" >
-			
-			<!-- Dashboard Headline -->
-			<div class="dashboard-headline">
-				<h3>Post a Task</h3>
+		<!-- Breadcrumbs -->
+		<nav id="breadcrumbs" class="dark">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Dashboard</a></li>
+				<li>Post a Task</li>
+			</ul>
+		</nav>
+	</div>
 
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs" class="dark">
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Dashboard</a></li>
-						<li>Post a Task</li>
-					</ul>
-				</nav>
-			</div>
-			<form action="" method="POST">
-				{% csrf_token %}
-			<!-- Row -->
-			<div class="row">
-
-				<!-- Dashboard Box -->
-				<div class="col-xl-12">
-					
-					<div class="dashboard-box margin-top-0">
-						
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-feather-folder-plus"></i> Task Submission Form</h3>
-						</div>
-
-						<div class="content with-padding padding-bottom-10">
-							<div class="row">
-
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Project Name</h5>
-										<!-- <input type="text" class="with-border" placeholder="e.g. build me a website"> -->
-										{{ form.title }}
+<!-- Row -->
+<div class="row">
+				<form method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<!-- Dashboard Box -->
+					<div class="col-xl-12">
+						<div class="dashboard-box margin-top-0">
+	
+							<!-- Headline -->
+							<div class="headline">
+								<h3><i class="icon-feather-folder-plus"></i> Task Submission Form</h3>
+							</div>
+	
+							<div class="content with-padding padding-bottom-10">
+								<div class="row">
+	
+									<div class="col-xl-4">
+										<div class="submit-field">
+											<h5>Project Name</h5>
+											{% render_field form.title class="with-border" placeholder="e.g. build me a website" %}
+										</div>
 									</div>
-								</div>
-
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Category</h5>
-										{{ form.job_category }}
-										<!-- <select class="selectpicker with-border" data-size="7" title="Select Category">
-											<option>Admin Support</option>
-											<option>Customer Service</option>
-											<option>Data Analytics</option>
-											<option>Design & Creative</option>
-											<option>Legal</option>
-											<option>Software Developing</option>
-											<option>IT & Networking</option>
-											<option>Writing</option>
-											<option>Translation</option>
-											<option>Sales & Marketing</option>
-										</select> -->
+	
+									<div class="col-xl-4">
+										<div class="submit-field">
+											<h5>Category <i class="help-icon" data-tippy-placement="right" title="You can select as many categories that best describes your project "></i></h5>
+											{% render_field form.job_category class="selectpicker with-border" %}
+										</div>
 									</div>
-								</div>
-
-								<div class="col-xl-4">
-									<div class="submit-field">
-										<h5>Type</h5>
-										{{ form.job_type }}
-										
-									</div>
-								</div>
-
-								<div class="col-xl-6">
-									<div class="submit-field">
-										<h5>What is your estimated budget?</h5>
-										<div class="row">
-											<div class="col-xl-6">
-												<div class="input-with-icon">
-													{{ form.cost }}
-													<i class="currency">USD</i>
-												</div>
-											</div>
+	
+									<div class="col-xl-4">
+										<div class="submit-field">
+											<h5>Type  <i class="help-icon" data-tippy-placement="right" title="Type of task e.g assignment, coursework, etc "></i></h5>
+											
+											{% render_field form.job_type class="selectpicker with-border" type="text" placeholder="Task Type" %}
 											
 										</div>
-										<!-- <div class="feedback-yes-no margin-top-0">
-											<div class="radio">
-												<input id="radio-1" name="radio" type="radio" checked>
-												<label for="radio-1"><span class="radio-label"></span> Fixed Price Project</label>
-											</div>
-
-											<div class="radio">
-												<input id="radio-2" name="radio" type="radio">
-												<label for="radio-2"><span class="radio-label"></span> Hourly Project</label>
-											</div>
-										</div> -->
 									</div>
-								</div>
-
-								<div class="col-xl-6">
-									<div class="submit-field">
-										<h5>What skills are required? <i class="help-icon" data-tippy-placement="right" title="Up to 5 skills that best describe your project"></i></h5>
-										<div class="keywords-container">
-											<div class="keyword-input-container">
-												{{ form.skill }}
-												
+	
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>What is your estimated budget?</h5>
+											
+											<div class="input-with-icon">
+											{% render_field form.cost class="with-border" type="text" placeholder="Minimum" %}
+											<i class="currency">USD</i>
 											</div>
-											<div class="keywords-list"><!-- keywords go here --></div>
-											<div class="clearfix"></div>
+	
 										</div>
-
 									</div>
-								</div>
-
-								<div class="col-xl-12">
-									<div class="submit-field">
-										<h5>Describe Your Project</h5>
-										{{ form.description}}
-										<!-- <textarea cols="30" rows="5" class="with-border"></textarea> -->
-										<!-- <div class="uploadButton margin-top-30">
-											<input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple/>
-											<label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
-											<span class="uploadButton-file-name">Images or documents that might be helpful in describing your project</span>
-										</div> -->
+	
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>What skills are required? <i class="help-icon" data-tippy-placement="right" title="Up to 3 skills that best describe your project"></i></h5>
+											{% render_field form.skill class="selectpicker with-border" %}
+	
+										</div>
 									</div>
+	
+									<div class="col-xl-12">
+										<div class="submit-field">
+											<h5>Describe Your Project</h5>
+											{% render_field form.description cols="30" rows="5" class="with-border" %}
+											<div class="uploadButton margin-top-30">
+												{% render_field form.job_file class="uploadButton-input" accept="image/*, application/pdf" id="upload" multiple="true" %}
+												<label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
+												<span class="uploadButton-file-name">Images or documents that might be helpful in describing your project</span>
+											</div>
+										</div>
+									</div>
+	
 								</div>
-
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-xl-12">
-					<button href="#" class="button ripple-effect big margin-top-30" type="submit"><i class="icon-feather-plus"></i> Post a Task</button>
-				</div>
-
-			</div>
-		</form>
-			<!-- Row / End -->
-   
+	
+					<div class="col-xl-12">
+						<button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Post Task</button>
+					</div>		
+				</form>
+</div>
+<!-- Row / End -->	
 {% endblock content %}

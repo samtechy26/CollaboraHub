@@ -4,77 +4,97 @@
 
         <!-- Dashboard Content
 	================================================== -->
-	<div class="dashboard-content-container" data-simplebar>
-		<div class="dashboard-content-inner" >
+	
 			
 			<!-- Dashboard Headline -->
-			<div class="dashboard-headline">
-				<h3>Settings</h3>
+<div class="dashboard-headline">
+	<h3>Settings</h3>
 
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs" class="dark">
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Dashboard</a></li>
-						<li>Settings</li>
-					</ul>
-				</nav>
-			</div>
-			<!-- Row -->
-			<div class="row">
-				<form action="" method="post" enctype="multipart/form-data">
-					{% csrf_token %}
-				<!-- Dashboard Box -->
-				<div class="col-xl-12">
-					<div class="dashboard-box margin-top-0">
+	<!-- Breadcrumbs -->
+	<nav id="breadcrumbs" class="dark">
+		<ul>
+			<li><a href="#">Home</a></li>
+			<li><a href="#">Dashboard</a></li>
+			<li>Settings</li>
+		</ul>
+	</nav>
+</div>
+<!-- Row -->
+<div class="row">
+	<form action="" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+		<!-- Dashboard Box -->
+		<div class="col-xl-12">
+			<div class="dashboard-box margin-top-0">
 
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-material-outline-account-circle"></i> My Account</h3>
+				<!-- Headline -->
+				<div class="headline">
+					<h3><i class="icon-material-outline-account-circle"></i> My Account</h3>
+				</div>
+
+				<div class="content with-padding padding-bottom-0">
+
+					<div class="row">
+						{% for field in u_form %}
+
+						<div class="col-xl-6">
+							<div class="submit-field">
+								<h5>{{ field.label_tag }}</h5>
+								{{ field }}
+							</div>
 						</div>
+							
+						{% endfor %}
+						
+					</div>
 
-						<div class="content with-padding padding-bottom-0">
+				</div>
+			</div>
+		</div>
 
+		<!-- Dashboard Box -->
+		<div class="col-xl-12">
+			<div class="dashboard-box">
+
+				<!-- Headline -->
+				<div class="headline">
+					<h3><i class="icon-material-outline-face"></i> My Profile</h3>
+				</div>
+
+				<div class="content">
+					<ul class="fields-ul">
+						<li>
 							<div class="row">
 								
-									{{ u_form.as_p}}
-								
-							</div>
+									<div class="avatar-wrapper">
+										<img class="profile-pic" src="{{ user.profile.image.url }}" alt="" />
+									</div>
+									{% for field in p_form %}
 
-						</div>
-					</div>
-				</div>
-
-				<!-- Dashboard Box -->
-				<div class="col-xl-12">
-					<div class="dashboard-box">
-
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-material-outline-face"></i> My Profile</h3>
-						</div>
-
-						<div class="content">
-							<ul class="fields-ul">
-								<li>{{ p_form | crispy }}</li>
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>{{ field.label_tag }}</h5>
+											{{ field }}
+										</div>
+									</div>
 							
-						</ul>
-						</div>
-					</div>
+									{% endfor %}
+											
+							</div>
+							
+							
+						</li>	
+					</ul>
 				</div>
-
-				<!-- Dashboard Box -->
-				<div class="col-xl-12">
-					<div id="test1" class="dashboard-box">
-
-						
-				
-				<!-- Button -->
-				<div class="col-xl-12">
-					<input class="button ripple-effect big margin-top-30" type="submit" value="Save Changes">
-				</div>
-			</form>
 			</div>
+		</div>
+			<!-- Button -->
+			<div class="col-xl-12">
+				<input class="button ripple-effect big margin-top-30" type="submit" value="Save Changes">
+			</div>	
+		
+	</form>
+</div>
 			<!-- Row / End -->
 
 {% endblock content %}
