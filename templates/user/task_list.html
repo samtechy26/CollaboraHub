@@ -50,8 +50,8 @@
                         <!-- Buttons -->
                         <div class="buttons-to-right always-visible">
                             <a href="{% url 'manage-bidders' task.id %}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Bidders </a>
-                            <a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-                            <a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                            <a href="{% url 'job:job-update' task.id %}" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                            <a href="{% url 'job:job-delete' task.id %}" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                         </div>
                     </li>
 

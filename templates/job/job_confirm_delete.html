@@ -1,0 +1,38 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<div class="dashboard-headline">
+    <h3>Delete Post</h3>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="dashboard-box">
+            <div class="content">
+                <ul class="dashboard-box-list">
+                    <li>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="headline"><h3> Are you sure you want to delete the task "{{ object.title }}"</h3></div>
+                                
+                    
+                            <!-- Buttons -->
+                            <div class="buttons-to-right always-visible margin-top-25">
+                                <div class="row">
+                                    <button type="submit" class="button red ripple-effect"> Delete</button>
+                                <a href="{% url 'dashboard-task' %}" class="button ripple-effect"> Cancel</a>  
+                                </div>
+                                 
+                            </div>
+                                
+                        </form>
+                    </li>
+                </ul>
+                
+                
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
+
+{% endblock content %}

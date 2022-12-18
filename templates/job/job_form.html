@@ -3,7 +3,7 @@
 {% block content %}
 <!-- Dashboard Headline -->
 	<div class="dashboard-headline">
-		<h3>Post a Task</h3>
+		<h3>{% if job %} Update Task  {% else %} Post a Task {% endif %}</h3>
 
 		<!-- Breadcrumbs -->
 		<nav id="breadcrumbs" class="dark">
@@ -25,7 +25,7 @@
 	
 							<!-- Headline -->
 							<div class="headline">
-								<h3><i class="icon-feather-folder-plus"></i> Task Submission Form</h3>
+								<h3><i class="icon-feather-folder-plus"></i>{% if job %}Task Update Form {% else %}Task Submission Form {%endif%}</h3>
 							</div>
 	
 							<div class="content with-padding padding-bottom-10">
@@ -92,7 +92,7 @@
 					</div>
 	
 					<div class="col-xl-12">
-						<button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Post Task</button>
+						<button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i>{% if job %} Update Task {% else %} Post Task {% endif %}</button>
 					</div>		
 				</form>
 </div>

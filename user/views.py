@@ -67,6 +67,15 @@ class UserFavourites(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Job.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context =  super(UserFavourites, self).get_context_data(**kwargs)
+        users = User.objects.all()
+        context.update({
+            'users':users
+        })
+        return context
+        
+
 
 @login_required
 def profile(request, id):

@@ -3,10 +3,11 @@ from .models import Job, Category, Bid, Skill
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView, FormView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView, FormView, DeleteView
 from django.views import generic
 from .forms import BidForm, ContactForm, JobCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 
 
 
@@ -20,7 +21,7 @@ class HomeView(ListView):
         })
         return context
 
-class JobCreateView(CreateView):
+class JobCreateView(LoginRequiredMixin, CreateView):
     model = Job
     form_class = JobCreationForm
     template_name = 'job/job_form.html'
@@ -28,6 +29,14 @@ class JobCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+class JobUpdateView(UserPassesTestMixin,JobCreateView,UpdateView):
+    success_url = reverse_lazy('dashboard-task')
+
+    def test_func(self):
+        job = self.get_object()
+        if self.request.user == job.author:
+            return True
+        return False
 
 
 class JobListView(ListView):
@@ -50,6 +59,15 @@ class JobListView(ListView):
         })
         return context
 
+class JobDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
+    model = Job
+    success_url = reverse_lazy('dashboard-task')
+
+    def test_func(self):
+        job = self.get_object()
+        if self.request.user == job.author:
+            return True
+        return False
 
 @login_required
 def JobDetail(request, pk):
