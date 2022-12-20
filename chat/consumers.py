@@ -3,6 +3,7 @@ from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
 from django.contrib.auth import get_user_model
 from .models import Thread, ChatMessage
+from notifications.signals import notify
 
 User = get_user_model()
 
@@ -36,6 +37,7 @@ class ChatConsumer(AsyncConsumer):
         sent_by_user = await self.get_user_objects(sent_by_id)
         send_to_user = await self.get_user_objects(send_to_id)
         thread_obj = await self.get_thread(thread_id)
+        notification = await self.create_message_notification(sent_by_user, send_to_user, 'messages', msg)
         if not sent_by_user:
             print("Error :: sent by user is not correct")
         if not send_to_user:
@@ -44,6 +46,7 @@ class ChatConsumer(AsyncConsumer):
             print("Error :: no such thread")
 
         await self.create_chat_message(thread_obj, sent_by_user, msg)
+        
         other_user_chat_room = f'user_chatroom_{send_to_id}'
         self_user = self.scope['user']
         response = {
@@ -52,6 +55,8 @@ class ChatConsumer(AsyncConsumer):
             'thread_id':thread_id
             
         }
+
+        
 
         await self.channel_layer.group_send(
             other_user_chat_room,
@@ -67,6 +72,15 @@ class ChatConsumer(AsyncConsumer):
                 'text':json.dumps(response)
             }
         )
+        await self.channel_layer.group_send(
+            other_user_chat_room,
+            {
+                'type':'message',
+                'text':json.dumps(notification)
+            }
+        )
+
+       
         
     async def chat_message(self, event):
            print('chat_message', event)
@@ -74,6 +88,9 @@ class ChatConsumer(AsyncConsumer):
             'type':'websocket.send',
             'text': event['text']
            })
+
+    
+   
 
 
     @database_sync_to_async
@@ -97,4 +114,10 @@ class ChatConsumer(AsyncConsumer):
     @database_sync_to_async
     def create_chat_message(self, thread, user, msg):
         ChatMessage.objects.create(thread=thread, user=user, message=msg)
-       
+    
+    @database_sync_to_async
+    def create_message_notification(self, sender, receiver, verb, description):
+        notify.send(sender=sender, recipient=receiver,verb=verb, description=description)
+        
+   
+        

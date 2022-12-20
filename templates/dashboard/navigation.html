@@ -1,9 +1,10 @@
+{% load notifications_tags %}
 <div class="dashboard-nav">
     <div class="dashboard-nav-inner">
 
         <ul data-submenu-title="Start">
             <li class="active"><a href="{% url 'dashboard' %}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-            <li><a href="{% url 'dashboard-messages' %}"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
+            <li><a href="{% url 'dashboard-messages' %}"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">{% notifications_unread %}</span></a></li>
             <li><a href="{% url 'dashboard-favourites' %}"><i class="icon-material-outline-star-border"></i> Favourites</a></li>
             <li><a href="{% url 'reviews' %}"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
         </ul>

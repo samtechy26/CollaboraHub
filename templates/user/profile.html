@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <!-- Titlebar
 ================================================== -->
 
-<div class="single-page-header freelancer-header" data-background-image="images/single-freelancer.jpg">
+<div class="single-page-header freelancer-header" data-background-image="{% static 'images/single-freelancer-header.jpg' %}">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">

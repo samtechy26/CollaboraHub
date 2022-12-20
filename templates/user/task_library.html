@@ -1,308 +1,165 @@
 {% extends 'dashboard/base.html' %} 
-{% block content %}
-<!-- Dashboard Content
-	================================================== -->
-	<div class="dashboard-content-container" data-simplebar>
-		<div class="dashboard-content-inner" >
-			
-			<!-- Dashboard Headline -->
-			<div class="dashboard-headline">
-				<h3>Manage Tasks</h3>
+{% block content %}	
+<!-- Dashboard Headline -->
+<div class="dashboard-headline">
+	<h3>Manage Tasks</h3>
 
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs" class="dark">
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Dashboard</a></li>
-						<li>Manage Tasks</li>
-					</ul>
-				</nav>
-			</div>
+	<!-- Breadcrumbs -->
+	<nav id="breadcrumbs" class="dark">
+		<ul>
+			<li><a href="#">Home</a></li>
+			<li><a href="#">Dashboard</a></li>
+			<li>Manage Library</li>
+		</ul>
+	</nav>
+</div>
 	
-			<!-- Row -->
-			<div class="row">
+<!-- Row -->
+<div class="row">
 
-				<!-- Dashboard Box -->
-				<div class="col-xl-12">
-					<div class="dashboard-box margin-top-0">
+	<!-- Dashboard Box -->
+	<div class="col-xl-12">
+		<div class="dashboard-box margin-top-0">
 
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-material-outline-assignment"></i> My Library</h3>
-						</div>
-
-						<div class="content">
-							<ul class="dashboard-box-list">
-                                {% for task in request.user.userlibrary.products.all %}
-								<li>
-									<!-- Job Listing -->
-									<div class="job-listing width-adjustment">
-
-										<!-- Job Listing Details -->
-										<div class="job-listing-details">
-
-											<!-- Details -->
-											<div class="job-listing-description">
-												<h3 class="job-listing-title"><a href="#">{{task.job.title}}</a> <span class="dashboard-status-button yellow">ongoing</span></h3>
-                                                <small>task carried out by {{task.user.first_name}} {{task.user.last_name}}</small>
-
-												<!-- Job Listing Footer -->
-												<div class="job-listing-footer">
-													<ul>
-														<li><i class="icon-material-outline-access-time"></i> 23 hours left</li>
-														<!-- <span class="company-not-rated margin-bottom-5">Not Rated</span> -->
-													</ul>
-												</div>
-                                                <a href="dashboard-manage-bidders.html" class="button ripple-effect"> Accept Solution </a>
-												<a href="#small-dialog-2" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-thumb-up"></i> Leave a Review</a>
-
-											</div>
-										</div>
-									</div>
-									
-									<!-- Task Details -->
-									<div class="margin-top-10">
-                                        <!-- <h3 class=" job-listing-title margin-bottom-10">Attachments</h3> -->
-                                        <div>
-                                            <a href="#" class="attachment-box ripple-effect"><span>Project Brief</span><i></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="margin-top-10">
-                                        
-                                        <div>
-                                            <a href="#" class="attachment-box ripple-effect"><span>Project Brief</span><i></i></a>
-                                        </div>
-                                    </div>
-
-								</li>
-								
-                                {% endfor %}
-
-								
-
-							</ul>
-						</div>
-					</div>
-				</div>
+			<!-- Headline -->
+			<div class="headline">
+				<h3><i class="icon-material-outline-assignment"></i> My Library</h3>
 			</div>
-			<!-- Row / End -->
-			
 
-			
-        </div>
-		<!-- Leave a Review for Freelancer Popup
-		================================================== -->
-		<div id="small-dialog-2" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
-		
-			<!--Tabs -->
-			<div class="sign-in-form">
-		
-				<ul class="popup-tabs-nav">
-				</ul>
-		
-				<div class="popup-tabs-container">
-		
-					<!-- Tab -->
-					<div class="popup-tab-content" id="tab2">
-						
-						<!-- Welcome Text -->
-						<div class="welcome-text">
-							<h3>Leave a Review</h3>
-							<span>Rate <a href="#">Peter Valentín</a> for the project <a href="#">Simple Chrome Extension</a> </span>
+			<div class="content">
+				<ul class="dashboard-box-list">
+					{% for task in request.user.userlibrary.products.all %}
+					<li>
+						<!-- Job Listing -->
+						<div class="job-listing width-adjustment">
+
+							<!-- Job Listing Details -->
+							<div class="job-listing-details">
+
+								<!-- Details -->
+								<div class="job-listing-description">
+									<h3 class="job-listing-title"><a href="#">{{task.job.title}}</a> <span class="dashboard-status-button yellow">ongoing</span></h3>
+									<small>task carried out by {{task.user.first_name}} {{task.user.last_name}}</small>
+
+									<!-- Job Listing Footer -->
+									<div class="job-listing-footer">
+										<ul>
+											<li><i class="icon-material-outline-access-time"></i> 23 hours left</li>
+											<!-- <span class="company-not-rated margin-bottom-5">Not Rated</span> -->
+										</ul>
+									</div>
+									<a href="dashboard-manage-bidders.html" class="button ripple-effect"> Accept Solution </a>
+									<a href="#small-dialog-2" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-thumb-up"></i> Leave a Review</a>
+
+								</div>
+							</div>
 						</div>
+						
+						<!-- Task Details -->
+						<div class="margin-top-10">
+							<!-- <h3 class=" job-listing-title margin-bottom-10">Attachments</h3> -->
+							<div>
+								<a href="#" class="attachment-box ripple-effect"><span>Project Brief</span><i></i></a>
+							</div>
+						</div>
+						<div class="margin-top-10">
 							
-						<!-- Form -->
-						<form method="post" action="#" id="leave-review-form">
-		
-							<div class="feedback-yes-no">
-								<strong>Was this delivered on budget?</strong>
-								<div class="radio">
-									<input id="radio-1" name="radio" type="radio" required value="1">
-									<label for="radio-1"><span class="radio-label"></span> Yes</label>
-								</div>
-		
-								<div class="radio">
-									<input id="radio-2" name="radio" type="radio" required value="0">
-									<label for="radio-2"><span class="radio-label"></span> No</label>
-								</div>
+							<div>
+								<a href="#" class="attachment-box ripple-effect"><span>Project Brief</span><i></i></a>
 							</div>
-		
-							<div class="feedback-yes-no">
-								<strong>Was this delivered on time?</strong>
-								<div class="radio">
-									<input id="radio-3" name="radio2" type="radio" required value="1">
-									<label for="radio-3"><span class="radio-label"></span> Yes</label>
-								</div>
-		
-								<div class="radio">
-									<input id="radio-4" name="radio2" type="radio" required value="0">
-									<label for="radio-4"><span class="radio-label"></span> No</label>
-								</div>
-							</div>
-		
-							<div class="feedback-yes-no">
-								<strong>Your Rating</strong>
-								<div class="leave-rating">
-									<input type="radio" name="rating" id="rating-radio-1" value="1" required>
-									<label for="rating-radio-1" class="icon-material-outline-star"></label>
-									<input type="radio" name="rating" id="rating-radio-2" value="2" required>
-									<label for="rating-radio-2" class="icon-material-outline-star"></label>
-									<input type="radio" name="rating" id="rating-radio-3" value="3" required>
-									<label for="rating-radio-3" class="icon-material-outline-star"></label>
-									<input type="radio" name="rating" id="rating-radio-4" value="4" required>
-									<label for="rating-radio-4" class="icon-material-outline-star"></label>
-									<input type="radio" name="rating" id="rating-radio-5" value="5" required>
-									<label for="rating-radio-5" class="icon-material-outline-star"></label>
-								</div><div class="clearfix"></div>
-							</div>
-		
-							<textarea class="with-border" placeholder="Comment" name="message2" id="message2" cols="7" required></textarea>
-							{% csrf_token %}
-							<button  id="leave-review" class="add-reviews button full-width button-sliding-icon ripple-effect" type="button" form="leave-review-form">Leave a Review <i class="icon-material-outline-arrow-right-alt"></i></button>
-						</form>
-						
-						<!-- Button -->
-						
-		
-					</div>
-		
-				</div>
+						</div>
+
+					</li>
+					
+					{% endfor %}
+
+					
+
+				</ul>
 			</div>
 		</div>
-		<!-- Leave a Review Popup / End -->
-    </div>  
-
-	<script>
-		// submit a review 
-		
-		var editReviews = document.getElementsByClassName("edit-reviews");
-
-		// prefill the pop-up form with values
-		Array.prototype.forEach.call(editReviews,(element)=>{
-			element.addEventListener("click", function(){
-				employer = element.dataset.employer;
-				freelancer = element.dataset.freelancer;
-				review_id = element.dataset.project;
-				subject = element.dataset.subject;
-				rating = element.dataset.rating;
-				onBudget = element.dataset.onBudget;
-				timely = element.dataset.timely;
-				comment = element.dataset.comment;
-				isFreelancer = element.dataset.isFreelancer;
-				// prefill
-			if (document.querySelector("#small-dialog-1").style.display != "none"){
-				
-				if (isFreelancer){
-					document.querySelector("#edit-employer-name").innerHTML = freelancer;
-				}else{
-					document.querySelector("#edit-employer-name").innerHTML = employer;
-				}
-				
-				document.querySelector("#edit-project-name").innerHTML = subject;
-				if (onBudget == "True"){
-					document.querySelector("#radio-rating-1").checked = true;
-				}else{
-					document.querySelector("#radio-rating-2").checked = true;
-				}
-				if (timely == "True"){
-					document.querySelector("#radio-rating-3").checked = true;
-				}else{
-					document.querySelector("#radio-rating-4").checked = true;
-				}
-
-				document.querySelector(`#rating-radio-${rating}`).checked = true;
-				
-				document.querySelector("#message").innerHTML= comment;
-
-			}
-
-			// submit the form
-			document.getElementById("save-review").addEventListener("click", function(){
-				onBudget = document.querySelector('input[name="radio"]:checked').value;
-				timely = document.querySelector('input[name="radio2"]:checked').value;
-				rating = document.querySelector('input[name="rating1"]:checked').value;
-				comment = document.querySelector("#message").value;
-				var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-				  fetch("{% url 'add_review' %}", {
-
-					method: "PUT",
-					headers: {
-						'X-CSRFToken': csrftoken
-					},
-					body: JSON.stringify({
-						rating: rating,
-						timely: timely,
-						on_budget: onBudget,
-						comment:comment,
-						reveiw_id: review_id
-					})
-				})
-				.then((response)=>{
-					return response.json();
-				})
-				.then((result)=>{
-					alert(result.message);
-					window.location.reload();
-
-				})
-				.then((err)=>{
-					console.error(err);
-				})
-				})
+	</div>
+</div>
+<!-- Row / End -->
 			
-			})
-		})
+<!-- Leave a Review for Freelancer Popup
+================================================== -->
+<div id="small-dialog-2" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
 
+	<!--Tabs -->
+	<div class="sign-in-form">
 
-		
-		// submit a new review 
-		var addReviews = document.getElementsByClassName("add-reviews");
+		<ul class="popup-tabs-nav">
+		</ul>
 
-		Array.prototype.forEach.call(addReviews, (element)=>{
-			element.addEventListener("click", function(){
-				var project_id = element.dataset.project;
-				var freelancer = element.dataset.freelancer;
-				var employer = element.dataset.employer;
+		<div class="popup-tabs-container">
 
-				// submit form 
-				document.getElementById("leave-review").addEventListener("click", function(){
-					onBudget = document.querySelector('input[name="radio"]:checked').value;
-					timely = document.querySelector('input[name="radio2"]:checked').value;
-					rating = document.querySelector('input[name="rating"]:checked').value;
-					comment = document.querySelector("#message2").value;
-					var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-					fetch("{% url 'add_review' %}", {
-					method: "POST",
-					headers: {
-						'X-CSRFToken': csrftoken
-					},
-					body: JSON.stringify({
-						rating: rating,
-						timely: timely,
-						on_budget: onBudget,
-						comment:comment,
-						freelancer:freelancer,
-						employer: employer,
-						project: project_id
-					})
-				})
-				.then((response)=>{
-					return response.json();
-				})
-				.then((result)=>{
-					alert(result.message);
-					window.location.reload();
+			<!-- Tab -->
+			<div class="popup-tab-content" id="tab2">
+				
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Leave a Review</h3>
+					<span>Rate <a href="#">Peter Valentín</a> for the project <a href="#">Simple Chrome Extension</a> </span>
+				</div>
+					
+				<!-- Form -->
+				<form method="post" action="#" id="leave-review-form">
 
-				})
-				.then((err)=>{
-					console.error(err);
-				})
+					<div class="feedback-yes-no">
+						<strong>Was this delivered on budget?</strong>
+						<div class="radio">
+							<input id="radio-1" name="radio" type="radio" required value="1">
+							<label for="radio-1"><span class="radio-label"></span> Yes</label>
+						</div>
 
-				})
-				})
-			})
+						<div class="radio">
+							<input id="radio-2" name="radio" type="radio" required value="0">
+							<label for="radio-2"><span class="radio-label"></span> No</label>
+						</div>
+					</div>
 
+					<div class="feedback-yes-no">
+						<strong>Was this delivered on time?</strong>
+						<div class="radio">
+							<input id="radio-3" name="radio2" type="radio" required value="1">
+							<label for="radio-3"><span class="radio-label"></span> Yes</label>
+						</div>
 
-	</script>
+						<div class="radio">
+							<input id="radio-4" name="radio2" type="radio" required value="0">
+							<label for="radio-4"><span class="radio-label"></span> No</label>
+						</div>
+					</div>
 
+					<div class="feedback-yes-no">
+						<strong>Your Rating</strong>
+						<div class="leave-rating">
+							<input type="radio" name="rating" id="rating-radio-1" value="1" required>
+							<label for="rating-radio-1" class="icon-material-outline-star"></label>
+							<input type="radio" name="rating" id="rating-radio-2" value="2" required>
+							<label for="rating-radio-2" class="icon-material-outline-star"></label>
+							<input type="radio" name="rating" id="rating-radio-3" value="3" required>
+							<label for="rating-radio-3" class="icon-material-outline-star"></label>
+							<input type="radio" name="rating" id="rating-radio-4" value="4" required>
+							<label for="rating-radio-4" class="icon-material-outline-star"></label>
+							<input type="radio" name="rating" id="rating-radio-5" value="5" required>
+							<label for="rating-radio-5" class="icon-material-outline-star"></label>
+						</div><div class="clearfix"></div>
+					</div>
+
+					<textarea class="with-border" placeholder="Comment" name="message2" id="message2" cols="7" required></textarea>
+					{% csrf_token %}
+					<button  id="leave-review" class="add-reviews button full-width button-sliding-icon ripple-effect" type="button" form="leave-review-form">Leave a Review <i class="icon-material-outline-arrow-right-alt"></i></button>
+				</form>
+				
+				<!-- Button -->
+				
+
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- Leave a Review Popup / End -->
 {% endblock content %}
