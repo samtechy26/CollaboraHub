@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from PIL import Image
 from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.core.exceptions import ValidationError
 
 
 
@@ -61,9 +61,11 @@ post_save.connect(post_save_user_receiver, sender=User)
 
 
 class Review(models.Model):
-    freelancer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_frelancer')
-    employer = models.ForeignKey(User,on_delete=models.CASCADE, related_name='reviews_employer')
-    project = models.ForeignKey(Job, related_name='reviews' , on_delete=models.CASCADE) 
+    employer = models.ForeignKey(Profile,related_name="employer_review", null=True, blank=True, on_delete=models.SET_NULL)
+    freelancer = models.ForeignKey(Profile, related_name="freelancer_review" ,null = True,blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User,  null=True,blank=True, on_delete=models.CASCADE)
+    bid = models.ForeignKey(Bid, null=True,blank=True, related_name='reviews' , on_delete=models.SET_NULL) 
+    project = models.ForeignKey(Job, null=True, blank=True, on_delete=models.SET_NULL, related_name="reviews")
     comment = models.TextField()
     rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
     created = models.DateTimeField(auto_now_add = True)
@@ -75,8 +77,18 @@ class Review(models.Model):
     class Meta:
         ordering = ('-created',)
 
+
+    def clean(self):
+        if (self.employer == None and self.freelancer == None) or (self.bid == None and self.project == None):
+            raise ValidationError("Both Employer and freelancer cannot be empty")
+            
     def __str__(self):
-        return str(self.id)
+        if (self.employer is not None):
+            return str(self.user.username + " reviewed " + self.employer.user.username)
+        elif(self.freelancer is not None):
+            return str(self.user.username +" reviewed " + self.freelancer.user.username)
+        else:
+            return str(self.id)
 
 
 
