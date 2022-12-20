@@ -6,6 +6,6 @@ admin.site.register(UserLibrary)
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['freelancer', 'employer','comment' ,'project','rating', 'created', 'active']
-    list_filter = ['freelancer', 'created', 'active']
+    list_display = ['freelancer','employer','user','comment' ,'rating', 'bid','project','created', 'active']
+    list_filter = ['created', 'active']
     list_editable = ['active']
