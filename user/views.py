@@ -9,10 +9,12 @@ from job.forms import BidForm
 from django.conf import settings
 from django.views import generic
 from django.contrib.auth.models import User
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
 from .models import Review, Profile
+from notifications import notify
+from chat.models import Thread, ChatMessage
 
 
 
@@ -58,6 +60,7 @@ class UserFavourites(LoginRequiredMixin, generic.ListView):
 @login_required
 def profile(request, id):
     users = User.objects.get(id=id)
+    reviews = Review.objects.all()
     if request.method == 'POST':
         current_user = request.user
         data = request.POST
@@ -69,7 +72,8 @@ def profile(request, id):
         current_user.save()
         return redirect('profile', id)
     context={
-        'users':users
+        'users':users,
+        'reviews':reviews 
     }
     return render(request, 'user/profile.html', context)
 
@@ -176,6 +180,21 @@ class UserLibraryView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'user/task_library.html'
    
 
+def message(request):
+    try:
+        if request.method == 'POST':
+            sender = User.objects.get(username=request.user)
+            receiver = User.objects.get(id=request.POST.get('user_id'))
+            notify.send(sender, recipient=receiver, verb='Message', description=request.POST.get('textarea'))
+            new_thread, created = Thread.objects.get_or_create(first_person=sender, second_person=receiver)
+            ChatMessage.objects.get_or_create(thread=new_thread,user=sender,message=request.POST.get('textarea'))
+
+            return redirect('dashboard-messages')
+        else:
+            return HttpResponse("Invalid request")
+    except Exception as e:
+        print(e)
+        return HttpResponse("You are not authenticated")
 
 @login_required
 def reviews(request):

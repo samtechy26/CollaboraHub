@@ -44,63 +44,29 @@
 					<h3><i class="icon-material-outline-thumb-up"></i> Work History and Feedback</h3>
 				</div>
 				<ul class="boxed-list-ul">
+					{% for review in reviews %}
+					{% if review.freelancer == users.profile %}
 					<li>
 						<div class="boxed-list-item">
 							<!-- Content -->
 							<div class="item-content">
-								<h4>Web, Database and API Developer <span>Rated as Freelancer</span></h4>
+								<h4>{{ review.project.title }} <span>Rated as Freelancer</span></h4>
 								<div class="item-details margin-top-10">
-									<div class="star-rating" data-rating="5.0"></div>
-									<div class="detail-item"><i class="icon-material-outline-date-range"></i> August 2018</div>
+									<div class="star-rating" data-rating="{{review.rating}}"></div>
+									<div class="detail-item"><i class="icon-material-outline-date-range"></i> {{review.created}}</div>
 								</div>
 								<div class="item-description">
-									<p>Excellent programmer - fully carried out my project in a very professional manner. </p>
+									<p>{{ review.comment }} </p>
 								</div>
 							</div>
 						</div>
 					</li>
-					<li>
-						<div class="boxed-list-item">
-							<!-- Content -->
-							<div class="item-content">
-								<h4>WordPress Theme Installation <span>Rated as Freelancer</span></h4>
-								<div class="item-details margin-top-10">
-									<div class="star-rating" data-rating="5.0"></div>
-									<div class="detail-item"><i class="icon-material-outline-date-range"></i> June 2018</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="boxed-list-item">
-							<!-- Content -->
-							<div class="item-content">
-								<h4>Fix Python Selenium Code <span>Rated as Employer</span></h4>
-								<div class="item-details margin-top-10">
-									<div class="star-rating" data-rating="5.0"></div>
-									<div class="detail-item"><i class="icon-material-outline-date-range"></i> May 2018</div>
-								</div>
-								<div class="item-description">
-									<p>I was extremely impressed with the quality of work AND how quickly he got it done. He then offered to help with another side part of the project that we didn't even think about originally.</p>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="boxed-list-item">
-							<!-- Content -->
-							<div class="item-content">
-								<h4>PHP Core Website Fixes <span>Rated as Freelancer</span></h4>
-								<div class="item-details margin-top-10">
-									<div class="star-rating" data-rating="5.0"></div>
-									<div class="detail-item"><i class="icon-material-outline-date-range"></i> May 2018</div>
-								</div>
-								<div class="item-description">
-									<p>Awesome work, definitely will rehire. Poject was completed not only with the requirements, but on time, within our small budget.</p>
-								</div>
-							</div>
-						</div>
-					</li>
+					
+					{% endif %}
+					{% endfor %}
+					
+					
+					
 				</ul>
 
 				<!-- Pagination -->
@@ -135,7 +101,7 @@
 				</div>
 
 				<!-- Button -->
-				<a href="#small-dialog" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Make an Offer <i class="icon-material-outline-arrow-right-alt"></i></a>
+				<a href="#small-dialog" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Send a Message  <i class="icon-material-outline-arrow-right-alt"></i></a>
 
 				<!-- Freelancer Indicators -->
 				<div class="sidebar-widget">
@@ -243,4 +209,46 @@
 <!-- Spacer -->
 <div class="margin-top-15"></div>
 <!-- Spacer / End-->
+
+
+<!-- Make an Offer Popup
+================================================== -->
+<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+	<!--Tabs -->
+	<div class="sign-in-form">
+
+		<ul class="popup-tabs-nav">
+			<li><a href="#tab">Send a Message</a></li>
+		</ul>
+
+		<div class="popup-tabs-container">
+
+			<!-- Tab -->
+			<div class="popup-tab-content" id="tab">
+				
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Discuss your project with {{ users.first_name }}</h3>
+				</div>
+					
+				<!-- Form -->
+				<form method="post" action="{% url 'contact-user' %}">
+					{% csrf_token %}
+					<input type="hidden" name='user_id' value='{{ users.id }}'>
+					<textarea name="textarea" cols="10" placeholder="Message" class="with-border"></textarea>
+					<!-- Button -->
+				<button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit"> Send a Message <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+				</form>
+				
+				
+			</div>
+			
+
+		</div>
+	</div>
+</div>
+<!-- Make an Offer Popup / End -->
 {% endblock content %}
+
