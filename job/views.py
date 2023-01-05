@@ -73,6 +73,7 @@ class JobDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
 def JobDetail(request, pk):
     task = Job.objects.get(pk=pk)
     bid = Bid.objects.filter(job=task)
+    user_bid = Bid.objects.filter(user=request.user)
     b_form = BidForm()
     if request.method == 'POST':
         user = request.user
@@ -81,17 +82,17 @@ def JobDetail(request, pk):
         if action == 'bookmark':
             task.favourite.add(user)
             task.save()
-            return redirect('job-detail', pk)
+            return redirect('job:job-detail', pk)
         elif action == 'bookmarked':
             task.favourite.remove(user)
             task.save()
-            return redirect('job-detail', pk)
+            return redirect('job:job-detail', pk)
         b_form = BidForm(request.POST)
         if b_form.is_valid():
             b_form.instance.job = task
             b_form.instance.user = request.user
             b_form.save()
-            return redirect('job-detail', pk)
+            return redirect('job:job-detail', pk)
         else:
             b_form = BidForm()
             
@@ -99,7 +100,8 @@ def JobDetail(request, pk):
     context = {
         'task':task,
         'bids':bid,
-        'b_form':b_form
+        'b_form':b_form,
+        'user_bid':user_bid
     }
     return render(request,'job/job_detail.html', context)
 

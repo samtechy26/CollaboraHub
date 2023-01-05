@@ -39,9 +39,11 @@ class Job(models.Model):
     cost = models.IntegerField(default=100)
     skill = models.ManyToManyField(Skill, blank=True)
     date_created = models.DateTimeField(default=timezone.now)
+    expiry_date = models.DateTimeField(default=timezone.now)
     job_file = models.FileField(blank=True, null=True)
     description = models.TextField(max_length=10000)
     favourite = models.ManyToManyField(User, related_name='fav_task', blank=True)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.title} by {self.author}'

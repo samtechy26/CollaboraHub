@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
+{% load widget_tweaks %}
 {% block content %}
     <!-- Titlebar
 ================================================== -->
@@ -125,28 +125,60 @@
 			<div class="sidebar-container">
 
 				<div class="countdown green margin-bottom-35">6 days, 23 hours left</div>
-				{% if user != task.author %}
+				{% if user != task.author  %}
+				{% if not user_bid %}
 				<div class="sidebar-widget">
 					<div class="bidding-widget">
-						
-							<div class="bidding-headline"><h3>Bid on this job!</h3></div>
-							<form action="" method="post">
+						<div class="bidding-headline"><h3>Bid on this job!</h3></div>
+						<form method="post">
 							{% csrf_token %}
-							<div class="bidding-inner">
-								
-							{{ b_form|crispy }}
+						<div class="bidding-inner">
+
+							<!-- Headline -->
 							
+
+							<!-- Price Slider -->
+							<div class="submit-field">
+								<span class="bidding-detail">Set your <strong>minimal rate</strong></span>
+								
+								<div class="input-with-icon">
+									{% render_field b_form.Amount class="with-border" type="text" placeholder="Minimum" %}
+									<i class="currency">USD</i>
+								</div>
+
+							</div>
+							
+							
+							
+							<!-- Headline -->
+							<span class="bidding-detail margin-top-30">Set your <strong>delivery time</strong></span>
+
+							<!-- Fields -->
+							<div class="bidding-fields">
+								<div class="bidding-field">
+									<!-- Quantity Buttons -->
+									<div class="qtyButtons">
+										<div class="qtyDec"></div>
+										{% render_field b_form.time %}
+										
+										<div class="qtyInc"></div>
+									</div>
+								</div>
+								<div class="bidding-field">
+									
+									{% render_field b_form.denom class="selectpicker default" %}
+								</div>
+							</div>
 
 							<!-- Button -->
-							
-							<button id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Place a Bid</span></button>
-							
+							<button  class="button ripple-effect move-on-hover full-width margin-top-30" type="submit"><span>Place a Bid</span></button>
 
 						</div>
-						</form>
-					</div>
+					</form>
 						
+					</div>
 				</div>
+				{% endif %}
 				{% endif %}
 
 				<!-- Sidebar Widget -->

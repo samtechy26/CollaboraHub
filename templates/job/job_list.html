@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% block content %}
 <!-- Spacer -->
 <div class="margin-top-90"></div>
@@ -16,9 +17,9 @@
 				<div class="sidebar-widget">
 					<h3>Category</h3>
 					
-					<div class="task-tags">
+					<div class="selectpicker with-border">
 						{% for category in categories %}
-						<small><a href="?category={{ category.slug }}">{{ category.title }}</a></small>
+						<small><a href="?category={{ category.slug }}" >{{ category.title }}</a></small>
 						{% endfor %}
 					</div>
 				</div>
