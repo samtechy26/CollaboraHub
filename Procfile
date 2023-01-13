@@ -1,1 +1,1 @@
-web: gunicorn  jobya.asgi 
+web: gunicorn  jobya.wsgi 
