@@ -127,7 +127,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("containers-us-west-38.railway.app", 8021)],
         },
     },
 }
@@ -210,6 +210,7 @@ LOGIN_REDIRECT_URL = 'job:home'
 LOGIN_URL = 'account_login'
 
 LOGOUT_REDIRECT_URL = 'account_login'
+
 
 ACCOUNT_EMAIL_REQUIRED=True
 
