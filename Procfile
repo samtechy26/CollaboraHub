@@ -1,1 +1,1 @@
-web: gunicorn 'jobya.asgi.application'
+web: gunicorn  jobya.asgi 
