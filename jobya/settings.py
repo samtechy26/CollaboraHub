@@ -160,7 +160,7 @@ DATABASES = {
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://hire-production.up.railway.app'
+    'https://studera.org/'
 ]
 
 # Password validation
