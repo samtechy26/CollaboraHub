@@ -181,7 +181,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'auth.User'
+
 
 ACCOUNT_FORMS = {
             

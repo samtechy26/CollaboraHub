@@ -6,14 +6,10 @@ from PIL import Image
 from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
-)
 
 
-# class User(User):
-#     pass
-    
+
+
 
 
 class Profile(models.Model):
