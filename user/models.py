@@ -81,7 +81,7 @@ class Review(models.Model):
     def clean(self):
         if (self.employer == None and self.freelancer == None) or (self.bid == None and self.project == None):
             raise ValidationError("Both Employer and freelancer cannot be empty")
-            
+  
     def __str__(self):
         if (self.employer is not None):
             return str(self.user.username + " reviewed " + self.employer.user.username)
@@ -90,5 +90,5 @@ class Review(models.Model):
         else:
             return str(self.id)
 
-
+   
 

@@ -6,7 +6,7 @@
             <li class="active"><a href="{% url 'dashboard' %}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
             <li><a href="{% url 'dashboard-messages' %}"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">{% notifications_unread %}</span></a></li>
             <li><a href="{% url 'dashboard-favourites' %}"><i class="icon-material-outline-star-border"></i> Favourites</a></li>
-            <li><a href="{% url 'reviews' %}"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
+            <li><a href="{% url 'reviews' user_id=request.user.id %}"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
         </ul>
         
         <ul data-submenu-title="Organize and Manage">

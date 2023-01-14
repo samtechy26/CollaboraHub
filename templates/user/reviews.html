@@ -23,7 +23,7 @@
 
 					<!-- Headline -->
 					<div class="headline">
-						<h3><i class="icon-material-outline-business"></i> Rate Employers</h3>
+						<h3><i class="icon-material-outline-business"></i> Rate as Employer</h3>
 					</div>
 
 					<div class="content">
@@ -99,7 +99,7 @@
 
 					<!-- Headline -->
 					<div class="headline">
-						<h3><i class="icon-material-outline-face"></i> Rate Freelancers</h3>
+						<h3><i class="icon-material-outline-face"></i> Rate as Freelancer</h3>
 					</div>
 
 					<div class="content">
@@ -195,7 +195,7 @@
 						</div>
 							
 						<!-- Form -->
-						<form method="post" action="{% url 'reviews' %}" id="change-review-form">
+						<form method="post" action="{% url 'reviews' user_id%}" id="change-review-form">
 		
 							<div class="feedback-yes-no">
 								<strong id="edit-onBudget">Was this delivered on budget?</strong>
@@ -278,7 +278,7 @@
 						</div>
 							
 						<!-- Form -->
-						<form method="post" action="{% url 'reviews' %}" id="leave-review-form">
+						<form method="post" action="{% url 'reviews' user_id%}" id="leave-review-form">
 		
 							<div class="feedback-yes-no">
 								<strong>Was this delivered on budget?</strong>
