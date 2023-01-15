@@ -115,7 +115,8 @@ env.bak/
 venv.bak/
 database settings
 fixtures
-
+settings
+db.sqlite3
 # Spyder project settings
 .spyderproject
 .spyproject

@@ -78,6 +78,8 @@
 							
 							
 							{% endif %}
+							{%empty%}
+							<p>No reviews yet</p>
 							
 							{% endfor %}
 
@@ -157,6 +159,8 @@
 								data-freelancer="{{bid.user.username}}" data-user="{{request.user.pk}}" data-freelancerid="{{bid.user.pk}}"  ><i  class="icon-material-outline-thumb-up"></i> Leave a Review</a>
 							</li>
 							{% endif %}
+							{%empty%}
+							<p>No reviews yet</p>
 							
 							{% endfor %}
 

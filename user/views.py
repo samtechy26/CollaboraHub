@@ -64,7 +64,7 @@ def profile(request, id):
     users = User.objects.annotate(rating=(Avg('profile__freelancer_review__rating') \
         + Avg('profile__employer_review__rating'))/2).filter(id=id)
     
-    reviews = Review.objects.filter(employer__user__id=id)
+    reviews = Review.objects.filter(freelancer__user__id=id)
     if request.method == 'POST':
         current_user = request.user
         data = request.POST
