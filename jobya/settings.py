@@ -9,24 +9,37 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-APP_DIR = BASE_DIR / "jobya"
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+DEBUG = env('DEBUG')
+
+SECRET_KEY = env('SECRET_KEY')
+
+# APP_DIR = BASE_DIR / "jobya"
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-cba46po#-5(@r^enof&%+j=!9dd9=&iq3o6e7ce(blw6se(#u6'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['mysite.com', 'localhost',
-                 '127.0.0.1', 'd6ab-45-91-21-60.eu.ngrok.io']  # I used this for testing
+
+ALLOWED_HOSTS = ['*']  # I used this for testing
 
 
 # Application definition
@@ -39,8 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
-    'django.contrib.postgres',
 
     #Third party apps
     'notifications',
@@ -55,7 +68,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'payment',
-    'social_django', # social-auth-app-django
+    'social_django',  # social-auth-app-django
 ]
 
 SITE_ID = 1
@@ -78,6 +91,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,7 +105,7 @@ ROOT_URLCONF = 'jobya.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,25 +120,47 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jobya.wsgi.application'
 ASGI_APPLICATION = 'jobya.asgi.application'
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-        # 'CONFIG': {
-        #     'hosts': [('127.0.0.1', 6379)],
-        # }
-    }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
 }
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
+    
+    # 'default': {
+    # 'ENGINE': 'django.db.backends.sqlite3',
+    # 'NAME': os.path.join(BASE_DIR , 'db.sqlite3'),
+    # }
+    
 }
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://studera.org'
+]
+
+# Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -141,6 +177,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+
+ACCOUNT_FORMS = {
+            
+            'signup': 'user.forms.UserRegistrationForm',
+            
+}
 
 
 
@@ -161,9 +205,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Default primary key field type
@@ -178,6 +223,7 @@ LOGIN_REDIRECT_URL = 'job:home'
 LOGIN_URL = 'account_login'
 
 LOGOUT_REDIRECT_URL = 'account_login'
+
 
 ACCOUNT_EMAIL_REQUIRED=True
 
@@ -206,11 +252,10 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')   
 
-STRIPE_PUBLIC_KEY = 'pk_test_51LzOeaGSSxV2P1yNR6uNxfXPdsATOXGxNtB5xv8ox5Wal7O5MESopp9potueteddlbp7MGjh9Jj7f6xr3ggwkT6P00MAKaSOmy'
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 
-STRIPE_SECRET_KEY = 'sk_test_51LzOeaGSSxV2P1yNden2ofolaLXH1BtFqUIv5akUVRAiq4Ph8q4eiR5QA9plbi3K7LXd5PRDkaw62qU2exSPrcD500oJOMy5Ng'
-
-STRIPE_WEBHOOK_SECRET = 'whsec_wy64BZcl02CiO5lv6S4dygCNb6DoL49o'
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
 
 
 AUTHENTICATION_BACKENDS = [
@@ -230,9 +275,9 @@ SOCIAL_AUTH_TWITTER_KEY = ''
 SOCIAL_AUTH_TWITTER_SECRET = ''
 
 # replace with yours
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '946875859866-q27u3q0u20gar2fh5r6lsnajq2v9udua.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 # replace with yours
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 # Coinbase crypto payment 
 # Please set up account on coinbase-commerce to fill this infos
