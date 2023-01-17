@@ -1,2 +1,2 @@
-web: gunicorn jobya:asgi -w 4 -k uvicorn.workers.UvicornWorker
+web: daphne jobya.asgi:application
  
