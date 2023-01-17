@@ -1,1 +1,1 @@
-python -m gunicorn myproject.asgi:application -k uvicorn.workers.UvicornWorker
+web: gunicorn  jobya.wsgi 
