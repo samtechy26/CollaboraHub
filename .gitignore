@@ -115,8 +115,8 @@ env.bak/
 venv.bak/
 database settings
 fixtures
-settings
-db.sqlite3
+jobya/settings.py
+jobya/db.sqlite3
 # Spyder project settings
 .spyderproject
 .spyproject
