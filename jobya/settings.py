@@ -76,19 +76,7 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-# Provider specific settings
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '123',
-            'secret': '456',
-            'key': ''
-        }
-    }
-}
+
 
 
 
@@ -124,19 +112,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'jobya.wsgi.application'
 ASGI_APPLICATION = 'jobya.asgi.application'
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels.layers.InMemoryChannelLayer"
-#     }
-# }
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
-    },
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -284,5 +265,5 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 # Coinbase crypto payment 
 # Please set up account on coinbase-commerce to fill this infos
-COINBASE_COMMERCE_API_KEY = 'e3ed9dd2-7e9d-4e62-9533-4d0195a5a2f9'
+COINBASE_COMMERCE_API_KEY = env('COINBASE_COMMERCE_API_KEY')
 COINBASE_COMMERCE_WEBHOOK_SHARED_SECRET = ''
