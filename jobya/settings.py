@@ -110,7 +110,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'jobya.wsgi.application'
+# WSGI_APPLICATION = 'jobya.wsgi.application'
 ASGI_APPLICATION = 'jobya.asgi.application'
 
 CHANNEL_LAYERS = {
