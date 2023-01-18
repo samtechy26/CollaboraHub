@@ -15,11 +15,14 @@ import chat.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'jobya.settings')
 
-application = ProtocolTypeRouter({
-    'http': get_asgi_application(),
-    'websocket': AuthMiddlewareStack(
-        URLRouter(
-            chat.routing.websocket_urlpatterns
-        )
-    )
-})
+
+application = get_asgi_application()
+
+# application = ProtocolTypeRouter({
+#     'http': get_asgi_application(),
+#     'websocket': AuthMiddlewareStack(
+#         URLRouter(
+#             chat.routing.websocket_urlpatterns
+#         )
+#     )
+# })
