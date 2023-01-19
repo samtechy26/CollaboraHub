@@ -1,2 +1,2 @@
-web: daphne jobya.asgi:application --port $PORT --bind 0.0.0.0 -v2
+web: gunicorn jobya.asgi:application -k uvicorn.workers.UvicornWorker
  
