@@ -52,6 +52,7 @@ ALLOWED_HOSTS = ['*']  # I used this for testing
 
 INSTALLED_APPS = [
     "daphne",
+    "channels"
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
