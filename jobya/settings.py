@@ -27,7 +27,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-DEBUG = env('DEBUG')
+DEBUG = True
+# DEBUG = env('DEBUG')
 
 # SECRET_KEY = env('SECRET_KEY')
 SECRET_KEY = 'django-insecure-cba46po#-5(@r^enof&%+j=!9dd9=&iq3o6e7ce(blw6se(#u6'
