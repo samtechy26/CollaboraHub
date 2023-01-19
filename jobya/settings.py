@@ -49,8 +49,7 @@ ALLOWED_HOSTS = ['*']  # I used this for testing
 # Application definition
 
 INSTALLED_APPS = [
-    'chat',
-    'channels',
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -69,6 +68,7 @@ INSTALLED_APPS = [
     'job.apps.JobConfig',
     'user',
     'blog',
+    'chat',
     'crispy_forms',
     'widget_tweaks',
     'payment',
@@ -110,7 +110,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'jobya.wsgi.application'
+WSGI_APPLICATION = 'jobya.wsgi.application'
 ASGI_APPLICATION = 'jobya.asgi.application'
 
 CHANNEL_LAYERS = {
