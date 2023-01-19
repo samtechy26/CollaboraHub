@@ -116,13 +116,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'jobya.wsgi.application'
 ASGI_APPLICATION = 'jobya.asgi.application'
 
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("containers-us-west-44.railway.app", 7967)],
+#         },
+#     },
+# }
+
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("containers-us-west-44.railway.app", 7967)],
-        },
-    },
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
 
 
