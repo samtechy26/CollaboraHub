@@ -1,2 +1,2 @@
-web: gunicorn jobya.asgi:application
+web: gunicorn jobya.wsgi:application
  
