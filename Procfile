@@ -1,2 +1,2 @@
-web: gnicorn:asgi
+web: gunicorn jobya.asgi:application
  
