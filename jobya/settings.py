@@ -29,7 +29,8 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 DEBUG = env('DEBUG')
 
-SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'django-insecure-cba46po#-5(@r^enof&%+j=!9dd9=&iq3o6e7ce(blw6se(#u6'
 
 # APP_DIR = BASE_DIR / "jobya"
 
@@ -132,6 +133,8 @@ DATABASES = {
         'HOST': env('DB_HOST'),
         'PORT': env('DB_PORT'),
     }
+
+
     
     # 'default': {
     # 'ENGINE': 'django.db.backends.sqlite3',
