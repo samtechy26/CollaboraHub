@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserUpdateForm, ProfileUpdateForm
+from .forms import UserUpdateForm, ProfileUpdateForm, UserNotesForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -20,8 +20,21 @@ from chat.models import Thread, ChatMessage
 
 
 
-class UserDashboard(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'user/userdashboard.html'
+@login_required
+def UserDashboard(request):
+    form = UserNotesForm()
+
+    if request.method == 'POST':
+        form = UserNotesForm(request.post)
+        form.instance.author = request.user
+        form.save()
+        return redirect('dashboard')
+
+    context = {
+        'form':form,
+    }
+
+    return render(request, 'user/userdashboard.html', context)
 
 
 class UserTaskList(LoginRequiredMixin, generic.ListView):
@@ -278,3 +291,4 @@ def review(request, review_id):
         return JsonResponse({
             "message":"reveiw deleted!"
         })
+
