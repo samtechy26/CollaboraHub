@@ -67,7 +67,7 @@
 
                 <!-- Trigger -->
                 <div class="header-notifications-trigger">
-                    <a href="#"><i class="icon-feather-bell"></i><span>4</span></a>
+                    <a href="#"><i class="icon-feather-bell"></i><span></span></a>
                 </div>
 
                 <!-- Dropdown -->
@@ -83,45 +83,49 @@
                     <div class="header-notifications-content">
                         <div class="header-notifications-scroll" data-simplebar>
                             <ul>
+                                {% for notification in  user.notifications.unread %}
                                 <!-- Notification -->
-                                <li class="notifications-not-read">
+                                {% comment %} <li class="notifications-not-read">
                                     <a href="dashboard-manage-candidates.html">
                                         <span class="notification-icon"><i class="icon-material-outline-group"></i></span>
                                         <span class="notification-text">
                                             <strong>Michael Shannah</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
                                         </span>
                                     </a>
-                                </li>
+                                </li> {% endcomment %}
 
                                 <!-- Notification -->
+                                {% if notification.verb == "application for bid" %}
                                 <li>
                                     <a href="dashboard-manage-bidders.html">
                                         <span class="notification-icon"><i class=" icon-material-outline-gavel"></i></span>
                                         <span class="notification-text">
-                                            <strong>Gilbert Allanis</strong> placed a bid on your <span class="color">iOS App Development</span> project
+                                            <strong>{{ notification.actor }}</strong> placed a bid on your  <span class="color">{{ notification.description }}</span> project
                                         </span>
                                     </a>
                                 </li>
+                                {% endif %}
 
                                 <!-- Notification -->
-                                <li>
+                                {% comment %} <li>
                                     <a href="dashboard-manage-jobs.html">
                                         <span class="notification-icon"><i class="icon-material-outline-autorenew"></i></span>
                                         <span class="notification-text">
                                             Your job listing <span class="color">Full Stack PHP Developer</span> is expiring.
                                         </span>
                                     </a>
-                                </li>
+                                </li> {% endcomment %}
 
                                 <!-- Notification -->
-                                <li>
+                                {% comment %} <li>
                                     <a href="dashboard-manage-candidates.html">
                                         <span class="notification-icon"><i class="icon-material-outline-group"></i></span>
                                         <span class="notification-text">
                                             <strong>Sindy Forrest</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
                                         </span>
                                     </a>
-                                </li>
+                                </li> {% endcomment %}
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -151,6 +155,7 @@
                             <ul>
                                 <!-- Notification -->
                                 {% for notification in  user.notifications.unread %}
+                                {% if notification.verb == "messages" %}
                                 <li class="notifications-not-read">
                                     <a href="dashboard-messages.html">
                                         <span class="notification-avatar status-online"><img src="{{ notification.actor.profile.image.url }}" alt=""></span>
@@ -161,6 +166,7 @@
                                         </div>
                                     </a>
                                 </li>
+                                {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>

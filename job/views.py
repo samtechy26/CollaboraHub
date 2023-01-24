@@ -8,6 +8,7 @@ from django.views import generic
 from .forms import BidForm, ContactForm, JobCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from notifications.signals import notify
 
 
 
@@ -92,6 +93,7 @@ def JobDetail(request, pk):
             b_form.instance.job = task
             b_form.instance.user = request.user
             b_form.save()
+            notify.send(sender=request.user, recipient=task.author, verb="application for bid", description=task.title)
             return redirect('job:job-detail', pk)
         else:
             b_form = BidForm()
@@ -131,3 +133,6 @@ def dashboard_favourites(request):
 class ContactPageView(FormView):
     template_name = 'pages/contact.html'
     form_class = ContactForm
+
+
+

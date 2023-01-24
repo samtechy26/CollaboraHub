@@ -13,7 +13,7 @@ urlpatterns = [
     path('my_bids/', dashboard_mybids, name='my_bids'),
     path('bid_update/<int:id>', bid_update, name='bid_update'),
     path('bid_detail/<int:id>', manage_offer, name='bid_detail'),
-    path('dashboard/', UserDashboard.as_view(), name='dashboard'),
+    path('dashboard/', UserDashboard, name='dashboard'),
     path('library/', UserLibraryView.as_view(), name='library'),
     path('dashboard/task', UserTaskList.as_view(), name='dashboard-task'),
     path('reviews/', reviews, name='reviews'),
@@ -21,6 +21,7 @@ urlpatterns = [
     path('bid_payment/<int:pk>', BidPaymentView.as_view(), name='bid_payment'),
     path('profile_update/', profileUpdate, name='profile-update'),
     path('contact-user/', message, name='contact-user'),
+   
     
     
 ]

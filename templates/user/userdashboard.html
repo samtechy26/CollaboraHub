@@ -1,4 +1,6 @@
 {% extends 'dashboard/base.html' %}
+{% load notifications_tags %}
+{% load widget_tweaks %}
 {% block content %}
     <!-- Dashboard Headline -->
 			<div class="dashboard-headline">
@@ -142,27 +144,20 @@
 						</div>
 						<div class="content">
 							<ul class="dashboard-box-list">
-								<li>
-									<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
-									<span class="notification-text">
-										<strong>Michael Shannah</strong> applied for a job <a href="#">Full Stack Software Engineer</a>
-									</span>
-									<!-- Buttons -->
-									<div class="buttons-to-right">
-										<a href="#" class="button ripple-effect ico" title="Mark as read" data-tippy-placement="left"><i class="icon-feather-check-square"></i></a>
-									</div>
-								</li>
+								{% for notification in  user.notifications.unread %}
+								{% if notification.verb == "application for bid" %}
 								<li>
 									<span class="notification-icon"><i class=" icon-material-outline-gavel"></i></span>
 									<span class="notification-text">
-										<strong>Gilber Allanis</strong> placed a bid on your <a href="#">iOS App Development</a> project
+										<strong>{{ notification.actor }}</strong> placed a bid on your <a href="#">{{ notification.description }}</a> project
 									</span>
 									<!-- Buttons -->
 									<div class="buttons-to-right">
 										<a href="#" class="button ripple-effect ico" title="Mark as read" data-tippy-placement="left"><i class="icon-feather-check-square"></i></a>
 									</div>
 								</li>
-								<li>
+								{% endif %}
+								{% comment %} <li>
 									<span class="notification-icon"><i class="icon-material-outline-autorenew"></i></span>
 									<span class="notification-text">
 										Your job listing <a href="#">Full Stack Software Engineer</a> is expiring
@@ -171,18 +166,9 @@
 									<div class="buttons-to-right">
 										<a href="#" class="button ripple-effect ico" title="Mark as read" data-tippy-placement="left"><i class="icon-feather-check-square"></i></a>
 									</div>
-								</li>
-								<li>
-									<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
-									<span class="notification-text">
-										<strong>Sindy Forrest</strong> applied for a job <a href="#">Full Stack Software Engineer</a>
-									</span>
-									<!-- Buttons -->
-									<div class="buttons-to-right">
-										<a href="#" class="button ripple-effect ico" title="Mark as read" data-tippy-placement="left"><i class="icon-feather-check-square"></i></a>
-									</div>
-								</li>
-								<li>
+								</li> {% endcomment %}
+								
+								{% comment %} <li>
 									<span class="notification-icon"><i class="icon-material-outline-rate-review"></i></span>
 									<span class="notification-text">
 										<strong>David Peterson</strong> left you a <span class="star-rating no-stars" data-rating="5.0"></span> rating after finishing <a href="#">Logo Design</a> task
@@ -191,7 +177,8 @@
 									<div class="buttons-to-right">
 										<a href="#" class="button ripple-effect ico" title="Mark as read" data-tippy-placement="left"><i class="icon-feather-check-square"></i></a>
 									</div>
-								</li>
+								</li> {% endcomment %}
+								{% endfor %}
 							</ul>
 						</div>
 					</div>
@@ -229,4 +216,51 @@
 
 			</div>
 			<!-- Row / End -->
+
+			<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+				<!--Tabs -->
+				
+
+					<div class="sign-in-form">
+			
+						<ul class="popup-tabs-nav">
+							<li><a href="#tab">Add Note</a></li>
+						</ul>
+				
+						<div class="popup-tabs-container">
+				
+							<!-- Tab -->
+							<div class="popup-tab-content" id="tab">
+								
+								<!-- Welcome Text -->
+								<div class="welcome-text">
+									<h3>Do Not Forget 😎</h3>
+								</div>
+									
+								<!-- Form -->
+								<form method="post">
+									{% csrf_token %}
+									
+									
+									{% render_field form.priority class="selectpicker with-border default margin-bottom-20" data-size="7" title="Priority" %}
+										
+									{% render_field form.description cols="10" placeholder="Note" class="with-border" %}
+
+									<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="add-note">Add Note <i class="icon-material-outline-arrow-right-alt"></i></button>
+				
+								</form>
+								
+								
+								
+				
+							</div>
+				
+						</div>
+					</div>
+
+				
+				
+			</div>
+			
 {% endblock content %}

@@ -29,7 +29,7 @@
        {% include 'navbar.html' %}
         <!-- Header / End -->
        {% include 'messages.html' %}
-    
+       
     </header>
     <div class="clearfix"></div>
     {% block content %}{% endblock content %}
@@ -65,6 +65,7 @@
 
 <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
 <script>
+    
 // Snackbar for user status switcher
 $('#snackbar-user-status label').click(function() { 
 	Snackbar.show({

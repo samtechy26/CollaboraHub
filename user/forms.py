@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
+from .models import Profile, UserNotes
 
 class UserRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
@@ -43,3 +43,7 @@ class ProfileUpdateForm(forms.ModelForm):
             'image':'',
         }
        
+class UserNotesForm(forms.ModelForm):
+    class Meta:
+        model = UserNotes
+        fields = ['description', 'priority']
