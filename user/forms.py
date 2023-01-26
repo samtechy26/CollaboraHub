@@ -46,4 +46,4 @@ class ProfileUpdateForm(forms.ModelForm):
 class UserNotesForm(forms.ModelForm):
     class Meta:
         model = UserNotes
-        fields = ['description', 'priority']
+        fields = ['description', 'Priority']

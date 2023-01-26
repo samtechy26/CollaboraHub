@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Profile, UserLibrary,Review, UserNotes
+from .models import Profile, UserLibrary,Review, UserNotes,Priority
 admin.site.register(Profile)
 admin.site.register(UserLibrary)
 admin.site.register(UserNotes)
+admin.site.register(Priority)
 
 
 @admin.register(Review)

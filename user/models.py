@@ -93,13 +93,18 @@ class Review(models.Model):
         else:
             return str(self.id)
 
+class Priority(models.Model):
+    title = models.CharField(max_length=50, default="low")
+
+    def __str__(self):
+        return self.title
+
 class UserNotes(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    class Priority(models.IntegerChoices):
-        high = 2
-        medium = 1
-        low = 0
+    author = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True, null=True)
     description = models.TextField()
-    priority = models.IntegerField(choices=Priority.choices)
-    
+    Priority = models.ForeignKey(Priority, on_delete=models.DO_NOTHING, blank=True, null=True)
+
+    def __str__(self):
+        return self.description 
+        
 

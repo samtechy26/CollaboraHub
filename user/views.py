@@ -12,10 +12,9 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
-from .models import Review, Profile
+from .models import Review, Profile, UserNotes
 from notifications import notify
 from chat.models import Thread, ChatMessage
-
 
 
 
@@ -23,18 +22,23 @@ from chat.models import Thread, ChatMessage
 @login_required
 def UserDashboard(request):
     form = UserNotesForm()
-
+    notes = UserNotes.objects.filter(author=request.user)
     if request.method == 'POST':
-        form = UserNotesForm(request.post)
-        form.instance.author = request.user
-        form.save()
-        return redirect('dashboard')
+        form = UserNotesForm(request.POST)
+        if form.is_valid():
+            form.instance.author = request.user
+            form.save()
+            return redirect('dashboard')
+        else:
+            form = UserNotesForm()
 
     context = {
         'form':form,
+        'notes':notes,
     }
 
     return render(request, 'user/userdashboard.html', context)
+    
 
 
 class UserTaskList(LoginRequiredMixin, generic.ListView):
@@ -292,3 +296,6 @@ def review(request, review_id):
             "message":"reveiw deleted!"
         })
 
+
+    
+    
