@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 
 {% block content %}
@@ -70,8 +71,9 @@
 				<!-- Social Login -->
 				<div class="social-login-separator"><span>or</span></div>
 				<div class="social-login-buttons">
-					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Register via Facebook</button>
+					<a href="{% provider_signup_url 'google' %}" class=" button facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Register via Facebook</a>
 					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Register via Google+</button>
+					
 				</div>
 			</div>
 

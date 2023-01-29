@@ -67,6 +67,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
+    'allauth.socialaccount.providers.google',
+
     #local apps
     'job.apps.JobConfig',
     'user',
@@ -75,13 +77,24 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'payment',
-    'social_django',  # social-auth-app-django
+    
 ]
 
 SITE_ID = 1
 
 
-
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
 
 
 MIDDLEWARE = [
@@ -270,18 +283,6 @@ AUTHENTICATION_BACKENDS = [
     'social_core.backends.twitter.TwitterOAuth',
 ]
 
-# OAUTH AUTHENTICATION CREDENTIALS
-SOCIAL_AUTH_FACEBOOK_KEY = ''
-SOCIAL_AUTH_FACEBOOK_SECRET = ''
-#SOCIAL_AUTH_FACEBOOK_SCOPE = ['']
-
-SOCIAL_AUTH_TWITTER_KEY = ''
-SOCIAL_AUTH_TWITTER_SECRET = ''
-
-# replace with yours
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-# replace with yours
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 # Coinbase crypto payment 
 # Please set up account on coinbase-commerce to fill this infos
