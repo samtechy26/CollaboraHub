@@ -2,6 +2,7 @@
 {% load widget_tweaks %}
 {% load i18n %}
 {% load account %}
+{% load account socialaccount %}
 
 {% block content %}
 <div class="clearfix"></div>
@@ -41,7 +42,7 @@
 					<h3>We're glad to see you again!</h3>
 					<span>Don't have an account? <a href="{% url 'account_signup' %}">Sign Up!</a></span>
 				</div>
-					
+				
 				<!-- Form -->
 				<form method="post" action="{% url 'account_login' %}">
                     {% csrf_token %}
@@ -65,14 +66,12 @@
                     <!-- Button -->
 				<button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
                 </form>
-				
 
-				
 				<!-- Social Login -->
 				<div class="social-login-separator"><span>or</span></div>
 				<div class="social-login-buttons">
-					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Log In via Facebook</button>
-					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Log In via Google+</button>
+					
+					<a href="{% provider_login_url "google" %}" class="button ripple-effect"> <i class="icon-brand-google-plus-g"></i> Log In via Google  </a>
 				</div>
 			</div>
 
