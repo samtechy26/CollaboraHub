@@ -96,6 +96,8 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+USE_X_FORWARDED_HOST = True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
