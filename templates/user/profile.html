@@ -14,7 +14,7 @@
 						<div class="header-details">
 							<h3>{{ users.first_name }} {{ users.last_name }} <span>{{ users.profile.tagline }}</span></h3>
 							<ul>
-								<li><div class="star-rating" data-rating="5.0"></div></li>
+								<li><div class="star-rating" data-rating="{% if users.rating %} {{users.rating|floatformat}} {%else%} 5 {% endif %}"></div></li>
 								<li><div class="verified-badge-with-title">Verified</div></li>
 							</ul>
 						</div>

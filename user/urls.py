@@ -1,7 +1,7 @@
 from email import message
 from pyexpat.errors import messages
 from django.urls import path
-from .views import UserDashboard, profile, profileUpdate, reviews, UserTaskList, dashboard_bidders, dashboard_mybids, bid_update, manage_offer, UserFavourites, BidPaymentView, UserLibraryView, review, message
+from .views import UserDashboard, profile, profileUpdate, Reviews, UserTaskList, dashboard_bidders, dashboard_mybids, bid_update, manage_offer, UserFavourites, BidPaymentView, UserLibraryView, review, message
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -16,7 +16,7 @@ urlpatterns = [
     path('dashboard/', UserDashboard, name='dashboard'),
     path('library/', UserLibraryView.as_view(), name='library'),
     path('dashboard/task', UserTaskList.as_view(), name='dashboard-task'),
-    path('reviews/', reviews, name='reviews'),
+    path('reviews/<int:user_id>', Reviews.as_view(), name='reviews'),
     path('review/<int:review_id>', review, name='review-details'),
     path('bid_payment/<int:pk>', BidPaymentView.as_view(), name='bid_payment'),
     path('profile_update/', profileUpdate, name='profile-update'),

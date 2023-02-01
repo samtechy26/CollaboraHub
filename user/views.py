@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserUpdateForm, ProfileUpdateForm, UserNotesForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.base import View, TemplateResponseMixin
 from django.contrib import messages
+from django.db.models import Avg
 from job.models import Job, Bid
 from job.forms import BidForm
 from django.conf import settings
@@ -76,8 +78,10 @@ class UserFavourites(LoginRequiredMixin, generic.ListView):
 
 @login_required
 def profile(request, id):
-    users = User.objects.get(id=id)
-    reviews = Review.objects.all()
+    users = User.objects.annotate(rating=(Avg('profile__freelancer_review__rating') \
+        + Avg('profile__employer_review__rating'))/2).filter(id=id)
+    
+    reviews = Review.objects.filter(freelancer__user__id=id)
     if request.method == 'POST':
         current_user = request.user
         data = request.POST
@@ -213,9 +217,17 @@ def message(request):
         print(e)
         return HttpResponse("You are not authenticated")
 
-@login_required
-def reviews(request):
-    if request.method == 'POST':
+
+class Reviews(LoginRequiredMixin, TemplateResponseMixin, View):
+    template_name = 'user/reviews.html'
+    user = None
+
+    def dispatch(self, request, user_id):
+        self.user = get_object_or_404(User, id=int(user_id))
+        return super(Reviews, self).dispatch(request,user_id )
+
+
+    def post(self, request, *args, **kwargs):
         comment = request.POST.get("message")
         rating = request.POST.get('rating')
         employer_id = request.POST.get('employer', '')
@@ -257,13 +269,18 @@ def reviews(request):
         messages.success(request, "review successfully added! ")
         return HttpResponseRedirect(request.path_info)
 
-    elif request.method == 'GET':
-        employers_reviews = Review.objects.filter(active=True, freelancer__isnull = True, employer__isnull=False)
+    def get(self, request, *args,**kwargs):
+        
+        user_profile = get_object_or_404(Profile, user=self.user)
+
+        employers_reviews = Review.objects.filter(active=True, freelancer__isnull = True, employer=user_profile)
         jobs_lists = Job.objects.exclude(reviews__in =employers_reviews)
+        jobs_lists = jobs_lists.filter(author=self.user)
         job = list(chain(employers_reviews, jobs_lists))
 
-        freelancer_reviews = Review.objects.filter(active=True, employer__isnull = True, freelancer__isnull = False)
+        freelancer_reviews = Review.objects.filter(active=True, employer__isnull = True, freelancer = user_profile)
         bid_lists = Bid.objects.exclude(reviews__in = freelancer_reviews)
+        bid_lists = bid_lists.filter(user=self.user)
         bid = list(chain(freelancer_reviews, bid_lists))
 
         employer_paginator = Paginator(job, per_page=2)
@@ -280,9 +297,10 @@ def reviews(request):
             bids = freelancer_paginator.page(freelancer_paginator.num_pages)
 
         
-        return render(request, 'user/reviews.html',{
+        return self.render_to_response({
             'bids':bids,
-            'jobs':jobs
+            'jobs':jobs,
+            'user_id':self.user.id
         })
 
 def review(request, review_id):       
