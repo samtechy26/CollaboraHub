@@ -147,7 +147,7 @@ class ContactView(generic.FormView):
     template_name = 'pages/contact.html'
 
     def get_success_url(self):
-        return reverse("contact")
+        return reverse("job:contact")
 
     def form_valid(self, form):
         messages.info(
