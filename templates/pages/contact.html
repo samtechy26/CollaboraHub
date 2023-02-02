@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% block content %}
 <!-- Content
 ================================================== -->
@@ -12,8 +13,7 @@
 				<!-- Breadcrumbs -->
 				<nav id="breadcrumbs" class="dark">
 					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Pages</a></li>
+						<li><a href="{% url 'job:home' %}">Home</a></li>
 						<li>Contact</li>
 					</ul>
 				</nav>
@@ -35,29 +35,34 @@
 				<h3 class="headline margin-top-15 margin-bottom-35">Any questions? Feel free to contact us!</h3>
 
 				<form method="post" name="contactform" id="contactform" autocomplete="on">
+					{% csrf_token %}
 					<div class="row">
 						<div class="col-md-6">
 							<div class="input-with-icon-left">
-								<input class="with-border" name="name" type="text" id="name" placeholder="Your Name" required="required" />
+								
+								{% render_field form.name class="with-border" name="name" type="text" id="name" placeholder="Your Name" required="required" %}
 								<i class="icon-material-outline-account-circle"></i>
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="input-with-icon-left">
-								<input class="with-border" name="email" type="email" id="email" placeholder="Email Address" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" required="required" />
+								
+								{% render_field form.email class="with-border" name="email" type="email" id="email" placeholder="Email Address" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" required="required" %}
 								<i class="icon-material-outline-email"></i>
 							</div>
 						</div>
 					</div>
 
 					<div class="input-with-icon-left">
-						<input class="with-border" name="subject" type="text" id="subject" placeholder="Subject" required="required" />
+						
+						{% render_field form.subject class="with-border" name="subject" type="text" id="subject" placeholder="Subject" required="required" %}
 						<i class="icon-material-outline-assignment"></i>
 					</div>
 
 					<div>
-						<textarea class="with-border" name="comments" cols="40" rows="5" id="comments" placeholder="Message" spellcheck="true" required="required"></textarea>
+						
+						{% render_field form.message class="with-border" name="comments" cols="40" rows="5" id="comments" placeholder="Message" spellcheck="true" required="required" %}
 					</div>
 
 					<input type="submit" class="submit button margin-top-15" id="submit" value="Submit Message" />

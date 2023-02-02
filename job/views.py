@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from .models import Job, Category, Bid, Skill
 from user.models import Testimonial
+from django.conf import settings
 from django.db.models import Q, Avg
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView, FormView, DeleteView
@@ -14,6 +16,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
 from itertools import chain
 from notifications.signals import notify
+from django.core.mail import send_mail
 
 
 
@@ -139,9 +142,33 @@ def dashboard_favourites(request):
     return render(request, 'job/favourites.html', context)
  
 
-class ContactPageView(FormView):
-    template_name = 'pages/contact.html'
+class ContactView(generic.FormView):
     form_class = ContactForm
+    template_name = 'pages/contact.html'
+
+    def get_success_url(self):
+        return reverse("contact")
+
+    def form_valid(self, form):
+        messages.info(
+            self.request, "Thanks for getting in touch. We have received your message.")
+        name = form.cleaned_data.get('name')
+        email = form.cleaned_data.get('email')
+        subject = form.cleaned_data.get('subject')
+        message = form.cleaned_data.get('message')
+
+        full_message = f"""
+            Received message below from {name}, {email}
+            ________________________
+            {message}
+            """
+        send_mail(
+            subject="Received contact form submission",
+            message=full_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.NOTIFY_EMAIL]
+        )
+        return super(ContactView, self).form_valid(form)
 
 
 

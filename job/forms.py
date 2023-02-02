@@ -26,8 +26,20 @@ class JobCreationForm(forms.ModelForm):
         fields = ['title', 'job_type', 'job_category', 'cost',  'skill', 'description', 'job_file']
         
 
+
 class ContactForm(forms.Form):
-     your_name = forms.HiddenInput()
+    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+        'placeholder': "Your name"
+    }))
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'placeholder': "Your e-mail"
+    }))
+    subject = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+        'placeholder': "Subject of email"
+    }))
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'placeholder': 'Your message'
+    }))
 
 
 

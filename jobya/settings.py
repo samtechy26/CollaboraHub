@@ -270,6 +270,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
   
 DEFAULT_FROM_EMAIL = 'support@studera.org'
+NOTIFY_EMAIL = 'contact@studera.org'
 
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
