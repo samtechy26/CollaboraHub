@@ -30,42 +30,42 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="intro-banner-search-form margin-top-95">
-
-					<!-- Search Field -->
-					<div class="intro-search-field with-autocomplete">
-						<label for="autocomplete-input" class="field-title ripple-effect">Where?</label>
-						<div class="input-with-icon">
-							<input id="autocomplete-input" type="text" placeholder="Online Job">
-							<i class="icon-material-outline-location-on"></i>
+					
+							<!-- Search Field -->
+						<div class="intro-search-field with-autocomplete">
+							<label for="autocomplete-input" class="field-title ripple-effect">Where?</label>
+							<div class="input-with-icon">
+								<input id="autocomplete-input" type="text" placeholder="Online Job" disabled>
+								<i class="icon-material-outline-location-on"></i>
+							</div>
 						</div>
-					</div>
 
-					<!-- Search Field -->
-					<div class="intro-search-field">
-						<label for ="intro-keywords" class="field-title ripple-effect">What you need done?</label>
-						<input id="intro-keywords" type="text" placeholder="e.g. build me a website">
-					</div>
+						<!-- Search Field -->
+						
+						<div class="intro-search-field">
+							<label for ="intro-keywords" class="field-title ripple-effect">What you need done?</label>
+							<input id="intro-keywords" name="search" type="text" placeholder="e.g. build me a website">
+						</div>
 
-					<!-- Search Field -->
-					<div class="intro-search-field">
-						<select class="selectpicker default" multiple data-selected-text-format="count" data-size="7" title="All Categories" >
-							<option>Admin Support</option>
-							<option>Customer Service</option>
-							<option>Data Analytics</option>
-							<option>Design & Creative</option>
-							<option>Legal</option>
-							<option>Software Developing</option>
-							<option>IT & Networking</option>
-							<option>Writing</option>
-							<option>Translation</option>
-							<option>Sales & Marketing</option>
-						</select>
-					</div>
+						<!-- Search Field -->
+						<div class="intro-search-field">
+							<select class="selectpicker default" id="job-category" name="categories" multiple data-selected-text-format="count" data-size="{{categories.count}}" title="All Categories" >
+								{% for category in categories %}
+								<option value="{{category.title}}" >{{category.title}}</option>
+								{% endfor %}
+							</select>
+						</div>
 
-					<!-- Button -->
-					<div class="intro-search-button">
-						<button class="button ripple-effect" onclick="window.location.href='freelancers-grid-layout-full-page.html'">Search</button>
-					</div>
+						<!-- Button -->
+						<form action="{% url 'job:home-search' %}" id="searchform" method="post">
+						<div class="intro-search-button">
+							{% csrf_token %}
+							<button type="submit" class="button ripple-effect" id="searchbutton">Search</button>
+							{#window.location.href='freelancers-grid-layout-full-page.html#}
+						</div>
+
+						</form>
+		
 				</div>
 			</div>
 		</div>
@@ -428,5 +428,22 @@
 	</div>
 </div>
 <!-- Counters / End -->
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script>
+	$(document).ready(function(){
+
+		$("form#searchform").submit(function(e){
+			var categories = $('#job-category').val()
+			var search = $("#intro-keywords").val();
+			var category_array = [...categories]
+			
+			$("<input />").attr("type", "hidden").attr("name", "search").attr("value",`${search}`).appendTo('form#searchform');
+			$("<input />").attr("type", "hidden").attr("name", "categories").attr("value",category_array).appendTo('form#searchform');
+			
+			return true;
+		})
+
+	})
+</script>
 
 {% endblock %}

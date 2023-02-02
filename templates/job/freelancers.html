@@ -33,13 +33,15 @@
 		</div>
 		<div class="col-xl-9 col-lg-8 content-left-offset">
 
-			<h3 class="page-title">Search Results</h3>
-
+			{% if search %}<h3 class="page-title">Search Results: </h3>{% endif %}
+			{% if not search %}
 			<div class="notify-box margin-top-15">
+				
+				
 				<div class="switch-container">
 					<label class="switch"><input type="checkbox"><span class="switch-button"></span><span class="switch-text">Turn on email alerts for this search</span></label>
 				</div>
-
+				
 				<div class="sort-by">
 					<span>Sort by:</span>
 					<select class="selectpicker hide-tick">
@@ -49,10 +51,16 @@
 						<option>Random</option>
 					</select>
 				</div>
+				
+				
+				
 			</div>
+			{% endif %}
+			
 			
 			<!-- Freelancers List Container -->
 			<div class="freelancers-container freelancers-list-layout compact-list margin-top-35">
+				{% if not bids %}
 				{% for user in object_list %}
 				<!--Freelancer -->
 				
@@ -77,7 +85,7 @@
 									<span>{{ user.profile.tagline }}</span>
 									<!-- Rating -->
 									<div class="freelancer-rating">
-										<div class="star-rating" data-rating="4.9"></div>
+										<div class="star-rating" data-rating="{% if user.rating %}{{user.rating|floatformat}}{% else %}5 {% endif %}"></div>
 									</div>
 								</div>
 							</div>
@@ -96,15 +104,7 @@
 				
 				
                 {% endfor %}
-				<!-- Freelancer / End -->
-
-				
-	
-			</div>
-			<!-- Freelancers Container / End -->
-
-
-			<!-- Pagination -->
+				<!-- Pagination -->
 			<div class="clearfix"></div>
 			<div class="row">
 				<div class="col-md-12">
@@ -130,7 +130,97 @@
 				</div>
 			</div>
 			<!-- Pagination / End -->
+				{% else %}
+				{% for bid in bids %}
+				<!--Freelancer -->
+				
+					<div class="freelancer">
 
+						<!-- Overview -->
+						<div class="freelancer-overview">
+							<div class="freelancer-overview-inner">
+								
+								<!-- Bookmark Icon -->
+								<span class="bookmark-icon"></span>
+								
+								<!-- Avatar -->
+								<div class="freelancer-avatar">
+									<div class="verified-badge"></div>
+									<a href="{% url 'profile' bid.user.id %}"><img src="{{ bid.user.profile.image.url }}" alt=""></a>
+								</div>
+	
+								<!-- Name -->
+								<div class="freelancer-name">
+									<h4><a href="{% url 'profile' bid.user.id %}">{{ bid.user.first_name}} {{ bid.user.last_name }}</a></h4>
+									<span>{{ bid.user.profile.tagline }}</span>
+									<p>worked on project: <a href="{{bid.job.get_absolute_url}}"><strong>{{bid.job.title}}</strong></a></p>
+									<!-- Rating -->
+									<div class="freelancer-rating">
+										<div class="star-rating" data-rating="{%if bid.rating%} {{bid.rating|floatformat}} {% else %} 5 {% endif %}"></div>
+									</div>
+
+									<div class="task-tags">
+										{% for skill in bid.job.skill.all %}
+										<span>{{ skill }}</span>
+
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Details -->
+						<div class="freelancer-details">
+							<!-- <div class="freelancer-details-list">
+								<ul>
+									<li>Job Success <strong>95%</strong></li>
+								</ul>
+							</div> -->
+							<a href="{% url 'profile' user.id %}" class="button button-sliding-icon ripple-effect">View Profile <i class="icon-material-outline-arrow-right-alt"></i></a>
+						</div>
+					</div>
+					{% if forloop.counter == matched_length %}
+					<br><br><h4><strong>Other Freelancers that completed projects in similar categories: </strong></h4><br><br>
+					{% endif %}
+				
+				
+                {% endfor %}
+				<!-- Pagination -->
+			<div class="clearfix"></div>
+			<div class="row">
+				<div class="col-md-12">
+					<!-- Pagination -->
+					<div class="pagination-container margin-top-60 margin-bottom-60">
+						<nav class="pagination">
+							<ul>
+								{% if page_obj.has_previous %}
+								<li class="pagination-arrow"><a href="?page={{ page_obj.previous_page_number }}" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
+								<li><a href="?page=1">1</a></li>	
+								{% endif %}
+						
+								<li class="current-page ripple-effect"><a href="?page={{ page_obj.number }}" class="current-page ripple-effect">{{ page_obj.number }}</a></li>
+						
+								{% if page_obj.has_next %}
+								<li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+								<li class="pagination-arrow"><a href="?page={{ page_obj.paginator.num_pages }}" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+								{% endif %}
+							</ul>
+							
+						</nav>
+					</div>
+				</div>
+			</div>
+			<!-- Pagination / End -->
+				
+					
+				{% endif %}
+				
+				<!-- Freelancer / End -->
+
+			</div>
+			
+			<!-- Freelancers Container / End -->
+				
 		</div>
 	</div>
 </div>
