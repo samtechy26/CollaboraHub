@@ -105,7 +105,9 @@
 				
                 {% endfor %}
 				<!-- Pagination -->
+			</div>
 			<div class="clearfix"></div>
+
 			<div class="row">
 				<div class="col-md-12">
 					<!-- Pagination -->
@@ -130,6 +132,9 @@
 				</div>
 			</div>
 			<!-- Pagination / End -->
+
+
+			<div class="freelancers-container freelancers-list-layout compact-list margin-top-35">
 				{% else %}
 				{% for bid in bids %}
 				<!--Freelancer -->
@@ -142,6 +147,7 @@
 								
 								<!-- Bookmark Icon -->
 								<span class="bookmark-icon"></span>
+								
 								
 								<!-- Avatar -->
 								<div class="freelancer-avatar">
@@ -179,13 +185,13 @@
 							<a href="{% url 'profile' user.id %}" class="button button-sliding-icon ripple-effect">View Profile <i class="icon-material-outline-arrow-right-alt"></i></a>
 						</div>
 					</div>
-					{% if forloop.counter == matched_length %}
-					<br><br><h4><strong>Other Freelancers that completed projects in similar categories: </strong></h4><br><br>
-					{% endif %}
 				
 				
                 {% endfor %}
 				<!-- Pagination -->
+			</div>
+
+			<!-- Pagination -->
 			<div class="clearfix"></div>
 			<div class="row">
 				<div class="col-md-12">
@@ -226,3 +232,7 @@
 </div>
 
 {% endblock content %}
+
+
+
+
