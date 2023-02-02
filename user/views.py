@@ -27,7 +27,7 @@ def UserDashboard(request):
     notes = UserNotes.objects.filter(author=request.user)
     bids = Bid.objects.filter(user=request.user)
     count = bids.count()
-    reviews_count = Review.objects.filter(freelancer__user=request.user)
+    reviews_count = Review.objects.filter(freelancer__user=request.user).count()
 
     if request.method == 'POST':
         form = UserNotesForm(request.POST)
