@@ -107,4 +107,14 @@ class UserNotes(models.Model):
     def __str__(self):
         return self.description 
         
+class Testimonial(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    testimony = models.TextField()
 
+
+    def get_absolute_url(self):
+        return reverse('job:home')
+    
+
+    def __str__(self):
+        return f'{self.testimony} by {self.author}'

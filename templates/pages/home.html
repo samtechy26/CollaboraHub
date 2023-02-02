@@ -297,7 +297,7 @@
 						</div>
 					</div>
 					<h3>Create an Account</h3>
-					<p>Bring to the table win-win survival strategies to ensure proactive domination going forward.</p>
+					<p>Create a quick and free account wih us to get started</p>
 				</div>
 			</div>
 
@@ -312,7 +312,7 @@
 						</div>
 					</div>
 					<h3>Post a Task</h3>
-					<p>Efficiently unleash cross-media information without. Quickly maximize return on investment.</p>
+					<p>Easily post a task or project and you are on your way.</p>
 				</div>
 			</div>
 
@@ -327,7 +327,7 @@
 						</div>
 					</div>
 					<h3>Choose an Expert</h3>
-					<p>Nanotechnology immersion along the information highway will close the loop on focusing solely.</p>
+					<p>Select an expert from the list of experts that bid for your task .</p>
 				</div>
 			</div>
 
@@ -354,76 +354,21 @@
 	<!-- Categories Carousel -->
 	<div class="fullwidth-carousel-container margin-top-20">
 		<div class="testimonial-carousel testimonials">
-
-			<!-- Item -->
-			<div class="fw-carousel-review">
-				<div class="testimonial-box">
-					<div class="testimonial-avatar">
-						<img src="images/user-avatar-small-02.jpg" alt="">
+			{% for testimonial in testimonials %}
+				<div class="fw-carousel-review">
+					<div class="testimonial-box">
+						<div class="testimonial-avatar">
+							<img src="{{ testimonial.author.profile.image.url }}" alt="">
+						</div>
+						<div class="testimonial-author">
+							<h4>{{ testimonial.author.username }}</h4>
+							<span>Freelancer</span>
+						</div>
+						<div class="testimonial">{{ testimonial.testimony}}</div>
 					</div>
-					<div class="testimonial-author">
-						<h4>Sindy Forest</h4>
-						 <span>Freelancer</span>
-					</div>
-					<div class="testimonial">Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</div>
 				</div>
-			</div>
+			{% endfor %}
 
-			<!-- Item -->
-			<div class="fw-carousel-review">
-				<div class="testimonial-box">
-					<div class="testimonial-avatar">
-						<img src="images/user-avatar-small-01.jpg" alt="">
-					</div>
-					<div class="testimonial-author">
-						<h4>Tom Smith</h4>
-						 <span>Freelancer</span>
-					</div>
-					<div class="testimonial">Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas. Dynamically innovate resource-leveling customer service for state of the art.</div>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="fw-carousel-review">
-				<div class="testimonial-box">
-					<div class="testimonial-avatar">
-						<img src="images/user-avatar-placeholder.png" alt="">
-					</div>
-					<div class="testimonial-author">
-						<h4>Sebastiano Piccio</h4>
-						 <span>Employer</span>
-					</div>
-					<div class="testimonial">Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas. Dynamically innovate resource-leveling customer service for state of the art.</div>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="fw-carousel-review">
-				<div class="testimonial-box">
-					<div class="testimonial-avatar">
-						<img src="images/user-avatar-small-03.jpg" alt="">
-					</div>
-					<div class="testimonial-author">
-						<h4>David Peterson</h4>
-						 <span>Freelancer</span>
-					</div>
-					<div class="testimonial">Collaboratively administrate turnkey channels whereas virtual e-tailers. Objectively seize scalable metrics whereas proactive e-services. Seamlessly empower fully researched growth strategies and interoperable sources.</div>
-				</div>
-			</div>
-
-			<!-- Item -->
-			<div class="fw-carousel-review">
-				<div class="testimonial-box">
-					<div class="testimonial-avatar">
-						<img src="images/user-avatar-placeholder.png" alt="">
-					</div>
-					<div class="testimonial-author">
-						<h4>Marcin Kowalski</h4>
-						 <span>Freelancer</span>
-					</div>
-					<div class="testimonial">Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</div>
-				</div>
-			</div>
 
 		</div>
 	</div>

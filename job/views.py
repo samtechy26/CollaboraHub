@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Job, Category, Bid, Skill
+from user.models import Testimonial
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -18,7 +19,8 @@ class HomeView(ListView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         context.update({
-            "recent_tasks": Job.objects.all().order_by('-date_created')[:4]
+            "recent_tasks": Job.objects.all().order_by('-date_created')[:4],
+            "testimonials": Testimonial.objects.all()
         })
         return context
 

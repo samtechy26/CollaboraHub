@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
-from .models import Review, Profile, UserNotes
+from .models import Review, Profile, UserNotes, Testimonial
 from notifications import notify
 from chat.models import Thread, ChatMessage
 
@@ -23,6 +23,9 @@ from chat.models import Thread, ChatMessage
 def UserDashboard(request):
     form = UserNotesForm()
     notes = UserNotes.objects.filter(author=request.user)
+    bids = Bid.objects.filter(user=request.user)
+    count = bids.count()
+
     if request.method == 'POST':
         form = UserNotesForm(request.POST)
         if form.is_valid():
@@ -35,6 +38,7 @@ def UserDashboard(request):
     context = {
         'form':form,
         'notes':notes,
+        'count':count,
     }
 
     return render(request, 'user/userdashboard.html', context)
@@ -296,6 +300,14 @@ def review(request, review_id):
             "message":"reveiw deleted!"
         })
 
+class CreateTestimonial(LoginRequiredMixin, generic.CreateView):
+    model = Testimonial
+    fields = ['testimony']
+    template_name = 'pages/appreview.html'
 
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
     
     

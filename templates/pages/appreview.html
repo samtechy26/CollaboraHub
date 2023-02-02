@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<!-- Content
+================================================== -->
+<div id="titlebar" class="gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<h2>Testimonial</h2>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li>Testimonial</li>
+						
+					</ul>
+				</nav>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Container -->
+
+<div class="container">
+	<div class="row">
+
+
+		<div class="col-xl-8 col-lg-8 offset-xl-2 offset-lg-2">
+
+			<section id="contact" class="margin-bottom-60">
+				
+
+				<form method="post" name="contactform" id="contactform" autocomplete="on">
+                    {% csrf_token %}
+                    {% render_field form.testimony class="with-border" name="comments" cols="40" rows="5" id="comments" placeholder="Tell us your experience!!" spellcheck="true" required="required" %}
+
+                    <input type="submit" class="submit button margin-top-15" id="submit" value="Submit Testimonial" />
+				</form>
+			</section>
+
+		</div>
+
+	</div>
+</div>
+<!-- Container / End -->
+{% endblock %}
