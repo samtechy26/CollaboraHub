@@ -124,6 +124,7 @@ class UserListView(ListView):
     ordering = ['-date_joined']
     paginate_by = 5
     
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['object_list'] = User.objects.annotate(rating=(Avg('profile__freelancer_review__rating')\
