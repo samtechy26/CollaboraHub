@@ -141,12 +141,20 @@ ASGI_APPLICATION = 'jobya.asgi.application'
 #     },
 # }
 
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
+
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": ["redis://default:MT84TR87YbzMjiNyWXIi@containers-us-west-50.railway.app:6251"],
+        },
+    },
 }
-
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
