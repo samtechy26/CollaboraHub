@@ -68,7 +68,7 @@
 						<div class="task-listing-description">
 							<h3 class="task-listing-title">{{ task.title }}</h3>
 							<ul class="task-icons">
-								<li><i class="icon-material-outline-access-time"></i> {{ task.date_created|date:'P'}}</li>
+								<li><i class="icon-material-outline-access-time"></i> {{ task.duration }}</li>
 							</ul>
 							<p class="task-listing-text">{{ task.description|stringformat:".100s" }}</p>
 							<div class="task-tags">

@@ -6,6 +6,8 @@ from PIL import Image
 from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
+from django.contrib.contenttypes.fields import GenericRelation
+
 
 
 
@@ -118,3 +120,12 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f'{self.testimony} by {self.author}'
+
+class TrackedProfile(models.Model):
+    profile = models.ForeignKey(Profile, related_name="profile_viewed",
+                                null=True, blank=True, on_delete=models.SET_NULL)
+    ip = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return f'{self.profile} viewed by {self.user}'

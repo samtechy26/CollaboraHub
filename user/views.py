@@ -14,9 +14,10 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
-from .models import Review, Profile, UserNotes, Testimonial
+from .models import Review, Profile, UserNotes, Testimonial, TrackedProfile
 from notifications import notify
 from chat.models import Thread, ChatMessage
+from django.db.models import Count
 
 
 
@@ -28,6 +29,8 @@ def UserDashboard(request):
     bids = Bid.objects.filter(user=request.user)
     count = bids.count()
     reviews_count = Review.objects.filter(freelancer__user=request.user).count()
+    views_count = TrackedProfile.objects.filter(profile__user=request.user).count()
+    # profile_views = Profile.objects.annotate(num_views=Count('viewers'))
 
     if request.method == 'POST':
         form = UserNotesForm(request.POST)
@@ -37,12 +40,19 @@ def UserDashboard(request):
             return redirect('dashboard')
         else:
             form = UserNotesForm()
-
+    # if request.user.is_authenticated:
+    #     created = Profile.viewers.through.objects.get_or_create(
+    #         profile = object,
+    #         user = request.user
+    #     )
+    #     if created:
+    #         object.num_views += 1
     context = {
         'form':form,
         'notes':notes,
         'count':count,
-        'reviews_count':reviews_count
+        'reviews_count':reviews_count,
+        'views_count': views_count
     }
 
     return render(request, 'user/userdashboard.html', context)
@@ -86,7 +96,7 @@ class UserFavourites(LoginRequiredMixin, generic.ListView):
 def profile(request, id):
     users = User.objects.annotate(rating=(Avg('profile__freelancer_review__rating') \
         + Avg('profile__employer_review__rating'))/2).filter(id=id)
-    
+    profile = Profile.objects.get(user__id=id)
     reviews = Review.objects.filter(freelancer__user__id=id)
     if request.method == 'POST':
         current_user = request.user
@@ -98,6 +108,18 @@ def profile(request, id):
             current_user.profile.favourite.remove(users)
         current_user.save()
         return redirect('profile', id)
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    tracked_profile, created = TrackedProfile.objects.get_or_create(
+        profile=profile, ip=ip, user=request.user)
+    if created:
+        # tracked_profile.profile.count += 1
+        view_count = tracked_profile.count()
+        view_count += 1
+        tracked_profile.profile.save()
     context={
         'users':users,
         'reviews':reviews 
