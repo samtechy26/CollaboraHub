@@ -147,6 +147,8 @@ ASGI_APPLICATION = 'jobya.asgi.application'
 #     }
 # }
 
+REDIS_URL = env('REDIS_URL')
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
