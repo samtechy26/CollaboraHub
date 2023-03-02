@@ -16,7 +16,7 @@ MONTH = 30 * DAY
 class Category(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(null=True, default=None, unique=True)
-    img = models.ImageField(default='default.png', upload_to='category_images')
+    
 
     def __str__(self):
         return self.title

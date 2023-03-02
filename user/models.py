@@ -108,6 +108,10 @@ class UserNotes(models.Model):
 
     def __str__(self):
         return self.description 
+    
+class UserWallet(models.Model):
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    amount = models.IntegerField()
         
 class Testimonial(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)

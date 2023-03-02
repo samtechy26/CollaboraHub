@@ -23,7 +23,8 @@ class JobCreationForm(forms.ModelForm):
     job_file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     class Meta:
         model = Job
-        fields = ['title', 'job_type', 'job_category', 'cost',  'skill', 'description', 'job_file']
+        fields = ['title', 'job_type', 'job_category', 'cost',
+                  'skill', 'description', 'job_file', 'expiry_date']
         
 
 
