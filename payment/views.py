@@ -24,7 +24,7 @@ from job.models import Bid
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 coinbase_api_key = settings.COINBASE_COMMERCE_API_KEY
-YOUR_DOMAIN = "http://127.0.0.1:8000"
+YOUR_DOMAIN = "https://studera.org"
 
 User = get_user_model()
 
