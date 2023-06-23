@@ -5,6 +5,6 @@ urlpatterns = [
     path('success/', SuccessView.as_view(), name='success'),
     path('create-checkout-session/<pk>/', CreateCheckoutSessionView.as_view(), name='create-checkout-session'),
     path('coinbase-pay/<pk>/', create_coinbase_payment, name='coinbase-payment'),
-    path('webhook/', stripe_webhook, name='stripe-webhook'),
+    path('webhook', stripe_webhook, name='stripe-webhook'),
     path('coinbasewebhook/',coinbase_webhook),
 ]
