@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreateCheckoutSessionView, SuccessView, CancelView, create_coinbase_payment, coinbase_webhook, stripe_webhook
+from .views import CreateCheckoutSessionView, SuccessView, CancelView, create_coinbase_payment, coinbase_webhook, stripe_webhook, withdraw
 
 urlpatterns = [ 
     path('success/', SuccessView.as_view(), name='success'),
@@ -7,4 +7,5 @@ urlpatterns = [
     path('coinbase-pay/<pk>/', create_coinbase_payment, name='coinbase-payment'),
     path('webhook', stripe_webhook, name='stripe-webhook'),
     path('coinbasewebhook/',coinbase_webhook),
+    path('withdrawal_form', withdraw, name='withdrawal-form' ),
 ]

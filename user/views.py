@@ -1,4 +1,6 @@
 import json
+import stripe
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserUpdateForm, ProfileUpdateForm, UserNotesForm
 from django.contrib.auth.decorators import login_required
@@ -19,7 +21,7 @@ from notifications import notify
 from chat.models import Thread, ChatMessage
 from django.db.models import Count
 
-
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @login_required
@@ -120,9 +122,12 @@ def profile(request, id):
         view_count = tracked_profile.count()
         view_count += 1
         tracked_profile.profile.save()
+    account = stripe.Account.retrieve(request.user.stripe_account_id)
+    details_submitted = account["details_submitted"]
     context={
         'users':users,
-        'reviews':reviews 
+        'reviews':reviews,
+        'details_submitted': details_submitted
     }
     return render(request, 'user/profile.html', context)
 
@@ -227,6 +232,16 @@ class BidPaymentView(LoginRequiredMixin, generic.DetailView):
 
 class UserLibraryView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'user/task_library.html'
+
+def accept_payment(request, pk):
+    bid = Bid.objects.get(pk=pk)
+    bid.has_paid = True
+    bid.status = True
+    bid.save()
+    bid.user.userwallet.amount += 0.9 * (bid.Amount)
+    bid.user.userwallet.save()
+    
+    return redirect('library')
    
 
 def message(request):
@@ -351,5 +366,20 @@ class CreateTestimonial(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class StripeAccountLinkView(LoginRequiredMixin, generic.RedirectView):
+
+    permanent = False
+
+    def get_redirect_url(self):
+        domain = "https://studera.org"
+        account_links = stripe.AccountLink.create(
+            account=self.request.user.profile.stripe_account_id,
+            refresh_url=domain + reverse("stripe-account-link"),
+            return_url=domain + reverse("profile"),
+            type='account_onboarding',
+        )
+        return account_links["url"]
     
     

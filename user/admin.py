@@ -6,7 +6,11 @@ admin.site.register(UserNotes)
 admin.site.register(Priority)
 admin.site.register(Testimonial)
 admin.site.register(TrackedProfile)
-admin.site.register(UserWallet)
+
+@admin.register(UserWallet)
+class UserWalletAdmin(admin.ModelAdmin):
+    list_display = ['owner', 'amount']
+
 
 
 @admin.register(Review)

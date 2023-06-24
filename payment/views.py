@@ -128,6 +128,13 @@ def stripe_webhook(request, *args, **kwargs):
         user.userlibrary.products.add(product)
         product.has_paid = True
         product.ordered_date = datetime.datetime.now()
+        product.save()
+        stripe.Topup.create(
+            amount=product.Amount * 100,
+            currency="usd",
+            description="Top-up for Month of June",
+            statement_descriptor="Weekly top-up",
+        )
 
 
     return HttpResponse()
@@ -186,3 +193,5 @@ def coinbase_webhook(request):
 
     
 
+def withdraw(request):
+    return render(request, 'payment/withdrawal.html')

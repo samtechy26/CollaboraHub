@@ -48,7 +48,9 @@
 											<!-- <span class="company-not-rated margin-bottom-5">Not Rated</span> -->
 										</ul>
 									</div>
-									<a href="dashboard-manage-bidders.html" class="button ripple-effect"> Accept Solution </a>
+									{% if not task.status %}
+									<a href="{% url 'confirm-work' task.id %}" class="button ripple-effect"> Accept Solution </a>
+									{% endif %}
 									<a href="#small-dialog-2" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-thumb-up"></i> Leave a Review</a>
 
 								</div>
