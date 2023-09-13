@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
-from .models import Review, Profile, UserNotes, Testimonial, TrackedProfile
+from .models import Review, Profile, UserNotes, Testimonial, TrackedProfile, UserWallet
 from notifications import notify
 from chat.models import Thread, ChatMessage
 from django.db.models import Count
@@ -28,6 +28,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def UserDashboard(request):
     form = UserNotesForm()
     notes = UserNotes.objects.filter(author=request.user)
+    wallet = UserWallet.objects.get(owner=request.user)
     bids = Bid.objects.filter(user=request.user)
     count = bids.count()
     reviews_count = Review.objects.filter(freelancer__user=request.user).count()
@@ -54,7 +55,8 @@ def UserDashboard(request):
         'notes':notes,
         'count':count,
         'reviews_count':reviews_count,
-        'views_count': views_count
+        'views_count': views_count,
+        'wallet':wallet
     }
 
     return render(request, 'user/userdashboard.html', context)

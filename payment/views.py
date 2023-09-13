@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from user.models import Profile
 import logging
 from coinbase_commerce.client import Client
@@ -15,6 +15,7 @@ from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
@@ -139,7 +140,27 @@ def stripe_webhook(request, *args, **kwargs):
 
     return HttpResponse()
 
-    
+
+class StripeAccountLinkView(LoginRequiredMixin, RedirectView):
+
+    permanent = False
+
+    def get_redirect_url(self):
+        domain = "https://domain.com"
+        if settings.DEBUG:
+            domain = "http://127.0.0.1:8000"
+        account_links = stripe.AccountLink.create(
+            account=self.request.user.profile.stripe_id,
+            refresh_url=domain + reverse("stripe-account-link"),
+            return_url=domain + reverse("dashboard"),
+            type='account_onboarding',
+        )
+        return account_links["url"]
+
+
+
+
+
 # Coinbase crypto payment
 def create_coinbase_payment(request, *args, **kwargs):
     product_id = kwargs["pk"]

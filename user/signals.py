@@ -25,9 +25,9 @@ def save_profile(sender, instance, **kwargs):
 @receiver(post_save, sender=User)
 def create_wallet(sender, instance, created, **kwargs):
     if created:
-        UserWallet.objects.create(user=instance)
+        UserWallet.objects.create(owner=instance, amount=0)
 
 
 @receiver(post_save, sender=User)
 def save_wallet(sender, instance, **kwargs):
-   instance.UserWallet.save()
+   instance.userwallet.save()
