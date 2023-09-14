@@ -4,7 +4,7 @@ from payment.views import stripe_webhook
 import notifications.urls
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
-from payment.views import StripeAccountLinkView
+from payment.views import StripeAccountLinkView, withdrawal
 
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('stripe', stripe_webhook, name='stripe_webhook'),
     path('stripe/auth/', StripeAccountLinkView.as_view(), name='stripe-account-link'),
+    path('stripe/withdrawal/', withdrawal, name='stripe-withdrawal-link'),
     path('', include('job.urls', namespace='job')),
     path('', include('user.urls')),
     path('', include('chat.urls')),

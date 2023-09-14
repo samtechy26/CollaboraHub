@@ -1,5 +1,6 @@
 {% extends 'dashboard/base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 
         <!-- Dashboard Content
@@ -95,6 +96,35 @@
 		
 	</form>
 </div>
+
+<div class="col-xl-12">
+	<div class="dashboard-box">
+
+		<!-- Headline -->
+		<div class="headline">
+			<h3><i class="icon-material-outline-face"></i> Payout Status</h3>
+		</div>
+
+		<div class="content">
+			<ul class="fields-ul">
+				<li>
+					<div class="row">
+						
+						<span>Your account is incomplete. Please click on the Stripe Connect button to complete your profile</span>
+						<br>
+						<a href="{% url 'stripe-account-link' %}">
+							<img src="{% static 'images/stripebutton.png' %}" width="200" height="100"  alt="">
+						</a>
+									
+					</div>
+					
+					
+				</li>	
+			</ul>
+		</div>
+	</div>
+</div>
+
 			<!-- Row / End -->
 
 {% endblock content %}

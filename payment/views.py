@@ -16,6 +16,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
@@ -150,12 +151,22 @@ class StripeAccountLinkView(LoginRequiredMixin, RedirectView):
         if settings.DEBUG:
             domain = "http://127.0.0.1:8000"
         account_links = stripe.AccountLink.create(
-            account=self.request.user.profile.stripe_id,
+            account=self.request.user.profile.stripe_customer_id,
             refresh_url=domain + reverse("stripe-account-link"),
             return_url=domain + reverse("dashboard"),
             type='account_onboarding',
         )
         return account_links["url"]
+
+@login_required
+def withdrawal(request):
+    stripe.PaymentIntent.create(
+            amount=1000,
+            currency="usd",
+            automatic_payment_methods={"enabled": True},         
+            transfer_data={"amount": 877, "destination": request.user.profile.stripe_customer_id},        
+    )
+    return render(request, 'user/userdashboard.html')
 
 
 
