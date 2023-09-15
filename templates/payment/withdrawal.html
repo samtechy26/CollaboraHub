@@ -1,17 +1,78 @@
 {% extends 'dashboard/base.html' %}
 
 {% block content %}
+
+<!-- Content
+================================================== -->
+<!-- Container -->
 <div class="container">
-    <div class="jumbotron text-center mt-5">
-        <h1 class="text-danger">Withdraw Funds</h1>
-        
-        <div class="col-xl-6 col-md-6">
-			<div class="section-headline margin-top-25 margin-bottom-12">
-				<h5>Input with border</h5>
+	<div class="row">
+		<div class="col-xl-8 col-lg-8 content-right-offset">
+			
+
+			<!-- Hedaline -->
+
+			
+
+			<!-- Hedline -->
+			<h3 class="margin-top-50">Withdraw Funds</h3>
+
+			<!-- Payment Methods Accordion -->
+			<div class="payment margin-top-30">
+				<div class="payment-tab payment-tab-active">
+					<div class="payment-tab-trigger">
+						<input type="radio" name="cardType" id="creditCart" value="creditCard">
+						<label for="creditCart">Credit / Debit Card</label>
+						<img class="payment-logo" src="https://i.imgur.com/IHEKLgm.png" alt="">
+					</div>
+
+					<div class="payment-tab-content">
+						<div class="row payment-form-row">
+
+							<div class="col-md-6">
+								<div class="card-label">
+									<input 
+									type="number"
+									name="amount"
+									hx-post="{% url 'calculate_withdrawal' %}"
+									hx-trigger="keyup changed delay:250ms"
+									hx-indicator=".htmx-indicator"
+									hx-target="#summary"
+									placeholder="$ Amount"
+									class="form-control">
+									<span class="htmx-indicator">Claculating...</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
-			<input class="with-border" placeholder="Placeholder">
+			<!-- Payment Methods Accordion / End -->
+		
+			<a href="pages-order-confirmation.html" class="button big ripple-effect margin-top-40 margin-bottom-65">Proceed To Withdraw</a>
 		</div>
-        
-    </div>
+		<!-- Summary -->
+		<div class="col-xl-4 col-lg-4 margin-top-0 margin-bottom-60">
+			
+			<!-- Summary -->
+			<div class="boxed-widget summary margin-top-0">
+				<div class="boxed-widget-headline">
+					<h3>Summary</h3>
+				</div>
+				{% include 'payment/withdrawal_summary.html' %}
+			</div>
+			<!-- Summary / End -->
+
+			<!-- Checkbox -->
+			<div class="checkbox margin-top-30">
+				<input type="checkbox" id="two-step">
+				<label for="two-step"><span class="checkbox-icon"></span>  I agree to the <a href="#">Terms and Conditions</a> and the <a href="#">Automatic Renewal Terms</a></label>
+			</div>
+		</div>
+
+
+	</div>
 </div>
+<!-- Container / End -->
 {% endblock content %}

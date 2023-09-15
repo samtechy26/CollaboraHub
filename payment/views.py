@@ -226,4 +226,4 @@ def coinbase_webhook(request):
     
 
 def withdraw(request):
-    return render(request, 'payment/withdrawal.html')
+    pass

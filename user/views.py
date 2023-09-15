@@ -4,6 +4,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserUpdateForm, ProfileUpdateForm, UserNotesForm
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import View, TemplateResponseMixin
 from django.contrib import messages
@@ -231,6 +232,24 @@ class BidPaymentView(LoginRequiredMixin, generic.DetailView):
 
         return context
 
+class FundsWithdrawalView(LoginRequiredMixin, generic.DetailView):
+    model = UserWallet
+    template_name = 'payment/withdrawal.html'
+    context_object_name = 'wallet'
+
+@require_http_methods(['POST'])
+def calculate_withdrawal(request):
+    available_funds = request.user.userwallet.amount
+    amount = request.POST['amount']
+    if amount <= 0 :
+        return render(request, 'payment/withdrawal_summary.html', {'available_funds':available_funds, 'service_charge':0, 'amount_withdrawable':0})
+    if amount > available_funds:
+        return render(request, 'payment/withdrawal_summary.html', {'available_funds':available_funds, 'service_charge':0, 'amount_withdrawable':0, 'warning':True})
+    if amount > 0 and available_funds > amount:
+        service_charge = 0.1 * amount
+        amount_withdrawable = available_funds - service_charge
+        return render(request, 'payment/withdrawal_summary.html', {'available_funds':available_funds, 'service_charge':service_charge, 'amount_withdrawable':amount_withdrawable})
+    
 
 class UserLibraryView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'user/task_library.html'
