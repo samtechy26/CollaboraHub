@@ -6,20 +6,21 @@ from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from django.views.generic import TemplateView, RedirectView
-from user.models import Profile
+from user.models import Profile, UserWallet
 import logging
 from coinbase_commerce.client import Client
 from coinbase_commerce.error import SignatureVerificationError, WebhookInvalidPayload
 from coinbase_commerce.webhook import Webhook
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.contrib import messages
 import datetime
 
 from job.models import Bid
@@ -160,13 +161,31 @@ class StripeAccountLinkView(LoginRequiredMixin, RedirectView):
 
 @login_required
 def withdrawal(request):
+    available_funds = request.user.userwallet.amount
+    amount = int(request.POST["amount"])
+    # if amount != int:
+    #     messages.error(request, "Such values are not allowed")
+    #     return redirect('withdaw-funds', request.user.userwallet.id)
+    if amount < 0:
+        messages.error(request, "Entered amount is less than allowed")
+        return redirect('withdaw-funds', request.user.userwallet.id)    
+    service_charge = amount // 10
+    withdrawable = amount - service_charge
+    if amount > available_funds:
+        messages.error(request, "Insufficient Funds")
+        return redirect('withdaw-funds', request.user.userwallet.id)    
     stripe.PaymentIntent.create(
-            amount=1000,
+            amount=amount,
             currency="usd",
             automatic_payment_methods={"enabled": True},         
-            transfer_data={"amount": 877, "destination": request.user.profile.stripe_customer_id},        
+            transfer_data={"amount": withdrawable, "destination": request.user.profile.stripe_customer_id},        
     )
-    return render(request, 'user/userdashboard.html')
+    available_funds -= amount
+    user_wallet = UserWallet.objects.get(owner=request.user)
+    user_wallet.amount = available_funds
+    user_wallet.save()
+    messages.success(request, "Withdrawal Request Successfully sent." )
+    return redirect('withdaw-funds', request.user.userwallet.id)
 
 
 

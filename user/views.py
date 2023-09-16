@@ -236,18 +236,29 @@ class FundsWithdrawalView(LoginRequiredMixin, generic.DetailView):
     model = UserWallet
     template_name = 'payment/withdrawal.html'
     context_object_name = 'wallet'
+    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        available_funds = self.request.user.userwallet.amount
+        context["available_funds"] = available_funds
+        context["service_charge"] = 0
+        context["amount_withdrawable"] = 0
+        return context
+    
 
 @require_http_methods(['POST'])
 def calculate_withdrawal(request):
     available_funds = request.user.userwallet.amount
-    amount = request.POST['amount']
+    warning = "Insufficient Funds"
+    amount = int(request.POST['amount'])
     if amount <= 0 :
         return render(request, 'payment/withdrawal_summary.html', {'available_funds':available_funds, 'service_charge':0, 'amount_withdrawable':0})
     if amount > available_funds:
-        return render(request, 'payment/withdrawal_summary.html', {'available_funds':available_funds, 'service_charge':0, 'amount_withdrawable':0, 'warning':True})
+        return render(request, 'payment/withdrawal_summary.html', {'available_funds':available_funds, 'service_charge':0, 'amount_withdrawable':0, 'warning':warning})
     if amount > 0 and available_funds > amount:
         service_charge = 0.1 * amount
-        amount_withdrawable = available_funds - service_charge
+        amount_withdrawable = amount - service_charge
         return render(request, 'payment/withdrawal_summary.html', {'available_funds':available_funds, 'service_charge':service_charge, 'amount_withdrawable':amount_withdrawable})
     
 

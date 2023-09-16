@@ -7,6 +7,7 @@
 <!-- Container -->
 <div class="container">
 	<div class="row">
+		
 		<div class="col-xl-8 col-lg-8 content-right-offset">
 			
 
@@ -18,6 +19,8 @@
 			<h3 class="margin-top-50">Withdraw Funds</h3>
 
 			<!-- Payment Methods Accordion -->
+			<form action="{% url 'process_withdrawal' %}" method="post">
+				{% csrf_token %}
 			<div class="payment margin-top-30">
 				<div class="payment-tab payment-tab-active">
 					<div class="payment-tab-trigger">
@@ -25,12 +28,14 @@
 						<label for="creditCart">Credit / Debit Card</label>
 						<img class="payment-logo" src="https://i.imgur.com/IHEKLgm.png" alt="">
 					</div>
-
+					
 					<div class="payment-tab-content">
 						<div class="row payment-form-row">
 
 							<div class="col-md-6">
+								
 								<div class="card-label">
+									
 									<input 
 									type="number"
 									name="amount"
@@ -40,18 +45,26 @@
 									hx-target="#summary"
 									placeholder="$ Amount"
 									class="form-control">
-									<span class="htmx-indicator">Claculating...</span>
+									<span class="htmx-indicator">Calculating...</span>
+										
 								</div>
+								
+							
 							</div>
 						</div>
 					</div>
+					
+				
 				</div>
 
 			</div>
+			<input class="button big ripple-effect margin-top-40 margin-bottom-65" type="submit" placeholder="Proceed To Withdraw">
+		</form>
 			<!-- Payment Methods Accordion / End -->
 		
-			<a href="pages-order-confirmation.html" class="button big ripple-effect margin-top-40 margin-bottom-65">Proceed To Withdraw</a>
+			
 		</div>
+		
 		<!-- Summary -->
 		<div class="col-xl-4 col-lg-4 margin-top-0 margin-bottom-60">
 			

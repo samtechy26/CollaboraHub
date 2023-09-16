@@ -45,7 +45,9 @@
 
 		<div class="dashboard-content-container" data-simplebar>
 		<div class="dashboard-content-inner" >
-			{% block content %}{% endblock content %}
+			{% include 'messages.html' %}
+			{% block content %}
+			{% endblock content %}
 			<!-- Footer -->
 			<div class="dashboard-footer-spacer">
 			{% include 'dashboard/footer.html' %}
