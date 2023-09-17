@@ -12,6 +12,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     stripe_customer_id = models.CharField(max_length=100, blank=True, null=True)
+    stripe_connect = models.BooleanField(default=False)
     image = models.ImageField(default = 'default.png', upload_to='profile_pics')
     tagline = models.CharField(max_length=200,  default='Enter your tagline here')
     bio = models.TextField(max_length=1000, default='Enter your bio here')

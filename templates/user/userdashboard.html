@@ -6,7 +6,7 @@
     <!-- Dashboard Headline -->
 			<div class="dashboard-headline">
 				<h3>Howdy, {{ user.first_name }}!</h3>
-				<span>We are glad to see you again!</span>
+				<span>We are glad to see you again! {% if user.profile.stripe_connect == False %}<a href="#">Enable Withdrawal</a>{% else %} <mark class="color">Withdrawal Enabled.</mark>{% endif %}</span>
 					
 
 				<!-- Breadcrumbs -->
