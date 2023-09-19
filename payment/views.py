@@ -163,9 +163,6 @@ class StripeAccountLinkView(LoginRequiredMixin, RedirectView):
 def withdrawal(request):
     available_funds = request.user.userwallet.amount
     amount = int(request.POST["amount"])
-    # if amount != int:
-    #     messages.error(request, "Such values are not allowed")
-    #     return redirect('withdaw-funds', request.user.userwallet.id)
     if amount < 0:
         messages.error(request, "Entered amount is less than allowed")
         return redirect('withdaw-funds', request.user.userwallet.id)    

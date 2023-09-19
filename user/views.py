@@ -121,16 +121,14 @@ def profile(request, id):
     tracked_profile, created = TrackedProfile.objects.get_or_create(
         profile=profile, ip=ip, user=request.user)
     if created:
-        # tracked_profile.profile.count += 1
-        view_count = tracked_profile.count()
-        view_count += 1
         tracked_profile.profile.save()
-    account = stripe.Account.retrieve(request.user.stripe_account_id)
-    details_submitted = account["details_submitted"]
+    # account = stripe.Account.retrieve(request.user.stripe_account_id)
+    # details_submitted = account["details_submitted"]
     context={
         'users':users,
+        'profile':profile,
         'reviews':reviews,
-        'details_submitted': details_submitted
+        # 'details_submitted': details_submitted
     }
     return render(request, 'user/profile.html', context)
 

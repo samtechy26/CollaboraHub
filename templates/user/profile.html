@@ -229,13 +229,13 @@
 				
 				<!-- Welcome Text -->
 				<div class="welcome-text">
-					<h3>Discuss your project with {{ users.first_name }}</h3>
+					<h3>Discuss your project with {{ profile.user.first_name }}</h3>
 				</div>
 					
 				<!-- Form -->
 				<form method="post" action="{% url 'contact-user' %}">
 					{% csrf_token %}
-					<input type="hidden" name='user_id' value='{{ users.id }}'>
+					<input type="hidden" name='user_id' value='{{ profile.user.id }}'>
 					<textarea name="textarea" cols="10" placeholder="Message" class="with-border"></textarea>
 					<!-- Button -->
 				<button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit"> Send a Message <i class="icon-material-outline-arrow-right-alt"></i></button>
