@@ -1,5 +1,6 @@
 {% load static %}
 {% load notifications_tags %}
+{% load notice_extras_tags %}
 <div id="header">
     <div class="container">
         
@@ -67,7 +68,7 @@
 
                 <!-- Trigger -->
                 <div class="header-notifications-trigger">
-                    <a href="#"><i class="icon-feather-bell"></i><span></span></a>
+                    <a href="#"><i class="icon-feather-bell"></i><span>{{ request|notice_count }}</span></a>
                 </div>
 
                 <!-- Dropdown -->
